@@ -1,8 +1,8 @@
 version: 0.1
 environment_variables:
     plaintext:
-        S3_BUCKET: "nodeswork"
-        BUILD_ENV: "prod"
+        S3_BUCKET: www.nodeswork.com
+        BUILD_ENV: prod
 phases:
     install:
         commands:
