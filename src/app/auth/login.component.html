@@ -1,0 +1,30 @@
+<h2>Welcome Login</h2>
+
+<form [formGroup]="rForm" (ngSubmit)="login()" class="auth-form">
+  <md-form-field class="auth-item-full-width">
+    <input mdInput placeholder="Email" type="email" formControlName="email" />
+    <md-error *ngIf="rForm.controls.email.hasError('pattern')">
+      Please enter a valid email address
+    </md-error>
+    <md-error *ngIf="rForm.controls.email.hasError('required')">
+      Email is <strong>required</strong>
+    </md-error>
+  </md-form-field>
+
+  <md-form-field class="auth-item-full-width">
+    <input mdInput placeholder="Password" type="password" formControlName="password" />
+    <md-error *ngIf="rForm.controls.password.hasError('required')">
+      Password is <strong>required</strong>
+    </md-error>
+    <md-error *ngIf="rForm.controls.password.hasError('minlength')">
+      Password should contains at least 6 charactors
+    </md-error>
+  </md-form-field>
+  <md-error *ngIf="loginFailed" class="auth-form-group">
+    Server is not available, please try again later.
+  </md-error>
+  <div class="auth-form-btn-group">
+    <button md-raised-button color="primary" type="submit" [disabled]="loading">Login</button>
+    <a md-raised-button [routerLink]="['/register']">Register</a>
+  </div>
+</form>

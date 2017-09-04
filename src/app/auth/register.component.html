@@ -1,0 +1,42 @@
+<h2> Welcome to Nodeswork! </h2>
+
+<form [formGroup]="rForm" (ngSubmit)="register()" class="auth-form">
+  <md-form-field class="auth-item-full-width">
+    <input mdInput placeholder="Email" type="email" formControlName="email" />
+    <md-error *ngIf="rForm.controls.email.hasError('pattern')">
+      Please enter a valid email address
+    </md-error>
+    <md-error *ngIf="rForm.controls.email.hasError('required')">
+      Email is <strong>required</strong>
+    </md-error>
+  </md-form-field>
+
+  <md-form-field class="auth-item-full-width">
+    <input mdInput placeholder="Password" type="password" formControlName="password" />
+    <md-error *ngIf="rForm.controls.password.hasError('required')">
+      Password is <strong>required</strong>
+    </md-error>
+    <md-error *ngIf="rForm.controls.password.hasError('minlength')">
+      Password should contains at least 6 charactors
+    </md-error>
+  </md-form-field>
+  <md-error *ngIf="registerFailed;else policy" class="auth-form-group">
+    <div *ngIf="userExists;else serverError">
+      You already registered! Try <a href="/login">Login</a> or <a
+        href="/forgetPassword">Forget Password</a>
+    </div>
+    <ng-template #serverError>
+      Server is not available, please try again later.
+    </ng-template>
+  </md-error>
+  <ng-template #policy>
+    <md-hint class="auth-form-group">
+      By clicking the button below, you accept our
+      <a href="/">Policy</a>.
+    </md-hint>
+  </ng-template>
+  <div class="auth-form-btn-group">
+    <button md-raised-button color="primary" type="submit" [disabled]="loading">Register</button>
+    <a md-raised-button [routerLink]="['/login']">Cancel</a>
+  </div>
+</form>
