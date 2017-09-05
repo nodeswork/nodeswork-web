@@ -1,0 +1,12 @@
+<div *ngIf="!emailSent;else emailSentTemplate">
+  <p>
+    Please click the following link to verify your email.
+  </p>
+  <p>
+    <button [disabled]="sending" md-raised-button color="primary" (click)="sendVerificationEmail()">Send verification email</button>
+  </p>
+</div>
+
+<ng-template #emailSentTemplate>
+  An email has been sent to your register email.
+</ng-template>

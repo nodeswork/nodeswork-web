@@ -24,12 +24,12 @@ export class LoginComponent {
   ) {
     this.rForm = fb.group({
 
-      email: ['', Validators.compose([
+      email: ['andy@nodeswork.com', Validators.compose([
         Validators.required,
         Validators.pattern(EMAIL_REGEX),
       ])],
 
-      password: ['', Validators.compose([
+      password: ['asdf1234', Validators.compose([
         Validators.required,
         Validators.minLength(6),
       ])],
