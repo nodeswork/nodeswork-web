@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { UserService } from '../_services';
+import { UserService } from '../../_services';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+
 @Component({
-  selector: 'app-auth-register',
+  selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: [ './auth.component.css' ],
+  styleUrls: [ './register.component.css', '../auth.component.css' ],
 })
-export class UserRegistorComponent {
+export class RegisterComponent {
 
   rForm:           FormGroup;
   loading:         boolean;

@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component }                                       from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router }                                          from '@angular/router';
 
-import { AuthenticationService } from '../_services';
+import { AuthenticationService }                           from '../../_services';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 @Component({
-  selector: 'app-auth-login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: [ './auth.component.css' ],
+  styleUrls: [ './login.component.css', '../auth.component.css' ],
 })
-export class UserLoginComponent {
+export class LoginComponent {
 
   rForm:           FormGroup;
   loading:         boolean;
@@ -19,6 +20,7 @@ export class UserLoginComponent {
   constructor(
     private fb: FormBuilder,
     private authenticationService: AuthenticationService,
+    private router: Router,
   ) {
     this.rForm = fb.group({
 
@@ -42,8 +44,14 @@ export class UserLoginComponent {
       );
       console.log('user', user);
     } catch (err) {
-      this.loginFailed = true;
-      console.error('err', err);
+      switch (err.error && err.error.message) {
+        case 'user is not active':
+          this.router.navigate(['/verifyEmail']);
+          break;
+        default:
+          console.error('err', err);
+          this.loginFailed = true;
+      }
     }
   }
 }

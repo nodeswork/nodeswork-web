@@ -1,12 +1,14 @@
-import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule }              from '@angular/core';
+import { RouterModule, Routes }  from '@angular/router';
 
-import { UserLoginComponent } from './auth/login.component';
-import { UserRegistorComponent } from './auth/register.component';
+import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
+import { RegisterComponent }    from './auth/register/register.component';
+import { LoginComponent }       from './auth/login/login.component';
 
 const routes: Routes = [
-  { path: 'register',  component: UserRegistorComponent },
-  { path: 'login',     component: UserLoginComponent },
+  { path: 'register',        component: RegisterComponent },
+  { path: 'login',           component: LoginComponent },
+  { path: 'verifyEmail',     component: VerifyEmailComponent },
 ];
 
 @NgModule({

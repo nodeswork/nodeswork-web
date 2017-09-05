@@ -12,12 +12,13 @@ import { HttpClientModule }        from '@angular/common/http';
 
 import { AppComponent }            from './app.component';
 import { AppRoutingModule }        from './app-routing.module';
-import { UserLoginComponent }      from './auth/login.component';
-import { UserRegistorComponent }   from './auth/register.component';
 import {
   AuthenticationService,
   UserService,
 }                                  from './_services';
+import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   imports: [
@@ -31,8 +32,9 @@ import {
   ],
   declarations: [
     AppComponent,
-    UserLoginComponent,
-    UserRegistorComponent,
+    VerifyEmailComponent,
+    RegisterComponent,
+    LoginComponent,
   ],
   providers: [
     AuthenticationService,

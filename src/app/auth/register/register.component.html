@@ -22,7 +22,7 @@
   </md-form-field>
   <md-error *ngIf="registerFailed;else policy" class="auth-form-group">
     <div *ngIf="userExists;else serverError">
-      You already registered! Try <a href="/login">Login</a> or <a
+      You already registered! Try <a [routerLink]="['/login']">Login</a> or <a
         href="/forgetPassword">Forget Password</a>
     </div>
     <ng-template #serverError>
