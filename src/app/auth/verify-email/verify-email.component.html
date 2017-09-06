@@ -1,11 +1,3 @@
-<md-error *ngIf="tokenExpired;else verifying">
-  <p *ngIf="tokenExpired">
-    Token is expired. Go to
-      <a [routerLink]="['/sendVerifyEmail']">here</a> to send another one.
-  </p>
-</md-error>
-<ng-template #verifying>
-  <p>
-    Verifying...
-  </p>
-</ng-template>
+<p>
+  Verifying...
+</p>

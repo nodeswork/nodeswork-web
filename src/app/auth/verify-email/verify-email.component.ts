@@ -1,10 +1,11 @@
 import 'rxjs/add/operator/map';
 
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute }    from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit }      from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse }      from '@angular/common/http';
+import { FlashMessagesService }   from 'angular2-flash-messages';
 
-import { UserService }       from '../../_services/user.service';
+import { UserService }            from '../../_services/user.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -13,11 +14,11 @@ import { UserService }       from '../../_services/user.service';
 })
 export class VerifyEmailComponent implements OnInit {
 
-  tokenExpired: boolean;
-
   constructor(
-    private userService: UserService,
-    private route: ActivatedRoute,
+    private userService:           UserService,
+    private route:                 ActivatedRoute,
+    private router:                Router,
+    private flashMessagesService:  FlashMessagesService,
   ) {}
 
   async ngOnInit() {
@@ -27,7 +28,11 @@ export class VerifyEmailComponent implements OnInit {
       } catch (err) {
         if (err instanceof HttpErrorResponse &&
           err.error.message === 'Unrecognized token') {
-          this.tokenExpired = true;
+          this.flashMessagesService.show('Flashing message', {
+            timeout: 10000,
+            cssClass: 'md-error',
+          });
+          this.router.navigate(['/sendVerifyEmail']);
         } else {
           // TODO: server error
         }

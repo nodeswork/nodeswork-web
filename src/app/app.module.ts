@@ -12,6 +12,7 @@ import {
   HttpClientModule,
   HTTP_INTERCEPTORS,
 }                                   from '@angular/common/http';
+import { FlashMessagesModule }      from 'angular2-flash-messages';
 
 import { AppComponent }             from './app.component';
 import { AppRoutingModule }         from './app-routing.module';
@@ -32,6 +33,7 @@ import { SendVerifyEmailComponent } from './auth/send-verify-email/send-verify-e
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
+    FlashMessagesModule,
     FormsModule,
     HttpClientModule,
     MaterialModule,
