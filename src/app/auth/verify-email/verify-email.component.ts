@@ -25,12 +25,12 @@ export class VerifyEmailComponent implements OnInit {
     this.route.queryParams.subscribe(async (params) => {
       try {
         await this.userService.verifyEmail(params.token);
+        this.router.navigate(['']);
       } catch (err) {
         if (err instanceof HttpErrorResponse &&
           err.error.message === 'Unrecognized token') {
           this.flashMessagesService.show('Flashing message', {
-            timeout: 10000,
-            cssClass: 'md-error',
+            timeout:  5000,
           });
           this.router.navigate(['/sendVerifyEmail']);
         } else {

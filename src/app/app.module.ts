@@ -27,6 +27,7 @@ import { VerifyEmailComponent }     from './auth/verify-email/verify-email.compo
 import { RegisterComponent }        from './auth/register/register.component';
 import { LoginComponent }           from './auth/login/login.component';
 import { SendVerifyEmailComponent } from './auth/send-verify-email/send-verify-email.component';
+import { HomeComponent }            from './home/home.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { SendVerifyEmailComponent } from './auth/send-verify-email/send-verify-e
     RegisterComponent,
     SendVerifyEmailComponent,
     VerifyEmailComponent,
+    HomeComponent,
   ],
   providers: [
     {
