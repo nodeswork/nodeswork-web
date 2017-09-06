@@ -1,4 +1,10 @@
+import 'rxjs/add/operator/map';
+
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute }    from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { UserService }       from '../../_services/user.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -7,12 +13,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerifyEmailComponent implements OnInit {
 
-  constructor() { }
+  tokenExpired: boolean;
 
-  ngOnInit() {
-  }
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+  ) {}
 
-  sendVerificationEmail() {
-    console.log('SEnd Verification Email');
+  async ngOnInit() {
+    this.route.queryParams.subscribe(async (params) => {
+      try {
+        await this.userService.verifyEmail(params.token);
+      } catch (err) {
+        if (err instanceof HttpErrorResponse &&
+          err.error.message === 'Unrecognized token') {
+          this.tokenExpired = true;
+        } else {
+          // TODO: server error
+        }
+      }
+    });
   }
 }

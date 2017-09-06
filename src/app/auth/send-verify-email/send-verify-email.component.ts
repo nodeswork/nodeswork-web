@@ -16,7 +16,7 @@ export class SendVerifyEmailComponent {
 
   async sendVerificationEmail() {
     this.sending = true;
-    const resp = await this.userService.sendVerifyEmail();
+    await this.userService.sendVerifyEmail();
     this.emailSent = true;
   }
 }

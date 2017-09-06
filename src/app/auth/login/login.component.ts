@@ -46,7 +46,7 @@ export class LoginComponent {
     } catch (err) {
       switch (err.error && err.error.message) {
         case 'user is not active':
-          this.router.navigate(['/verifyEmail']);
+          this.router.navigate(['/sendVerifyEmail']);
           break;
         default:
           console.error('err', err);

@@ -20,4 +20,11 @@ export class UserService {
       environment.apiHost + '/v1/u/user/sendVerifyEmail', {},
     ).toPromise();
   }
+
+  async verifyEmail(token: string) {
+    return await this.http.post(
+      environment.apiHost + '/v1/u/user/verifyUserEmail',
+      { token },
+    ).toPromise();
+  }
 }

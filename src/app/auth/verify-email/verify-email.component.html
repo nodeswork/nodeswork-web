@@ -1,6 +1,11 @@
-<p>
-  Please click the following link to verify your email.
-</p>
-<p>
-  <button md-raised-button color="primary" (click)="sendVerificationEmail()">Send verification email</button>
-</p>
+<md-error *ngIf="tokenExpired;else verifying">
+  <p *ngIf="tokenExpired">
+    Token is expired. Go to
+      <a [routerLink]="['/sendVerifyEmail']">here</a> to send another one.
+  </p>
+</md-error>
+<ng-template #verifying>
+  <p>
+    Verifying...
+  </p>
+</ng-template>
