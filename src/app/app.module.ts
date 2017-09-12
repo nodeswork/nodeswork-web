@@ -28,6 +28,7 @@ import { RegisterComponent }        from './auth/register/register.component';
 import { LoginComponent }           from './auth/login/login.component';
 import { SendVerifyEmailComponent } from './auth/send-verify-email/send-verify-email.component';
 import { HomeComponent }            from './home/home.component';
+import { CreateComponent }          from './applets/create/create.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { HomeComponent }            from './home/home.component';
     SendVerifyEmailComponent,
     VerifyEmailComponent,
     HomeComponent,
+    CreateComponent,
   ],
   providers: [
     {
