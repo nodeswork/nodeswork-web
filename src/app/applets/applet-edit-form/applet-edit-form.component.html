@@ -1,0 +1,19 @@
+<p>
+  applet-edit-form works!
+</p>
+
+<form [formGroup]="rForm" (ngSubmit)="save()">
+  <md-form-field>
+    <input mdInput type="text" placeholder="Applet name" formControlName="name" />
+  </md-form-field>
+  <md-form-field>
+    <textarea mdInput type="text" placeholder="Description"
+      formControlName="description">
+    </textarea>
+  </md-form-field>
+  <div class="auth-form-btn-group">
+    <button md-raised-button color="primary" type="submit"
+      [disabled]="loading">Save</button>
+    <a md-raised-button [routerLink]="['/register']">Cancel</a>
+  </div>
+</form>

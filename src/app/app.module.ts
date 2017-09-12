@@ -21,6 +21,7 @@ import {
 }                                   from './_interceptors';
 import {
   AuthenticationService,
+  AppletsService,
   UserService,
 }                                   from './_services';
 import { VerifyEmailComponent }     from './auth/verify-email/verify-email.component';
@@ -28,7 +29,7 @@ import { RegisterComponent }        from './auth/register/register.component';
 import { LoginComponent }           from './auth/login/login.component';
 import { SendVerifyEmailComponent } from './auth/send-verify-email/send-verify-email.component';
 import { HomeComponent }            from './home/home.component';
-import { CreateComponent }          from './applets/create/create.component';
+import { AppletEditFormComponent }  from './applets/applet-edit-form/applet-edit-form.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,7 @@ import { CreateComponent }          from './applets/create/create.component';
     SendVerifyEmailComponent,
     VerifyEmailComponent,
     HomeComponent,
-    CreateComponent,
+    AppletEditFormComponent,
   ],
   providers: [
     {
@@ -57,6 +58,7 @@ import { CreateComponent }          from './applets/create/create.component';
       multi:     true,
     },
     AuthenticationService,
+    AppletsService,
     UserService,
   ],
   bootstrap: [ AppComponent ]
