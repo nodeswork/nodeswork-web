@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router }            from '@angular/router';
+
+import { UserStateService }  from '../_services';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router:     Router,
+    private userState:  UserStateService,
+  ) {
+    this.userState.current().subscribe((user) => {
+      if (user == null) {
+        this.router.navigate(['/register']);
+      }
+    });
+  }
 
   ngOnInit() {
   }

@@ -24,6 +24,7 @@ import {
   AuthenticationService,
   AppletsService,
   UserService,
+  UserStateService,
 }                                   from './_services';
 import { VerifyEmailComponent }     from './auth/verify-email/verify-email.component';
 import { RegisterComponent }        from './auth/register/register.component';
@@ -62,6 +63,7 @@ import { AppletEditFormComponent }  from './applets/applet-edit-form/applet-edit
     AuthenticationService,
     AppletsService,
     UserService,
+    UserStateService,
   ],
   bootstrap: [ AppComponent ]
 })

@@ -1,30 +1,42 @@
 import 'rxjs/add/operator/toPromise';
 
-import { Injectable }  from '@angular/core';
-import { HttpClient }  from '@angular/common/http';
-import { Observable }  from 'rxjs/Observable';
+import { Injectable }       from '@angular/core';
+import { HttpClient }       from '@angular/common/http';
+import { Observable }       from 'rxjs/Observable';
 
-import { environment } from '../../environments/environment';
+import { User }             from '../_models';
+import { environment }      from '../../environments/environment';
+import { UserStateService } from './users';
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private http: HttpClient) { }
 
-  async login(email: string, password: string) {
+  constructor(
+    private http: HttpClient,
+    private userState: UserStateService,
+  ) {}
+
+  async login(email: string, password: string): Promise<User> {
     const userInfo = { email, password };
     try {
-      const user = await this.http.post(
+      const user: User = await this.http.post(
         environment.apiHost + '/v1/u/user/login', userInfo
-      ).toPromise();
-      // localStorage.setItem('currentUser', JSON.stringify(user));
+      ).toPromise() as any;
+      this.userState.set(user);
       return user;
     } catch (err) {
       throw err;
     }
   }
 
-  logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+  async logout() {
+    try {
+      await this.http.get(
+        environment.apiHost + '/v1/u/user/logout'
+      ).toPromise();
+      this.userState.remove();
+    } catch (err) {
+      throw err;
+    }
   }
 }

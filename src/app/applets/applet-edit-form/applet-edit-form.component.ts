@@ -84,7 +84,9 @@ export class AppletEditFormComponent implements OnInit {
 
     if (this.applet == null) {
       try {
-        await this.appletsService.create(this.rForm.value);
+        const applet = this.rForm.value;
+        applet.config = _.pick(applet.config, 'packageName', 'version');
+        await this.appletsService.create(applet);
       } catch (e) {
         switch (e.error && e.error.message) {
           case 'duplicate record':

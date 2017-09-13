@@ -42,7 +42,7 @@ export class LoginComponent {
         this.rForm.value.email,
         this.rForm.value.password,
       );
-      console.log('user', user);
+      this.router.navigate(['']);
     } catch (err) {
       switch (err.error && err.error.message) {
         case 'user is not active':
