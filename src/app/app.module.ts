@@ -33,6 +33,8 @@ import { SendVerifyEmailComponent } from './auth/send-verify-email/send-verify-e
 import { HomeComponent }            from './home/home.component';
 import { AppletEditFormComponent }  from './applets/applet-edit-form/applet-edit-form.component';
 import { RootMenuComponent } from './menus/root-menu/root-menu.component';
+import { AppletControlPanelComponent } from './applets/applet-control-panel/applet-control-panel.component';
+import { AppletPreviewComponent } from './applets/applet-preview/applet-preview.component';
 
 @NgModule({
   imports: [
@@ -55,6 +57,8 @@ import { RootMenuComponent } from './menus/root-menu/root-menu.component';
     HomeComponent,
     AppletEditFormComponent,
     RootMenuComponent,
+    AppletControlPanelComponent,
+    AppletPreviewComponent,
   ],
   providers: [
     {

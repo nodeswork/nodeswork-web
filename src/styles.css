@@ -22,3 +22,8 @@
 .full-width {
   width: 100%;
 }
+
+h2 {
+  border-bottom: 1px solid #999;
+  padding-bottom: 4px;
+}

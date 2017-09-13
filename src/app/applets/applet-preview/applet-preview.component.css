@@ -1,0 +1,13 @@
+.applet-preview-panel {
+  max-width: 240px;
+}
+
+.small-button {
+  padding: 0 12px;
+  min-width: 1%;
+}
+
+.bottom-actions {
+  /* border-top: 1px solid #CCC; */
+  text-align: right;
+}

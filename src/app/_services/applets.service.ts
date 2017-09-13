@@ -42,4 +42,15 @@ export class AppletsService {
       throw err;
     }
   }
+
+  async find(): Promise<Applet[]> {
+    try {
+      const result = await this.http.get(
+        environment.apiHost + '/v1/u/applets/',
+      ).toPromise();
+      return result as Applet[];
+    } catch (err) {
+      throw err;
+    }
+  }
 }
