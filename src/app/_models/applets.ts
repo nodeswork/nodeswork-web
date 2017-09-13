@@ -1,5 +1,6 @@
-export interface Applet {
-  _id:              string;
+import { CommonModel } from './common';
+
+export interface Applet extends CommonModel {
   name:             string;
   owner:            any;
   imageUrl:         string;

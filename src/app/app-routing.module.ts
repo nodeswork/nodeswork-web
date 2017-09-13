@@ -9,12 +9,13 @@ import { HomeComponent }            from './home/home.component';
 import { AppletEditFormComponent }  from './applets/applet-edit-form/applet-edit-form.component';
 
 const routes: Routes = [
-  { path: '',                      component: HomeComponent },
-  { path: 'register',              component: RegisterComponent },
-  { path: 'login',                 component: LoginComponent },
-  { path: 'sendVerifyEmail',       component: SendVerifyEmailComponent },
-  { path: 'verifyUserEmail',       component: VerifyEmailComponent },
-  { path: 'applets/create',        component: AppletEditFormComponent },
+  { path: '',                       component: HomeComponent },
+  { path: 'register',               component: RegisterComponent },
+  { path: 'login',                  component: LoginComponent },
+  { path: 'sendVerifyEmail',        component: SendVerifyEmailComponent },
+  { path: 'verifyUserEmail',        component: VerifyEmailComponent },
+  { path: 'applets/create',         component: AppletEditFormComponent },
+  { path: 'applets/:appletId/edit', component: AppletEditFormComponent },
 ];
 
 @NgModule({

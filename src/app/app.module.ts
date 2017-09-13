@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
 }                                   from '@angular/forms';
 import { MaterialModule }           from '@angular/material';
+import { FlexLayoutModule }         from '@angular/flex-layout';
 import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 import {
   HttpClientModule,
@@ -37,6 +38,7 @@ import { AppletEditFormComponent }  from './applets/applet-edit-form/applet-edit
     BrowserAnimationsModule,
     BrowserModule,
     FlashMessagesModule,
+    FlexLayoutModule,
     FormsModule,
     HttpClientModule,
     MaterialModule,

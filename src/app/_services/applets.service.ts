@@ -20,4 +20,26 @@ export class AppletsService {
       throw err;
     }
   }
+
+  async get(appletId: string): Promise<Applet> {
+    try {
+      const result = await this.http.get(
+        environment.apiHost + '/v1/u/applets/' + appletId,
+      ).toPromise();
+      return result as Applet;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async update(appletId: string, applet: Applet): Promise<Applet> {
+    try {
+      const result = await this.http.post(
+        environment.apiHost + '/v1/u/applets/' + appletId, applet,
+      ).toPromise();
+      return result as Applet;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
