@@ -1,7 +1,9 @@
 <flash-messages></flash-messages>
-<app-root-menu *ngIf="isLogin"></app-root-menu>
-<!-- <md-sidenav-container> -->
-  <!-- <md-sidenav #sidenav opened="true"> -->
-  <!-- </md-sidenav> -->
-<!-- </md-sidenav-container> -->
-<router-outlet></router-outlet>
+<md-sidenav-container class="sidenav-container">
+  <md-sidenav #sidenav opened="isLogin" mode="side">
+    <app-root-menu *ngIf="isLogin"></app-root-menu>
+  </md-sidenav>
+  <div class="content-container">
+    <router-outlet></router-outlet>
+  </div>
+</md-sidenav-container>

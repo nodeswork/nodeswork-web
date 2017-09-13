@@ -13,3 +13,12 @@
 .form-group {
   margin: 0 0 12px 0;
 }
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.full-width {
+  width: 100%;
+}
