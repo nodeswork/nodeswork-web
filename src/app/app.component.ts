@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component }        from '@angular/core';
+
+import { UserStateService } from './_services';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Nodeswork2';
+
+  isLogin = false;
+
+  constructor(
+    private userState:  UserStateService,
+  ) {
+    this.userState.current().subscribe((user) => {
+      this.isLogin = user != null;
+    });
+  }
 }

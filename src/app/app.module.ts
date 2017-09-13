@@ -32,6 +32,7 @@ import { LoginComponent }           from './auth/login/login.component';
 import { SendVerifyEmailComponent } from './auth/send-verify-email/send-verify-email.component';
 import { HomeComponent }            from './home/home.component';
 import { AppletEditFormComponent }  from './applets/applet-edit-form/applet-edit-form.component';
+import { RootMenuComponent } from './menus/root-menu/root-menu.component';
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { AppletEditFormComponent }  from './applets/applet-edit-form/applet-edit
     VerifyEmailComponent,
     HomeComponent,
     AppletEditFormComponent,
+    RootMenuComponent,
   ],
   providers: [
     {
