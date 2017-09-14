@@ -1,0 +1,15 @@
+.device-entry {
+  max-width: 140px;
+  cursor: pointer;
+}
+
+.device-icon {
+  padding-top: 12px;
+  text-align: center;
+}
+
+.title {
+  padding: 8px 0;
+  text-align: center;
+  font-size: 14px;
+}

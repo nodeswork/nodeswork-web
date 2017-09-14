@@ -1,43 +1,47 @@
 import 'hammerjs';
 
-import { BrowserModule }               from '@angular/platform-browser';
-import { NgModule }                    from '@angular/core';
+import { BrowserModule }                 from '@angular/platform-browser';
+import { NgModule }                      from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
-}                                      from '@angular/forms';
-import { MaterialModule }              from '@angular/material';
-import { FlexLayoutModule }            from '@angular/flex-layout';
-import { BrowserAnimationsModule }     from '@angular/platform-browser/animations';
+}                                        from '@angular/forms';
+import { MaterialModule }                from '@angular/material';
+import { FlexLayoutModule }              from '@angular/flex-layout';
+import { BrowserAnimationsModule }       from '@angular/platform-browser/animations';
 import {
   HttpClientModule,
   HTTP_INTERCEPTORS,
-}                                      from '@angular/common/http';
-import { FlashMessagesModule }         from 'angular2-flash-messages';
+}                                        from '@angular/common/http';
+import { FlashMessagesModule }           from 'angular2-flash-messages';
 
-import { AppComponent }                from './app.component';
-import { AppRoutingModule }            from './app-routing.module';
+import { AppComponent }                  from './app.component';
+import { AppRoutingModule }              from './app-routing.module';
 import {
   AuthInterceptor,
-}                                      from './_interceptors';
+}                                        from './_interceptors';
 import {
-  AuthenticationService,
   AppletsService,
+  AuthenticationService,
+  DevicesService,
+  UserAppletsService,
   UserService,
   UserStateService,
-  UserAppletsService,
-}                                      from './_services';
-import { VerifyEmailComponent }        from './auth/verify-email/verify-email.component';
-import { RegisterComponent }           from './auth/register/register.component';
-import { LoginComponent }              from './auth/login/login.component';
-import { SendVerifyEmailComponent }    from './auth/send-verify-email/send-verify-email.component';
-import { HomeComponent }               from './home/home.component';
-import { AppletEditFormComponent }     from './applets/applet-edit-form/applet-edit-form.component';
-import { RootMenuComponent }           from './menus/root-menu/root-menu.component';
-import { AppletControlPanelComponent } from './applets/applet-control-panel/applet-control-panel.component';
-import { AppletPreviewComponent }      from './applets/applet-preview/applet-preview.component';
+}                                        from './_services';
+import { VerifyEmailComponent }          from './auth/verify-email/verify-email.component';
+import { RegisterComponent }             from './auth/register/register.component';
+import { LoginComponent }                from './auth/login/login.component';
+import { SendVerifyEmailComponent }      from './auth/send-verify-email/send-verify-email.component';
+import { HomeComponent }                 from './home/home.component';
+import { AppletEditFormComponent }       from './applets/applet-edit-form/applet-edit-form.component';
+import { RootMenuComponent }             from './menus/root-menu/root-menu.component';
+import { AppletControlPanelComponent }   from './applets/applet-control-panel/applet-control-panel.component';
+import { AppletPreviewComponent }        from './applets/applet-preview/applet-preview.component';
 import { MyAppletControlPanelComponent } from './applets/my-applet-control-panel/my-applet-control-panel.component';
-import { UserAppletEntryComponent } from './applets/user-applet-entry/user-applet-entry.component';
+import { UserAppletEntryComponent }      from './applets/user-applet-entry/user-applet-entry.component';
+import { MyDeviceControlPanelComponent } from './devices/my-device-control-panel/my-device-control-panel.component';
+import { DeviceEntryComponent }          from './devices/device-entry/device-entry.component';
+import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/user-applet-edit-form.component';
 
 @NgModule({
   imports: [
@@ -53,17 +57,19 @@ import { UserAppletEntryComponent } from './applets/user-applet-entry/user-apple
   ],
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    SendVerifyEmailComponent,
-    VerifyEmailComponent,
-    HomeComponent,
-    AppletEditFormComponent,
-    RootMenuComponent,
     AppletControlPanelComponent,
+    AppletEditFormComponent,
     AppletPreviewComponent,
+    DeviceEntryComponent,
+    HomeComponent,
+    LoginComponent,
     MyAppletControlPanelComponent,
+    MyDeviceControlPanelComponent,
+    RegisterComponent,
+    RootMenuComponent,
+    SendVerifyEmailComponent,
     UserAppletEntryComponent,
+    VerifyEmailComponent,
   ],
   providers: [
     {
@@ -71,11 +77,12 @@ import { UserAppletEntryComponent } from './applets/user-applet-entry/user-apple
       useClass:  AuthInterceptor,
       multi:     true,
     },
-    AuthenticationService,
     AppletsService,
+    AuthenticationService,
+    DevicesService,
+    UserAppletsService,
     UserService,
     UserStateService,
-    UserAppletsService,
   ],
   bootstrap: [ AppComponent ]
 })
