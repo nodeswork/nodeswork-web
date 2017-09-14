@@ -68,6 +68,7 @@ import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/u
     RegisterComponent,
     RootMenuComponent,
     SendVerifyEmailComponent,
+    UserAppletEditFormComponent,
     UserAppletEntryComponent,
     VerifyEmailComponent,
   ],
