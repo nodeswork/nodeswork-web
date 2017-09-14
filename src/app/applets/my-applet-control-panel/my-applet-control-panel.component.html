@@ -1,3 +1,3 @@
 <h2>My Applets</h2>
 
-<app-user-applet-entry></app-user-applet-entry>
+<app-user-applet-entry *ngFor="let userApplet of myApplets" [userApplet]="userApplet"></app-user-applet-entry>

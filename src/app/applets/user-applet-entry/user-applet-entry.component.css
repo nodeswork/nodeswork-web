@@ -1,0 +1,21 @@
+.user-applet-entry {
+  max-width: 140px;
+  cursor: pointer;
+}
+
+.user-applet-icon {
+  padding-top: 12px;
+}
+
+.user-applet-icon img {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto;
+  display: block;
+}
+
+.title {
+  padding: 8px 0;
+  text-align: center;
+  font-size: 14px;
+}

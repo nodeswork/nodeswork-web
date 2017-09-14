@@ -18,6 +18,7 @@ export interface AppletTokens {
 }
 
 export interface AppletConfig {
+  _id:          string;
   na:           string;
   naVersion:    string;
   packageName:  string;
