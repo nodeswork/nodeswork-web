@@ -90,7 +90,7 @@
   </md-accordion>
 
   <div class="full-width-field btn-group-field">
-    <button md-raised-button color="primary" type="submit" [disabled]="loading">Save</button>
+    <button md-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
     <a md-raised-button [routerLink]="['/register']">Cancel</a>
   </div>
 </form>

@@ -17,7 +17,6 @@ import { Applet }                 from '../../_models';
 export class AppletEditFormComponent implements OnInit {
 
   rForm:      FormGroup;
-  loading:    boolean;
   isEditing:  boolean;
   title:      string;
   applet:     Applet;
@@ -87,6 +86,7 @@ export class AppletEditFormComponent implements OnInit {
         const applet = this.rForm.value;
         applet.config = _.pick(applet.config, 'packageName', 'version');
         await this.appletsService.create(applet);
+        this.rForm.markAsPristine();
       } catch (e) {
         switch (e.error && e.error.message) {
           case 'duplicate record':
@@ -99,6 +99,7 @@ export class AppletEditFormComponent implements OnInit {
     } else {
       try {
         await this.appletsService.update(this.applet._id, this.rForm.value);
+        this.rForm.markAsPristine();
       } catch (e) {
         switch (e.error && e.error.message) {
           default:
