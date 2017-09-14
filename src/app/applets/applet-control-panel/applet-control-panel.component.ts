@@ -15,7 +15,6 @@ export class AppletControlPanelComponent implements OnInit {
   constructor(private appletsService: AppletsService) {
     this.appletsService.find().then((applets) => {
       this.applets = applets;
-      console.log(applets);
     });
   }
 

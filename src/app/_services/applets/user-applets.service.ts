@@ -29,7 +29,6 @@ export class UserAppletsService {
   }
 
   async install(applet: Applet): Promise<UserApplet> {
-    console.log('installing', applet);
     try {
       const result = await this.http
         .post(environment.apiHost + '/v1/u/my-applets', {

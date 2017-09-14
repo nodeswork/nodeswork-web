@@ -45,7 +45,6 @@ export class RegisterComponent {
     this.userService.create(this.rForm.value).subscribe(
       data => {
         this.loading = false;
-        console.log('resp, data', data);
       },
       error => {
         this.loading = false;

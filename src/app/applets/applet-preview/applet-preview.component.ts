@@ -16,17 +16,14 @@ export class AppletPreviewComponent implements OnInit {
 
   constructor(
     private userAppletsService: UserAppletsService,
-  ) {
+  ) { }
+
+  ngOnInit() {
     this.userAppletsService.myApplets().subscribe((myApplets) => {
-      console.log('updating');
       this.installed = _.find(myApplets, (userApplet) => {
         return userApplet.applet._id === this.applet._id;
       }) != null;
-      console.log('updating', this.installed);
     });
-  }
-
-  ngOnInit() {
   }
 
   async install() {
