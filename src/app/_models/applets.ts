@@ -1,4 +1,5 @@
 import { CommonModel } from './common';
+import { Device }      from './devices';
 
 export interface Applet extends CommonModel {
   name:             string;
@@ -27,4 +28,20 @@ export interface AppletConfig {
 export interface AppletWorkerConfig {
   name:      string;
   schedule:  string;
+}
+
+export interface UserApplet {
+  user:             string;
+  applet:           Applet;
+  config:           UserAppletConfig;
+  enabled:          boolean;
+}
+
+export interface UserAppletConfig {
+  appletConfig:  string;
+  devices:       UserAppletDeviceConfig[];
+}
+
+export interface UserAppletDeviceConfig {
+  device: Device;
 }

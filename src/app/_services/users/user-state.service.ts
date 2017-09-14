@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject }    from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Injectable }      from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable }      from 'rxjs/Observable';
 
-import { User }       from '../../_models';
+import { User }            from '../../_models';
 
 @Injectable()
 export class UserStateService {
