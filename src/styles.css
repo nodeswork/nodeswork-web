@@ -28,3 +28,22 @@ h2 {
   border-bottom: 1px solid #CCC;
   padding-bottom: 12px;
 }
+
+.nw-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.nw-form-actions {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.nw-form-group {
+  padding: 8px 0;
+}
+
+.align-center {
+  text-align: center;
+}

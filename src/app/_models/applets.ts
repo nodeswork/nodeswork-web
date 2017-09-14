@@ -31,7 +31,7 @@ export interface AppletWorkerConfig {
   schedule:  string;
 }
 
-export interface UserApplet {
+export interface UserApplet extends CommonModel {
   user:             string;
   applet:           Applet;
   config:           UserAppletConfig;
@@ -39,10 +39,11 @@ export interface UserApplet {
 }
 
 export interface UserAppletConfig {
-  appletConfig:  string;
+  appletConfig:  AppletConfig;
   devices:       UserAppletDeviceConfig[];
+  upToDate:      boolean;
 }
 
 export interface UserAppletDeviceConfig {
-  device: Device;
+  device: string;
 }

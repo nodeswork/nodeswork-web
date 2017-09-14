@@ -1,4 +1,4 @@
-<div class="user-applet-entry">
+<div class="user-applet-entry" [routerLink]="['/my-applets/' + userApplet._id + '/edit']">
   <div class="user-applet-icon">
     <img [src]="userApplet.applet.imageUrl" />
   </div>

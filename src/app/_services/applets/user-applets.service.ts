@@ -47,6 +47,34 @@ export class UserAppletsService {
     }
   }
 
+  async get(userAppletId: string): Promise<UserApplet> {
+    try {
+      const result = await this.http
+        .get(environment.apiHost + '/v1/u/my-applets/' + userAppletId)
+        .toPromise();
+      return result as UserApplet;
+    } catch (e) {
+      /* handle error */
+      console.error(e);
+    }
+  }
+
+  async update(
+    userAppletId: string, userApplet: UserApplet
+  ): Promise<UserApplet> {
+    try {
+      const result = await this.http
+        .post(
+          environment.apiHost + '/v1/u/my-applets/' + userAppletId, userApplet,
+        )
+        .toPromise();
+      return result as UserApplet;
+    } catch (e) {
+      /* handle error */
+      console.error(e);
+    }
+  }
+
   refreshMyApplets() {
     this.userState.current().subscribe(async (user) => {
       this.user = user;
