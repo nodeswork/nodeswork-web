@@ -1,96 +1,98 @@
-<h2>{{title}}</h2>
-<form [formGroup]="rForm" (ngSubmit)="save()" fxLayout="column" class="applet-edit-form">
-  <md-accordion>
-    <md-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
-      <md-expansion-panel-header>
-        <md-panel-title class="panel-title">
-          Basic Configuration
-        </md-panel-title>
-        <md-panel-description>
-          Config your applet name, descriptions
-        </md-panel-description>
-      </md-expansion-panel-header>
-      <md-form-field class="full-width-field">
-        <input mdInput type="text" placeholder="Applet name" formControlName="name" />
-        <md-error *ngIf="rForm.controls.name.hasError('required')">
-          Applet name is <strong>required</strong>
-        </md-error>
-        <md-error *ngIf="rForm.controls.name.hasError('duplicate')">
-          Applet already exists, try a different name
-        </md-error>
-      </md-form-field>
-      <md-form-field class="full-width-field form-group">
-        <textarea mdInput type="text" placeholder="Description" rows="8" formControlName="description"></textarea>
-      </md-form-field>
-      <md-action-row>
-        <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
-      </md-action-row>
-    </md-expansion-panel>
-
-    <md-expansion-panel formGroupName="config" [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
-      <md-expansion-panel-header>
-        <md-panel-title class="panel-title">
-          Applet Configuration
-        </md-panel-title>
-        <md-panel-description>
-          Config your applet package and container
-        </md-panel-description>
-      </md-expansion-panel-header>
-      <md-form-field class="full-width-field">
-        <input mdInput type="text" placeholder="Package name" formControlName="packageName" />
-      </md-form-field>
-      <md-form-field class="full-width-field">
-        <input mdInput type="text" placeholder="Package version" formControlName="version" />
-      </md-form-field>
-      <md-action-row>
-        <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
-        <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
-      </md-action-row>
-    </md-expansion-panel>
-
-    <md-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
-      <md-expansion-panel-header>
-        <md-panel-title class="panel-title">
-          Applet Tokens
-        </md-panel-title>
-        <md-panel-description>
-          Retrieve your applet tokens
-        </md-panel-description>
-      </md-expansion-panel-header>
-      <div *ngIf="applet && applet.tokens;else noToken">
+<app-page>
+  <app-head-menu> {{title}} </app-head-menu>
+  <form [formGroup]="rForm" (ngSubmit)="save()" fxLayout="column" class="applet-edit-form">
+    <md-accordion>
+      <md-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+        <md-expansion-panel-header>
+          <md-panel-title class="panel-title">
+            Basic Configuration
+          </md-panel-title>
+          <md-panel-description>
+            Config your applet name, descriptions
+          </md-panel-description>
+        </md-expansion-panel-header>
         <md-form-field class="full-width-field">
-          <input mdInput type="text" placeholder="Develop Token" readonly [value]="applet.tokens.devToken"/>
+          <input mdInput type="text" placeholder="Applet name" formControlName="name" />
+          <md-error *ngIf="rForm.controls.name.hasError('required')">
+            Applet name is <strong>required</strong>
+          </md-error>
+          <md-error *ngIf="rForm.controls.name.hasError('duplicate')">
+            Applet already exists, try a different name
+          </md-error>
+        </md-form-field>
+        <md-form-field class="full-width-field form-group">
+          <textarea mdInput type="text" placeholder="Description" rows="8" formControlName="description"></textarea>
+        </md-form-field>
+        <md-action-row>
+          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </md-action-row>
+      </md-expansion-panel>
+
+      <md-expansion-panel formGroupName="config" [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+        <md-expansion-panel-header>
+          <md-panel-title class="panel-title">
+            Applet Configuration
+          </md-panel-title>
+          <md-panel-description>
+            Config your applet package and container
+          </md-panel-description>
+        </md-expansion-panel-header>
+        <md-form-field class="full-width-field">
+          <input mdInput type="text" placeholder="Package name" formControlName="packageName" />
         </md-form-field>
         <md-form-field class="full-width-field">
-          <input mdInput type="text" placeholder="Production Token" readonly [value]="applet.tokens.prodToken"/>
+          <input mdInput type="text" placeholder="Package version" formControlName="version" />
         </md-form-field>
-      </div>
-      <ng-template #noToken> There's no tokens generated yet. </ng-template>
-      <md-action-row>
-        <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
-        <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
-      </md-action-row>
-    </md-expansion-panel>
+        <md-action-row>
+          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
+          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </md-action-row>
+      </md-expansion-panel>
 
-    <md-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
-      <md-expansion-panel-header>
-        <md-panel-title class="panel-title">
-          Applet Permissions
-        </md-panel-title>
-        <md-panel-description>Set who can view your applet</md-panel-description>
-      </md-expansion-panel-header>
-      <md-select placeholder="Permissions" formControlName="permission" class="full-width-field">
-        <md-option [value]="'PRIVATE'">Private</md-option>
-        <md-option [value]="'PUBLIC'">Public</md-option>
-      </md-select>
-      <md-action-row>
-        <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
-      </md-action-row>
-    </md-expansion-panel>
-  </md-accordion>
+      <md-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+        <md-expansion-panel-header>
+          <md-panel-title class="panel-title">
+            Applet Tokens
+          </md-panel-title>
+          <md-panel-description>
+            Retrieve your applet tokens
+          </md-panel-description>
+        </md-expansion-panel-header>
+        <div *ngIf="applet && applet.tokens;else noToken">
+          <md-form-field class="full-width-field">
+            <input mdInput type="text" placeholder="Develop Token" readonly [value]="applet.tokens.devToken"/>
+          </md-form-field>
+          <md-form-field class="full-width-field">
+            <input mdInput type="text" placeholder="Production Token" readonly [value]="applet.tokens.prodToken"/>
+          </md-form-field>
+        </div>
+        <ng-template #noToken> There's no tokens generated yet. </ng-template>
+        <md-action-row>
+          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
+          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </md-action-row>
+      </md-expansion-panel>
 
-  <div class="full-width-field btn-group-field">
-    <button md-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
-    <a md-raised-button [routerLink]="['/register']">Cancel</a>
-  </div>
-</form>
+      <md-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
+        <md-expansion-panel-header>
+          <md-panel-title class="panel-title">
+            Applet Permissions
+          </md-panel-title>
+          <md-panel-description>Set who can view your applet</md-panel-description>
+        </md-expansion-panel-header>
+        <md-select placeholder="Permissions" formControlName="permission" class="full-width-field">
+          <md-option [value]="'PRIVATE'">Private</md-option>
+          <md-option [value]="'PUBLIC'">Public</md-option>
+        </md-select>
+        <md-action-row>
+          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
+        </md-action-row>
+      </md-expansion-panel>
+    </md-accordion>
+
+    <div class="full-width-field btn-group-field">
+      <button md-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
+      <a md-raised-button [routerLink]="['/register']">Cancel</a>
+    </div>
+  </form>
+</app-page>

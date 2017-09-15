@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }   from '@angular/core';
+
+import { MenuService }         from '../../_services';
+
+import { screenSize, SIZE_XS } from '../../utils';
 
 @Component({
   selector: 'app-head-menu',
@@ -7,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeadMenuComponent implements OnInit {
 
-  constructor() { }
+  showMenuIcon = screenSize !== SIZE_XS;
+
+  constructor(
+    private menuService: MenuService,
+  ) {
+  }
 
   ngOnInit() {
   }
 
+  openMenu() {
+    this.menuService.open();
+  }
 }

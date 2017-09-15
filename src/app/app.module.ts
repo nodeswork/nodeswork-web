@@ -43,6 +43,7 @@ import { MyDeviceControlPanelComponent } from './devices/my-device-control-panel
 import { DeviceEntryComponent }          from './devices/device-entry/device-entry.component';
 import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/user-applet-edit-form.component';
 import { HeadMenuComponent } from './menus/head-menu/head-menu.component';
+import { PageComponent } from './skeleton/page/page.component';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import { HeadMenuComponent } from './menus/head-menu/head-menu.component';
     UserAppletEntryComponent,
     VerifyEmailComponent,
     HeadMenuComponent,
+    PageComponent,
   ],
   providers: [
     {

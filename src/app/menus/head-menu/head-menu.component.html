@@ -1,5 +1,5 @@
 <div class="head-menu" fxLayout="row">
-  <i class="fa fa-bars menu-icon" aria-hidden="true"></i>
+  <i class="fa fa-bars menu-icon" aria-hidden="true" (click)="openMenu()" *ngIf="showMenuIcon"></i>
   <div class="head-content" fxFlexFill>
     <ng-content></ng-content>
   </div>
