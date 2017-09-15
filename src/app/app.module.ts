@@ -13,7 +13,6 @@ import {
   HttpClientModule,
   HTTP_INTERCEPTORS,
 }                                        from '@angular/common/http';
-import { FlashMessagesModule }           from 'angular2-flash-messages';
 
 import { AppComponent }                  from './app.component';
 import { AppRoutingModule }              from './app-routing.module';
@@ -48,7 +47,6 @@ import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/u
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    FlashMessagesModule,
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,

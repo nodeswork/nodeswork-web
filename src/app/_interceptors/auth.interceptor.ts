@@ -1,8 +1,8 @@
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
-import { Observable }           from 'rxjs/Observable';
-import { Injectable }           from '@angular/core';
+import { Observable }       from 'rxjs/Observable';
+import { Injectable }       from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -10,19 +10,19 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
-}                               from '@angular/common/http';
-import { Router }               from '@angular/router';
-import { FlashMessagesService } from 'angular2-flash-messages';
+}                           from '@angular/common/http';
+import { Router }           from '@angular/router';
+import { MdSnackBar }       from '@angular/material';
 
-import { UserStateService }     from '../_services';
+import { UserStateService } from '../_services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private router:                Router,
-    private userState:             UserStateService,
-    private flashMessagesService:  FlashMessagesService,
+    private router:     Router,
+    private userState:  UserStateService,
+    private snackBar:   MdSnackBar,
   ) {}
 
   intercept(
@@ -38,8 +38,8 @@ export class AuthInterceptor implements HttpInterceptor {
         } else if (err.statusText === 'Unknown Error') {
           console.error('Server is not reachable');
           // TODO: Figure out why flash message is not shown
-          this.flashMessagesService.show('Server is not reachable', {
-            timeout: 5000,
+          this.snackBar.open('Server is not reachable', 'wait', {
+            duration: 5000,
           });
         }
       }
