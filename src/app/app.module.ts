@@ -23,6 +23,7 @@ import {
   AppletsService,
   AuthenticationService,
   DevicesService,
+  MenuService,
   UserAppletsService,
   UserService,
   UserStateService,
@@ -41,6 +42,7 @@ import { UserAppletEntryComponent }      from './applets/user-applet-entry/user-
 import { MyDeviceControlPanelComponent } from './devices/my-device-control-panel/my-device-control-panel.component';
 import { DeviceEntryComponent }          from './devices/device-entry/device-entry.component';
 import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/user-applet-edit-form.component';
+import { HeadMenuComponent } from './menus/head-menu/head-menu.component';
 
 @NgModule({
   imports: [
@@ -69,6 +71,7 @@ import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/u
     UserAppletEditFormComponent,
     UserAppletEntryComponent,
     VerifyEmailComponent,
+    HeadMenuComponent,
   ],
   providers: [
     {
@@ -79,6 +82,7 @@ import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/u
     AppletsService,
     AuthenticationService,
     DevicesService,
+    MenuService,
     UserAppletsService,
     UserService,
     UserStateService,

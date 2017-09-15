@@ -4,3 +4,4 @@ export * from './user.service';
 export * from './users';
 export * from './applets';
 export * from './devices';
+export * from './menu';

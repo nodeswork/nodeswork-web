@@ -1,0 +1,20 @@
+.head-menu {
+  line-height: 30px;
+  font-size: 20px;
+  position: relative;
+  background-color: green;
+}
+
+.menu-icon {
+  min-width: 30px;
+  display: inline-block;
+  text-align: center;
+  line-height: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.head-content {
+  margin-right: 30px;
+}

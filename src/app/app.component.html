@@ -1,8 +1,8 @@
 <md-sidenav-container class="sidenav-container">
-  <md-sidenav #sidenav opened="isLogin" mode="side">
+  <md-sidenav #sidenav [mode]="mode">
     <app-root-menu *ngIf="isLogin"></app-root-menu>
   </md-sidenav>
-  <div class="content-container">
+  <div>
     <router-outlet></router-outlet>
   </div>
 </md-sidenav-container>
