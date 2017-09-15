@@ -1,6 +1,9 @@
 <md-sidenav-container class="sidenav-container">
-  <md-sidenav #sidenav [mode]="mode">
+  <md-sidenav #sidenav [mode]="mode" class="sidenav">
     <app-root-menu *ngIf="isLogin"></app-root-menu>
+    <div class="info-bottom">
+      nodeswork &copy; 2017
+    </div>
   </md-sidenav>
   <div>
     <router-outlet></router-outlet>

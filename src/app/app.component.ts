@@ -46,6 +46,8 @@ export class AppComponent implements OnInit {
   }
 
   closeMenu() {
-    this.sideNav.close();
+    if (screenSize === SIZE_XS) {
+      this.sideNav.close();
+    }
   }
 }

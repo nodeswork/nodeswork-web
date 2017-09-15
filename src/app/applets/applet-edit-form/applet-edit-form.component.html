@@ -5,10 +5,10 @@
       <md-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
         <md-expansion-panel-header>
           <md-panel-title class="panel-title">
-            Basic Configuration
+            Basic
           </md-panel-title>
           <md-panel-description>
-            Config your applet name, descriptions
+            Name, description, etc.
           </md-panel-description>
         </md-expansion-panel-header>
         <md-form-field class="full-width-field">
@@ -31,10 +31,10 @@
       <md-expansion-panel formGroupName="config" [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
         <md-expansion-panel-header>
           <md-panel-title class="panel-title">
-            Applet Configuration
+            Applet
           </md-panel-title>
           <md-panel-description>
-            Config your applet package and container
+            Package, container, etc.
           </md-panel-description>
         </md-expansion-panel-header>
         <md-form-field class="full-width-field">
@@ -52,10 +52,10 @@
       <md-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
         <md-expansion-panel-header>
           <md-panel-title class="panel-title">
-            Applet Tokens
+            Tokens
           </md-panel-title>
           <md-panel-description>
-            Retrieve your applet tokens
+            Retrieve applet tokens
           </md-panel-description>
         </md-expansion-panel-header>
         <div *ngIf="applet && applet.tokens;else noToken">
@@ -76,9 +76,9 @@
       <md-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
         <md-expansion-panel-header>
           <md-panel-title class="panel-title">
-            Applet Permissions
+            Permissions
           </md-panel-title>
-          <md-panel-description>Set who can view your applet</md-panel-description>
+          <md-panel-description>Who can use your applet</md-panel-description>
         </md-expansion-panel-header>
         <md-select placeholder="Permissions" formControlName="permission" class="full-width-field">
           <md-option [value]="'PRIVATE'">Private</md-option>

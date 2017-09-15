@@ -1,8 +1,8 @@
 <ul class="list-unstyled">
   <li>
-    <button md-button class="full-width" [routerLink]="['']">Home</button>
+    <button md-button class="full-width nav-btn" [routerLink]="['']" (click)="closeMenu()">Home</button>
   </li>
   <li>
-    <button md-button [routerLink]="['/applets/create']">Create Applet</button>
+    <button md-button class="full-width nav-btn" [routerLink]="['/applets/create']" (click)="closeMenu()">Create Applet</button>
   </li>
 </ul>

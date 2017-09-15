@@ -11,7 +11,7 @@ import { screenSize, SIZE_XS } from '../../utils';
 })
 export class HeadMenuComponent implements OnInit {
 
-  showMenuIcon = screenSize !== SIZE_XS;
+  showMenuIcon = screenSize === SIZE_XS;
 
   constructor(
     private menuService: MenuService,

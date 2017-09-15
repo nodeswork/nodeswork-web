@@ -35,16 +35,16 @@ export class AppletEditFormComponent implements OnInit {
         _id:            undefined,
         packageName:    ['', Validators.required],
         version:        ['0', Validators.required],
-        workers:        undefined,
-        naType:         undefined,
-        naVersion:      undefined,
+        workers:        [],
+        naType:         'npm',
+        naVersion:      '8.3.0',
       }),
       permission:       ['PRIVATE', Validators.required],
     });
 
     this.route.params.subscribe(async (params) => {
       this.isEditing = params.appletId != null;
-      this.title = this.isEditing ? 'Edit My Applet' : 'Create a New Applet';
+      this.title = this.isEditing ? 'Edit Applet' : 'New Applet';
 
       if (params.appletId != null) {
         this.applet = await this.appletsService.get(params.appletId);
