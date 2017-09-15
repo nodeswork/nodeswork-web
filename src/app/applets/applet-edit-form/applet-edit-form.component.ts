@@ -36,7 +36,7 @@ export class AppletEditFormComponent implements OnInit {
         packageName:    ['', Validators.required],
         version:        ['0', Validators.required],
         workers:        undefined,
-        na:             undefined,
+        naType:         undefined,
         naVersion:      undefined,
       }),
       permission:       ['PRIVATE', Validators.required],
