@@ -36,12 +36,19 @@ export interface UserApplet extends CommonModel {
   applet:           Applet;
   config:           UserAppletConfig;
   enabled:          boolean;
+  stats:            UserAppletStats;
 }
 
 export interface UserAppletConfig {
   appletConfig:  AppletConfig;
   devices:       UserAppletDeviceConfig[];
   upToDate:      boolean;
+}
+
+export interface UserAppletStats {
+  online:   boolean;
+  reason?:  string;
+  status?:  string;
 }
 
 export interface UserAppletDeviceConfig {
