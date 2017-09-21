@@ -1,0 +1,15 @@
+<app-page>
+  <app-head-menu> Verify Account </app-head-menu>
+  <div *ngIf="account">
+    <div *ngIf="!account.verified; else alreadyVerified" fxLayout="column" fxLayoutAlign="center center">
+      <app-account-type-entry [accountCategory]="account.accountCategory"></app-account-type-entry>
+      <div class="nw-form-actions">
+        <button md-raised-button color="primary" type="button" (click)="verify()">Verify Account</button>
+      </div>
+    </div>
+    <ng-template #alreadyVerified>
+      Account is already verified!
+    </ng-template>
+  </div>
+  <pre>{{account | json}}</pre>
+</app-page>

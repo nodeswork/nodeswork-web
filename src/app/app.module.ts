@@ -47,9 +47,10 @@ import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/u
 import { HeadMenuComponent }             from './menus/head-menu/head-menu.component';
 import { PageComponent }                 from './skeleton/page/page.component';
 import { AccountCreateFormComponent }    from './accounts/account-create-form/account-create-form.component';
-import { AccountTypeEntryComponent } from './accounts/account-type-entry/account-type-entry.component';
-import { AccountControlPanelComponent } from './accounts/account-control-panel/account-control-panel.component';
-import { AccountEntryComponent } from './accounts/account-entry/account-entry.component';
+import { AccountTypeEntryComponent }     from './accounts/account-type-entry/account-type-entry.component';
+import { AccountControlPanelComponent }  from './accounts/account-control-panel/account-control-panel.component';
+import { AccountEntryComponent }         from './accounts/account-entry/account-entry.component';
+import { OauthAccountVerifyComponent }   from './accounts/oauth-account-verify/oauth-account-verify.component';
 
 @NgModule({
   imports: [
@@ -84,6 +85,7 @@ import { AccountEntryComponent } from './accounts/account-entry/account-entry.co
     AccountTypeEntryComponent,
     AccountControlPanelComponent,
     AccountEntryComponent,
+    OauthAccountVerifyComponent,
   ],
   providers: [
     {

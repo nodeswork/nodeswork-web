@@ -9,17 +9,19 @@ import { HomeComponent }               from './home/home.component';
 import { AppletEditFormComponent }     from './applets/applet-edit-form/applet-edit-form.component';
 import { UserAppletEditFormComponent } from './applets/user-applet-edit-form/user-applet-edit-form.component';
 import { AccountCreateFormComponent }  from './accounts/account-create-form/account-create-form.component';
+import { OauthAccountVerifyComponent } from './accounts/oauth-account-verify/oauth-account-verify.component';
 
 const routes: Routes = [
-  { path: '',                              component: HomeComponent },
-  { path: 'register',                      component: RegisterComponent },
-  { path: 'login',                         component: LoginComponent },
-  { path: 'sendVerifyEmail',               component: SendVerifyEmailComponent },
-  { path: 'verifyUserEmail',               component: VerifyEmailComponent },
-  { path: 'applets/create',                component: AppletEditFormComponent },
-  { path: 'applets/:appletId/edit',        component: AppletEditFormComponent },
-  { path: 'my-applets/:userAppletId/edit', component: UserAppletEditFormComponent },
-  { path: 'accounts/create',               component: AccountCreateFormComponent },
+  { path: '',                                         component: HomeComponent },
+  { path: 'register',                                 component: RegisterComponent },
+  { path: 'login',                                    component: LoginComponent },
+  { path: 'sendVerifyEmail',                          component: SendVerifyEmailComponent },
+  { path: 'verifyUserEmail',                          component: VerifyEmailComponent },
+  { path: 'applets/create',                           component: AppletEditFormComponent },
+  { path: 'applets/:appletId/edit',                   component: AppletEditFormComponent },
+  { path: 'my-applets/:userAppletId/edit',            component: UserAppletEditFormComponent },
+  { path: 'accounts/create',                          component: AccountCreateFormComponent },
+  { path: 'accounts/:accountId/oauth-account-verify', component: OauthAccountVerifyComponent },
 ];
 
 @NgModule({

@@ -12,7 +12,9 @@ export class AccountControlPanelComponent implements OnInit {
 
   public accounts: Account[] = [];
 
-  constructor(private accountsService: AccountsService) {
+  constructor(
+    private accountsService: AccountsService,
+  ) {
     this.fetchAccounts();
   }
 

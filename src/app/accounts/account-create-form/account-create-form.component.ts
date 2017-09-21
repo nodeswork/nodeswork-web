@@ -1,4 +1,5 @@
 import { Component, OnInit }        from '@angular/core';
+import { Router }                   from '@angular/router';
 
 import { Account, AccountCategory } from '../../_models';
 import { AccountsService }          from '../../_services';
@@ -19,7 +20,10 @@ export class AccountCreateFormComponent implements OnInit {
     },
   ];
 
-  constructor(private accountsService: AccountsService) { }
+  constructor(
+    private accountsService: AccountsService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
   }
@@ -31,6 +35,6 @@ export class AccountCreateFormComponent implements OnInit {
       name: accountCategory.name,
     } as any;
     account = await this.accountsService.create(account);
-    console.log(accountCategory, account);
+    this.router.navigate([`/accounts/${account._id}/oauth-account-verify`]);
   }
 }
