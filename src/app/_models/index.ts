@@ -1,3 +1,4 @@
-export * from './user';
+export * from './accounts';
 export * from './applets';
 export * from './devices';
+export * from './user';

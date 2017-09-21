@@ -8,6 +8,7 @@ import { SendVerifyEmailComponent }    from './auth/send-verify-email/send-verif
 import { HomeComponent }               from './home/home.component';
 import { AppletEditFormComponent }     from './applets/applet-edit-form/applet-edit-form.component';
 import { UserAppletEditFormComponent } from './applets/user-applet-edit-form/user-applet-edit-form.component';
+import { AccountCreateFormComponent }  from './accounts/account-create-form/account-create-form.component';
 
 const routes: Routes = [
   { path: '',                              component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'applets/create',                component: AppletEditFormComponent },
   { path: 'applets/:appletId/edit',        component: AppletEditFormComponent },
   { path: 'my-applets/:userAppletId/edit', component: UserAppletEditFormComponent },
+  { path: 'accounts/create',               component: AccountCreateFormComponent },
 ];
 
 @NgModule({

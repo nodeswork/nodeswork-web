@@ -20,6 +20,8 @@ import {
   AuthInterceptor,
 }                                        from './_interceptors';
 import {
+  AccountsService,
+  ApiClientService,
   AppletsService,
   AuthenticationService,
   DevicesService,
@@ -42,8 +44,10 @@ import { UserAppletEntryComponent }      from './applets/user-applet-entry/user-
 import { MyDeviceControlPanelComponent } from './devices/my-device-control-panel/my-device-control-panel.component';
 import { DeviceEntryComponent }          from './devices/device-entry/device-entry.component';
 import { UserAppletEditFormComponent }   from './applets/user-applet-edit-form/user-applet-edit-form.component';
-import { HeadMenuComponent } from './menus/head-menu/head-menu.component';
-import { PageComponent } from './skeleton/page/page.component';
+import { HeadMenuComponent }             from './menus/head-menu/head-menu.component';
+import { PageComponent }                 from './skeleton/page/page.component';
+import { AccountCreateFormComponent }    from './accounts/account-create-form/account-create-form.component';
+import { AccountTypeEntryComponent } from './accounts/account-type-entry/account-type-entry.component';
 
 @NgModule({
   imports: [
@@ -74,6 +78,8 @@ import { PageComponent } from './skeleton/page/page.component';
     VerifyEmailComponent,
     HeadMenuComponent,
     PageComponent,
+    AccountCreateFormComponent,
+    AccountTypeEntryComponent,
   ],
   providers: [
     {
@@ -81,6 +87,8 @@ import { PageComponent } from './skeleton/page/page.component';
       useClass:  AuthInterceptor,
       multi:     true,
     },
+    ApiClientService,
+    AccountsService,
     AppletsService,
     AuthenticationService,
     DevicesService,

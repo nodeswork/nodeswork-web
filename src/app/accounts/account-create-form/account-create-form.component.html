@@ -1,0 +1,10 @@
+<app-page>
+  <app-head-menu> Choose Account Type </app-head-menu>
+  <md-tab-group>
+    <md-tab label="Commons">
+      <app-account-type-entry *ngFor="let accountCategory of accountCategories" [accountCategory]="accountCategory" (click)="createCommon(accountCategory)"></app-account-type-entry>
+    </md-tab>
+    <md-tab label="Customized OAuth">
+    </md-tab>
+  </md-tab-group>
+</app-page>
