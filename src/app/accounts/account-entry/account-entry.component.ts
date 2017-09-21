@@ -12,6 +12,7 @@ import { AccountsService }          from '../../_services';
 export class AccountEntryComponent implements OnInit {
 
   @Input() account: Account;
+  showCategoryName: boolean;
 
   constructor(
     private router:           Router,
@@ -19,6 +20,7 @@ export class AccountEntryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.fetchName();
   }
 
   async onClick() {
@@ -29,6 +31,15 @@ export class AccountEntryComponent implements OnInit {
     } else if (this.account.verified) {
       this.account = await this.accountsService.updateAccountInfoFromRemote(
         this.account._id,
+      );
+      this.fetchName();
+    }
+  }
+
+  private fetchName() {
+    if (this.account != null) {
+      this.showCategoryName = (
+        this.account.name !== this.account.accountCategory.name
       );
     }
   }

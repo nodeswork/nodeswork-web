@@ -1,8 +1,9 @@
 <div class="account-entry" [class.disabled]="!account.verified" (click)="onClick()">
   <div class="account-icon">
-    <img [src]="account.accountCategory.imageUrl" />
+    <img [src]="account.imageUrl || account.accountCategory.imageUrl" />
   </div>
-  <div class="title">
-    {{account.name}}
+  <div class="title" fxLayout="column">
+    <span> {{account.name}} </span>
+    <span *ngIf="showCategoryName"> @{{account.accountCategory.name}} </span>
   </div>
 </div>
