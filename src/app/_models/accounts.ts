@@ -8,8 +8,9 @@ export interface AccountCategory {
 }
 
 export interface Account extends CommonModel {
-  accountType: string;
-  provider:    string;
-  name:        string;
-  verified:    boolean;
+  accountType:      string;
+  provider:         string;
+  name:             string;
+  verified:         boolean;
+  accountCategory:  AccountCategory;
 }

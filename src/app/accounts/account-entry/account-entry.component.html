@@ -1,0 +1,8 @@
+<div class="account-entry" [class.disabled]="!account.verified">
+  <div class="account-icon">
+    <img [src]="account.accountCategory.imageUrl" />
+  </div>
+  <div class="title">
+    {{account.name}}
+  </div>
+</div>

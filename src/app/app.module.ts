@@ -48,6 +48,8 @@ import { HeadMenuComponent }             from './menus/head-menu/head-menu.compo
 import { PageComponent }                 from './skeleton/page/page.component';
 import { AccountCreateFormComponent }    from './accounts/account-create-form/account-create-form.component';
 import { AccountTypeEntryComponent } from './accounts/account-type-entry/account-type-entry.component';
+import { AccountControlPanelComponent } from './accounts/account-control-panel/account-control-panel.component';
+import { AccountEntryComponent } from './accounts/account-entry/account-entry.component';
 
 @NgModule({
   imports: [
@@ -80,6 +82,8 @@ import { AccountTypeEntryComponent } from './accounts/account-type-entry/account
     PageComponent,
     AccountCreateFormComponent,
     AccountTypeEntryComponent,
+    AccountControlPanelComponent,
+    AccountEntryComponent,
   ],
   providers: [
     {

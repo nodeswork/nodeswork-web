@@ -11,4 +11,8 @@ export class AccountsService {
   async create(account: Account): Promise<Account> {
     return await this.api.post('/v1/u/accounts', account);
   }
+
+  async find(): Promise<Account[]> {
+    return await this.api.get('/v1/u/accounts');
+  }
 }
