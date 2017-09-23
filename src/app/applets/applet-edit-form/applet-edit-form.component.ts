@@ -1,13 +1,28 @@
 import * as _                     from 'underscore';
 import { Component, OnInit }      from '@angular/core';
 import {
+  FormArray,
   FormBuilder, FormGroup,
   FormControl, Validators,
 }                                 from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AppletsService }         from '../../_services';
-import { Applet }                 from '../../_models';
+import {
+  AppletsService,
+  AccountsService,
+}                                 from '../../_services';
+import {
+  Applet,
+  AccountCategory,
+  AppletAccountConfig,
+}                                 from '../../_models';
+
+interface AccountCategorySelect {
+  category: AccountCategory;
+  selected: boolean;
+  multiple: boolean;
+  optional: boolean;
+}
 
 @Component({
   selector: 'app-applet-edit-form',
@@ -16,17 +31,19 @@ import { Applet }                 from '../../_models';
 })
 export class AppletEditFormComponent implements OnInit {
 
-  rForm:      FormGroup;
-  isEditing:  boolean;
-  title:      string;
-  applet:     Applet;
+  rForm:              FormGroup;
+  isEditing:          boolean;
+  title:              string;
+  applet:             Applet;
+  accountCategories:  AccountCategorySelect[] = [];
 
-  step = 0;
+  step = 2;
 
   constructor(
     private fb:              FormBuilder,
     private route:           ActivatedRoute,
     private appletsService:  AppletsService,
+    private accountsService: AccountsService,
   ) {
     this.rForm = fb.group({
       name:             ['', Validators.required],
@@ -36,24 +53,62 @@ export class AppletEditFormComponent implements OnInit {
         packageName:    ['', Validators.required],
         version:        ['0', Validators.required],
         workers:        [],
+        accounts:       [],
         naType:         'npm',
         naVersion:      '8.3.0',
       }),
       permission:       ['PRIVATE', Validators.required],
     });
+    this.init();
+  }
 
+  async init() {
+    const accountCategories = await this.accountsService.accountCategories();
     this.route.params.subscribe(async (params) => {
       this.isEditing = params.appletId != null;
       this.title = this.isEditing ? 'Edit Applet' : 'New Applet';
 
       if (params.appletId != null) {
         this.applet = await this.appletsService.get(params.appletId);
-        this.rForm.setValue(
-          _.omit(this.applet, '_id', 'owner', 'configHistories', 'createdAt', 'lastUpdateTime', 'imageUrl', 'tokens', 'deleted'),
-          {onlySelf: true},
+        const formValue = _.omit(
+          this.applet,
+          '_id', 'owner', 'configHistories', 'createdAt', 'lastUpdateTime',
+          'imageUrl', 'tokens', 'deleted',
         );
+        this.rForm.setValue(formValue, {onlySelf: true});
+
+        this.accountCategories = _.map(accountCategories, (category) => {
+          const account = _.find(this.applet.config.accounts, (a) => {
+            return (
+              a.accountType === category.accountType &&
+              a.provider === category.provider
+            );
+          });
+
+          return {
+            category,
+            selected: account != null,
+            optional: account && account.optional || false,
+            multiple: account && account.multiple || false,
+          };
+        });
       }
     });
+  }
+
+  toggleAccountCategory(c: AccountCategorySelect) {
+    c.selected = !c.selected;
+    this.rForm.markAsDirty();
+  }
+
+  toggleAccountCategoryOptional(c: AccountCategorySelect) {
+    c.optional = !c.optional;
+    this.rForm.markAsDirty();
+  }
+
+  toggleAccountCategoryMultiple(c: AccountCategorySelect) {
+    c.multiple = !c.multiple;
+    this.rForm.markAsDirty();
   }
 
   ngOnInit() {
@@ -81,10 +136,25 @@ export class AppletEditFormComponent implements OnInit {
       return;
     }
 
+    const accounts: AppletAccountConfig[] = _
+      .chain(this.accountCategories)
+      .filter((c) => c.selected)
+      .map((c) => {
+        return {
+          accountType: c.category.accountType,
+          provider: c.category.provider,
+          optional: c.optional,
+          multiple: c.multiple,
+        };
+      })
+      .value()
+    ;
+
     if (this.applet == null) {
       try {
         const applet = this.rForm.value;
         applet.config = _.pick(applet.config, 'packageName', 'version');
+        applet.config.accounts = accounts;
         await this.appletsService.create(applet);
         this.rForm.markAsPristine();
       } catch (e) {
@@ -98,7 +168,9 @@ export class AppletEditFormComponent implements OnInit {
       }
     } else {
       try {
-        await this.appletsService.update(this.applet._id, this.rForm.value);
+        const applet = this.rForm.value;
+        applet.config.accounts = accounts;
+        await this.appletsService.update(this.applet._id, applet);
         this.rForm.markAsPristine();
       } catch (e) {
         switch (e.error && e.error.message) {

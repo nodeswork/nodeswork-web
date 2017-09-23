@@ -11,19 +11,18 @@ import { AccountsService }          from '../../_services';
 })
 export class AccountCreateFormComponent implements OnInit {
 
-  public accountCategories: AccountCategory[] = [
-    {
-      accountType: 'OAuthAccount',
-      provider:    'twitter',
-      name:        'Twitter',
-      imageUrl:    'https://www.seeklogo.net/wp-content/uploads/2016/11/twitter-icon-circle-blue-logo-preview.png',
-    },
-  ];
+  public accountCategories: AccountCategory[] = [ ];
 
   constructor(
     private accountsService: AccountsService,
     private router: Router,
-  ) { }
+  ) {
+    this.accountsService.accountCategories()
+      .then((accountCategories) => {
+        this.accountCategories = accountCategories;
+      })
+    ;
+  }
 
   ngOnInit() {
   }

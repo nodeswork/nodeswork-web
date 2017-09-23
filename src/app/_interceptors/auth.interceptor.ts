@@ -1,5 +1,6 @@
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/of';
 
 import { Observable }       from 'rxjs/Observable';
 import { Injectable }       from '@angular/core';
@@ -35,6 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (err.status === 401 && err.error.message === 'require login') {
           this.userState.remove();
           this.router.navigate(['/login']);
+          return Observable.of(null);
         } else if (err.statusText === 'Unknown Error') {
           console.error('Server is not reachable');
           // TODO: Figure out why flash message is not shown

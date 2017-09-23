@@ -52,6 +52,29 @@
       <md-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
         <md-expansion-panel-header>
           <md-panel-title class="panel-title">
+            Trigger
+          </md-panel-title>
+          <md-panel-description>
+            Config Triggers
+          </md-panel-description>
+        </md-expansion-panel-header>
+        <div *ngFor="let c of accountCategories" fxLayout="row" fxLayoutGap="10px">
+          <md-button-toggle [checked]="c.selected" (change)="toggleAccountCategory(c)"> {{c.category.name}} </md-button-toggle>
+          <md-checkbox [disabled]="!c.selected" [checked]="c.optional" (change)="toggleAccountCategoryOptional(c)">Optional</md-checkbox>
+          <md-checkbox [disabled]="!c.selected" [checked]="c.multiple" (change)="toggleAccountCategoryMultiple(c)">Multiple</md-checkbox>
+        </div>
+        <div *ngIf="applet && applet.accounts">
+          Accounts
+        </div>
+        <md-action-row>
+          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
+          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </md-action-row>
+      </md-expansion-panel>
+
+      <md-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
+        <md-expansion-panel-header>
+          <md-panel-title class="panel-title">
             Tokens
           </md-panel-title>
           <md-panel-description>
@@ -73,7 +96,7 @@
         </md-action-row>
       </md-expansion-panel>
 
-      <md-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
+      <md-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle="true">
         <md-expansion-panel-header>
           <md-panel-title class="panel-title">
             Permissions

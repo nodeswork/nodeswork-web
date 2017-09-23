@@ -24,11 +24,19 @@ export interface AppletConfig {
   packageName:  string;
   version:      string;
   workers:      AppletWorkerConfig[];
+  accounts:     AppletAccountConfig[];
 }
 
 export interface AppletWorkerConfig {
   name:      string;
   schedule:  string;
+}
+
+export interface AppletAccountConfig {
+  accountType: string;
+  provider:    string;
+  optional:    boolean;
+  multiple:    boolean;
 }
 
 export interface UserApplet extends CommonModel {
