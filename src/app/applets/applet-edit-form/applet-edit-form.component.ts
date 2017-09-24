@@ -37,7 +37,7 @@ export class AppletEditFormComponent implements OnInit {
   applet:             Applet;
   accountCategories:  AccountCategorySelect[] = [];
 
-  step = 2;
+  step = 0;
 
   constructor(
     private fb:              FormBuilder,
