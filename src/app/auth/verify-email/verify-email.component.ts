@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse }      from '@angular/common/http';
-import { MdSnackBar }             from '@angular/material';
+import { MatSnackBar }             from '@angular/material';
 
 import { UserService }            from '../../_services/user.service';
 
@@ -18,7 +18,7 @@ export class VerifyEmailComponent implements OnInit {
     private userService:  UserService,
     private route:        ActivatedRoute,
     private router:       Router,
-    private snackBar:     MdSnackBar,
+    private snackBar:     MatSnackBar,
   ) {}
 
   async ngOnInit() {

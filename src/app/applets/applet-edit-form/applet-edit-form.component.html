@@ -1,121 +1,121 @@
 <app-page>
   <app-head-menu> {{title}} </app-head-menu>
   <form [formGroup]="rForm" (ngSubmit)="save()" fxLayout="column" class="applet-edit-form">
-    <md-accordion>
-      <md-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
-        <md-expansion-panel-header>
-          <md-panel-title class="panel-title">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel-title">
             Basic
-          </md-panel-title>
-          <md-panel-description>
+          </mat-panel-title>
+          <mat-panel-description>
             Name, description, etc.
-          </md-panel-description>
-        </md-expansion-panel-header>
-        <md-form-field class="full-width-field">
-          <input mdInput type="text" placeholder="Applet name" formControlName="name" />
-          <md-error *ngIf="rForm.controls.name.hasError('required')">
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-form-field class="full-width-field">
+          <input matInput type="text" placeholder="Applet name" formControlName="name" />
+          <mat-error *ngIf="rForm.controls.name.hasError('required')">
             Applet name is <strong>required</strong>
-          </md-error>
-          <md-error *ngIf="rForm.controls.name.hasError('duplicate')">
+          </mat-error>
+          <mat-error *ngIf="rForm.controls.name.hasError('duplicate')">
             Applet already exists, try a different name
-          </md-error>
-        </md-form-field>
-        <md-form-field class="full-width-field form-group">
-          <textarea mdInput type="text" placeholder="Description" rows="8" formControlName="description"></textarea>
-        </md-form-field>
-        <md-action-row>
-          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
-        </md-action-row>
-      </md-expansion-panel>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-field form-group">
+          <textarea matInput type="text" placeholder="Description" rows="8" formControlName="description"></textarea>
+        </mat-form-field>
+        <mat-action-row>
+          <button mat-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
 
-      <md-expansion-panel formGroupName="config" [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
-        <md-expansion-panel-header>
-          <md-panel-title class="panel-title">
+      <mat-expansion-panel formGroupName="config" [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel-title">
             Applet
-          </md-panel-title>
-          <md-panel-description>
+          </mat-panel-title>
+          <mat-panel-description>
             Package, container, etc.
-          </md-panel-description>
-        </md-expansion-panel-header>
-        <md-form-field class="full-width-field">
-          <input mdInput type="text" placeholder="Package name" formControlName="packageName" />
-        </md-form-field>
-        <md-form-field class="full-width-field">
-          <input mdInput type="text" placeholder="Package version" formControlName="version" />
-        </md-form-field>
-        <md-action-row>
-          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
-          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
-        </md-action-row>
-      </md-expansion-panel>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-form-field class="full-width-field">
+          <input matInput type="text" placeholder="Package name" formControlName="packageName" />
+        </mat-form-field>
+        <mat-form-field class="full-width-field">
+          <input matInput type="text" placeholder="Package version" formControlName="version" />
+        </mat-form-field>
+        <mat-action-row>
+          <button mat-button color="warn" type="button" (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
 
-      <md-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
-        <md-expansion-panel-header>
-          <md-panel-title class="panel-title">
+      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel-title">
             Trigger
-          </md-panel-title>
-          <md-panel-description>
+          </mat-panel-title>
+          <mat-panel-description>
             Config Triggers
-          </md-panel-description>
-        </md-expansion-panel-header>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
         <div *ngFor="let c of accountCategories" fxLayout="row" fxLayoutGap="10px">
-          <md-button-toggle [checked]="c.selected" (change)="toggleAccountCategory(c)"> {{c.category.name}} </md-button-toggle>
-          <md-checkbox [disabled]="!c.selected" [checked]="c.optional" (change)="toggleAccountCategoryOptional(c)">Optional</md-checkbox>
-          <md-checkbox [disabled]="!c.selected" [checked]="c.multiple" (change)="toggleAccountCategoryMultiple(c)">Multiple</md-checkbox>
+          <mat-button-toggle [checked]="c.selected" (change)="toggleAccountCategory(c)"> {{c.category.name}} </mat-button-toggle>
+          <mat-checkbox [disabled]="!c.selected" [checked]="c.optional" (change)="toggleAccountCategoryOptional(c)">Optional</mat-checkbox>
+          <mat-checkbox [disabled]="!c.selected" [checked]="c.multiple" (change)="toggleAccountCategoryMultiple(c)">Multiple</mat-checkbox>
         </div>
         <div *ngIf="applet && applet.accounts">
           Accounts
         </div>
-        <md-action-row>
-          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
-          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
-        </md-action-row>
-      </md-expansion-panel>
+        <mat-action-row>
+          <button mat-button color="warn" type="button" (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
 
-      <md-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
-        <md-expansion-panel-header>
-          <md-panel-title class="panel-title">
+      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel-title">
             Tokens
-          </md-panel-title>
-          <md-panel-description>
+          </mat-panel-title>
+          <mat-panel-description>
             Retrieve applet tokens
-          </md-panel-description>
-        </md-expansion-panel-header>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
         <div *ngIf="applet && applet.tokens;else noToken">
-          <md-form-field class="full-width-field">
-            <input mdInput type="text" placeholder="Develop Token" readonly [value]="applet.tokens.devToken"/>
-          </md-form-field>
-          <md-form-field class="full-width-field">
-            <input mdInput type="text" placeholder="Production Token" readonly [value]="applet.tokens.prodToken"/>
-          </md-form-field>
+          <mat-form-field class="full-width-field">
+            <input matInput type="text" placeholder="Develop Token" readonly [value]="applet.tokens.devToken"/>
+          </mat-form-field>
+          <mat-form-field class="full-width-field">
+            <input matInput type="text" placeholder="Production Token" readonly [value]="applet.tokens.prodToken"/>
+          </mat-form-field>
         </div>
         <ng-template #noToken> There's no tokens generated yet. </ng-template>
-        <md-action-row>
-          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
-          <button md-button color="primary" type="button" (click)="nextStep()">Next</button>
-        </md-action-row>
-      </md-expansion-panel>
+        <mat-action-row>
+          <button mat-button color="warn" type="button" (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" type="button" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
 
-      <md-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle="true">
-        <md-expansion-panel-header>
-          <md-panel-title class="panel-title">
+      <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel-title">
             Permissions
-          </md-panel-title>
-          <md-panel-description>Who can use your applet</md-panel-description>
-        </md-expansion-panel-header>
-        <md-select placeholder="Permissions" formControlName="permission" class="full-width-field">
-          <md-option [value]="'PRIVATE'">Private</md-option>
-          <md-option [value]="'PUBLIC'">Public</md-option>
-        </md-select>
-        <md-action-row>
-          <button md-button color="warn" type="button" (click)="prevStep()">Previous</button>
-        </md-action-row>
-      </md-expansion-panel>
-    </md-accordion>
+          </mat-panel-title>
+          <mat-panel-description>Who can use your applet</mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-select placeholder="Permissions" formControlName="permission" class="full-width-field">
+          <mat-option [value]="'PRIVATE'">Private</mat-option>
+          <mat-option [value]="'PUBLIC'">Public</mat-option>
+        </mat-select>
+        <mat-action-row>
+          <button mat-button color="warn" type="button" (click)="prevStep()">Previous</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
 
     <div class="full-width-field btn-group-field">
-      <button md-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
-      <a md-raised-button [routerLink]="['/register']">Cancel</a>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
+      <a mat-raised-button [routerLink]="['/register']">Cancel</a>
     </div>
   </form>
 </app-page>

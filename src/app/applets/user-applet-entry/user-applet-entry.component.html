@@ -1,5 +1,5 @@
 <div class="user-applet-entry" [routerLink]="['/my-applets/' + userApplet._id + '/edit']" [class.offline]="!userApplet.stats.online">
-  <div class="user-applet-icon" [mdTooltip]="userApplet.stats.reason">
+  <div class="user-applet-icon" [matTooltip]="userApplet.stats.reason">
     <img [src]="userApplet.applet.imageUrl" />
   </div>
   <div class="title">

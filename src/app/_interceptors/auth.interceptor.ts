@@ -13,7 +13,7 @@ import {
   HttpResponse,
 }                           from '@angular/common/http';
 import { Router }           from '@angular/router';
-import { MdSnackBar }       from '@angular/material';
+import { MatSnackBar }       from '@angular/material';
 
 import { UserStateService } from '../_services';
 
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private router:     Router,
     private userState:  UserStateService,
-    private snackBar:   MdSnackBar,
+    private snackBar:   MatSnackBar,
   ) {}
 
   intercept(

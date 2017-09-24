@@ -1,12 +1,12 @@
-<md-card class="applet-preview-panel">
-  <md-card-header>
-    <img md-card-avatar [src]="applet.imageUrl" />
-    <md-card-title> {{applet.name}} </md-card-title>
-  </md-card-header>
+<mat-card class="applet-preview-panel">
+  <mat-card-header>
+    <img mat-card-avatar [src]="applet.imageUrl" />
+    <mat-card-title> {{applet.name}} </mat-card-title>
+  </mat-card-header>
   <p>{{applet.description}}</p>
-  <md-card-actions class="bottom-actions">
-    <button md-button class="small-button" [routerLink]="['/applets/'+applet._id+'/edit']">Config</button>
-    <button md-button color="primary" *ngIf="!installed" class="small-button" (click)="install()">Install</button>
-    <!-- <button md-button color="primary" *ngIf="installed" class="small-button" (click)="open()">Open</button> -->
-  </md-card-actions>
-</md-card>
+  <mat-card-actions class="bottom-actions">
+    <button mat-button class="small-button" [routerLink]="['/applets/'+applet._id+'/edit']">Config</button>
+    <button mat-button color="primary" *ngIf="!installed" class="small-button" (click)="install()">Install</button>
+    <!-- <button mat-button color="primary" *ngIf="installed" class="small-button" (click)="open()">Open</button> -->
+  </mat-card-actions>
+</mat-card>

@@ -4,7 +4,7 @@
     <div *ngIf="!account.verified; else alreadyVerified" fxLayout="column" fxLayoutAlign="center center">
       <app-account-type-entry [accountCategory]="account.accountCategory"></app-account-type-entry>
       <div class="nw-form-actions">
-        <button md-raised-button color="primary" type="button" (click)="verify()">Verify Account</button>
+        <button mat-raised-button color="primary" type="button" (click)="verify()">Verify Account</button>
       </div>
     </div>
     <ng-template #alreadyVerified>

@@ -3,16 +3,16 @@
 
   <form [formGroup]="rForm" (ngSubmit)="save()" *ngIf="userApplet && devices" class="nw-form">
     <div class="nw-form-group">
-      <md-select placeholder="Run on Device" formControlName="device" class="full-width">
-        <md-option *ngFor="let device of devices" [value]="device._id">{{device.name}}</md-option>
-      </md-select>
+      <mat-select placeholder="Run on Device" formControlName="device" class="full-width">
+        <mat-option *ngFor="let device of devices" [value]="device._id">{{device.name}}</mat-option>
+      </mat-select>
     </div>
     <div class="nw-form-group align-center">
-      <md-slide-toggle formControlName="enabled">Enabled</md-slide-toggle>
+      <mat-slide-toggle formControlName="enabled">Enabled</mat-slide-toggle>
     </div>
 
     <div class="nw-form-actions">
-      <button md-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
     </div>
   </form>
 

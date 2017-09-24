@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit }  from '@angular/core';
-import { MdSidenav }                     from '@angular/material';
+import { MatSidenav }                     from '@angular/material';
 
 import { MenuService, UserStateService } from './_services';
 
@@ -12,7 +12,7 @@ import { screenSize, SIZE_XS }           from './utils';
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('sidenav') public sideNav: MdSidenav;
+  @ViewChild('sidenav') public sideNav: MatSidenav;
 
   isLogin  = false;
   mode     = 'side';

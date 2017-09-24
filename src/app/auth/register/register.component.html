@@ -1,26 +1,26 @@
 <h2> Welcome to Nodeswork! </h2>
 
 <form [formGroup]="rForm" (ngSubmit)="register()" class="auth-form">
-  <md-form-field class="auth-item-full-width">
-    <input mdInput placeholder="Email" type="email" formControlName="email" />
-    <md-error *ngIf="rForm.controls.email.hasError('pattern')">
+  <mat-form-field class="auth-item-full-width">
+    <input matInput placeholder="Email" type="email" formControlName="email" />
+    <mat-error *ngIf="rForm.controls.email.hasError('pattern')">
       Please enter a valid email address
-    </md-error>
-    <md-error *ngIf="rForm.controls.email.hasError('required')">
+    </mat-error>
+    <mat-error *ngIf="rForm.controls.email.hasError('required')">
       Email is <strong>required</strong>
-    </md-error>
-  </md-form-field>
+    </mat-error>
+  </mat-form-field>
 
-  <md-form-field class="auth-item-full-width">
-    <input mdInput placeholder="Password" type="password" formControlName="password" />
-    <md-error *ngIf="rForm.controls.password.hasError('required')">
+  <mat-form-field class="auth-item-full-width">
+    <input matInput placeholder="Password" type="password" formControlName="password" />
+    <mat-error *ngIf="rForm.controls.password.hasError('required')">
       Password is <strong>required</strong>
-    </md-error>
-    <md-error *ngIf="rForm.controls.password.hasError('minlength')">
+    </mat-error>
+    <mat-error *ngIf="rForm.controls.password.hasError('minlength')">
       Password should contains at least 6 charactors
-    </md-error>
-  </md-form-field>
-  <md-error *ngIf="registerFailed;else policy" class="auth-form-group">
+    </mat-error>
+  </mat-form-field>
+  <mat-error *ngIf="registerFailed;else policy" class="auth-form-group">
     <div *ngIf="userExists;else serverError">
       You already registered! Try <a [routerLink]="['/login']">Login</a> or <a
         href="/forgetPassword">Forget Password</a>
@@ -28,15 +28,15 @@
     <ng-template #serverError>
       Server is not available, please try again later.
     </ng-template>
-  </md-error>
+  </mat-error>
   <ng-template #policy>
-    <md-hint class="auth-form-group">
+    <mat-hint class="auth-form-group">
       By clicking the button below, you accept our
       <a href="/">Policy</a>.
-    </md-hint>
+    </mat-hint>
   </ng-template>
   <div class="auth-form-btn-group">
-    <button md-raised-button color="primary" type="submit" [disabled]="loading">Register</button>
-    <a md-raised-button [routerLink]="['/login']">Cancel</a>
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Register</button>
+    <a mat-raised-button [routerLink]="['/login']">Cancel</a>
   </div>
 </form>
