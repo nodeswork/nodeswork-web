@@ -6,7 +6,17 @@ import {
   FormsModule,
   ReactiveFormsModule,
 }                                        from '@angular/forms';
-import { MaterialModule }                from '@angular/material';
+import {
+  MdButtonModule,
+  MdButtonToggleModule,
+  MdCheckboxModule,
+  MdExpansionModule,
+  MdSelectModule,
+  MdSidenavModule,
+  MdSlideToggleModule,
+  MdSnackBarModule,
+  MdTooltipModule,
+}                                        from '@angular/material';
 import { FlexLayoutModule }              from '@angular/flex-layout';
 import { BrowserAnimationsModule }       from '@angular/platform-browser/animations';
 import {
@@ -60,7 +70,15 @@ import { OauthAccountVerifyComponent }   from './accounts/oauth-account-verify/o
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
-    MaterialModule,
+    MdButtonModule,
+    MdButtonToggleModule,
+    MdCheckboxModule,
+    MdExpansionModule,
+    MdSelectModule,
+    MdSidenavModule,
+    MdSlideToggleModule,
+    MdSnackBarModule,
+    MdTooltipModule,
     ReactiveFormsModule,
   ],
   declarations: [
