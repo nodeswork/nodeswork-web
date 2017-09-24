@@ -1,21 +1,24 @@
 import 'rxjs/add/operator/toPromise';
 
-import { Injectable }  from '@angular/core';
-import { HttpClient }  from '@angular/common/http';
+import { Injectable }             from '@angular/core';
+import { HttpClient }             from '@angular/common/http';
 
-import { environment } from '../../environments/environment';
-import { Applet }      from '../_models';
+import { Applet, AppletProvider } from '../_models';
+import { ApiClientService }       from './utils/api-client.service';
 
 @Injectable()
 export class AppletsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private apiClient: ApiClientService,
+  ) { }
 
   async create(applet: Applet) {
     try {
-      const result = await this.http.post(
-        environment.apiHost + '/v1/u/applets', applet,
-      ).toPromise();
+      const result = await this.apiClient.post(
+        '/v1/u/applets', applet,
+      );
     } catch (err) {
       throw err;
     }
@@ -23,9 +26,9 @@ export class AppletsService {
 
   async get(appletId: string): Promise<Applet> {
     try {
-      const result = await this.http.get(
-        environment.apiHost + '/v1/u/applets/' + appletId,
-      ).toPromise();
+      const result = await this.apiClient.get(
+        '/v1/u/applets/' + appletId,
+      );
       return result as Applet;
     } catch (err) {
       throw err;
@@ -34,9 +37,9 @@ export class AppletsService {
 
   async update(appletId: string, applet: Applet): Promise<Applet> {
     try {
-      const result = await this.http.post(
-        environment.apiHost + '/v1/u/applets/' + appletId, applet,
-      ).toPromise();
+      const result = await this.apiClient.post(
+        '/v1/u/applets/' + appletId, applet,
+      );
       return result as Applet;
     } catch (err) {
       throw err;
@@ -45,10 +48,20 @@ export class AppletsService {
 
   async find(): Promise<Applet[]> {
     try {
-      const result = await this.http.get(
-        environment.apiHost + '/v1/u/applets/',
-      ).toPromise();
+      const result = await this.apiClient.get(
+        '/v1/u/applets/',
+      );
       return result as Applet[];
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getAppletStructure(packageName: string, version: string): Promise<{ providers: AppletProvider[]}> {
+    try {
+      return (await this.http.get(
+        `http://localhost:28310/applets/${packageName}/v/${version}/sstruct`,
+      ).toPromise()) as any;
     } catch (err) {
       throw err;
     }

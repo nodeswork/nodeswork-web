@@ -15,6 +15,7 @@ import {
   Applet,
   AccountCategory,
   AppletAccountConfig,
+  AppletProvider,
 }                                 from '../../_models';
 
 interface AccountCategorySelect {
@@ -36,6 +37,7 @@ export class AppletEditFormComponent implements OnInit {
   title:              string;
   applet:             Applet;
   accountCategories:  AccountCategorySelect[] = [];
+  providers:          AppletProvider[] = [];
 
   step = 0;
 
@@ -92,6 +94,33 @@ export class AppletEditFormComponent implements OnInit {
             multiple: account && account.multiple || false,
           };
         });
+
+        try {
+          const resp = await this.appletsService.getAppletStructure(
+            this.applet.config.packageName,  this.applet.config.version,
+          );
+          this.providers = resp.providers;
+          console.log(this.providers);
+
+          const w = _.filter(this.providers, (p) => {
+            return p.tags.indexOf('worker') >= 0;
+          });
+          const workers = _.chain(w)
+            .map((x) => x.meta.endpoints)
+            .flatten()
+            .map((x) => `${x.handler}.${x.name}`)
+            .union()
+            .map((name) => {
+              return { name, schedule: null };
+            })
+            .value();
+          this.applet.config.workers = workers;
+          console.log(workers);
+
+        } catch (e) {
+          if (e.status === 404) {
+          }
+        }
       }
     });
   }
@@ -155,6 +184,7 @@ export class AppletEditFormComponent implements OnInit {
         const applet = this.rForm.value;
         applet.config = _.pick(applet.config, 'packageName', 'version');
         applet.config.accounts = accounts;
+        applet.config.workers  = this.applet.config.workers;
         await this.appletsService.create(applet);
         this.rForm.markAsPristine();
       } catch (e) {
@@ -170,6 +200,7 @@ export class AppletEditFormComponent implements OnInit {
       try {
         const applet = this.rForm.value;
         applet.config.accounts = accounts;
+        applet.config.workers  = this.applet.config.workers;
         await this.appletsService.update(this.applet._id, applet);
         this.rForm.markAsPristine();
       } catch (e) {

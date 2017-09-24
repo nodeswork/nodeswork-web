@@ -67,3 +67,17 @@ export interface UserAppletDeviceConfig {
 export interface UserAppletAccountConfig {
   account: string;
 }
+
+export interface AppletProvider {
+  meta: AppletProviderMeta;
+  tags: string[];
+}
+
+export interface AppletProviderMeta {
+  endpoints?: AppletProviderMetaEndpoint[];
+}
+
+export interface AppletProviderMetaEndpoint {
+  handler:  string;
+  name:     string;
+}
