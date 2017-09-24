@@ -1,4 +1,5 @@
 import { Component, OnInit }        from '@angular/core';
+import { Router }                   from '@angular/router';
 
 import { Account, AccountCategory } from '../../_models';
 import { AccountsService }          from '../../_services';
@@ -13,7 +14,8 @@ export class AccountControlPanelComponent implements OnInit {
   public accounts: Account[] = [];
 
   constructor(
-    private accountsService: AccountsService,
+    private router:           Router,
+    private accountsService:  AccountsService,
   ) {
     this.fetchAccounts();
   }
@@ -23,5 +25,13 @@ export class AccountControlPanelComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  clickOnAccount(account: Account) {
+    if (!account.verified && account.accountType === 'OAuthAccount') {
+      this.router.navigate(
+        [`/accounts/${account._id}/oauth-account-verify`],
+      );
+    }
   }
 }

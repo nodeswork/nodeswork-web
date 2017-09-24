@@ -1,4 +1,4 @@
-<div class="account-entry" [class.disabled]="!account.verified" (click)="onClick()">
+<div class="account-entry" [class.disabled]="disabled">
   <div class="account-icon">
     <img [src]="account.imageUrl || account.accountCategory.imageUrl" />
   </div>

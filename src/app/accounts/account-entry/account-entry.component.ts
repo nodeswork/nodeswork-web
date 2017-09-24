@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router }                   from '@angular/router';
 
 import { Account }                  from '../../_models';
 import { AccountsService }          from '../../_services';
@@ -12,28 +11,16 @@ import { AccountsService }          from '../../_services';
 export class AccountEntryComponent implements OnInit {
 
   @Input() account: Account;
+  @Input() disabled: boolean;
+
   showCategoryName: boolean;
 
   constructor(
-    private router:           Router,
     private accountsService:  AccountsService,
   ) { }
 
   ngOnInit() {
     this.fetchName();
-  }
-
-  async onClick() {
-    if (!this.account.verified && this.account.accountType === 'OAuthAccount') {
-      this.router.navigate(
-        [`/accounts/${this.account._id}/oauth-account-verify`],
-      );
-    } else if (this.account.verified) {
-      this.account = await this.accountsService.updateAccountInfoFromRemote(
-        this.account._id,
-      );
-      this.fetchName();
-    }
   }
 
   private fetchName() {

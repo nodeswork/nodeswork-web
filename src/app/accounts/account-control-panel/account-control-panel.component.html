@@ -1,3 +1,5 @@
 <h2>Accounts</h2>
 <p>You have {{accounts.length}} accounts.</p>
-<app-account-entry *ngFor="let account of accounts" [account]="account"></app-account-entry>
+<app-account-entry
+  *ngFor="let account of accounts"
+  [account]="account" [disabled]="!account.verified" (click)="clickOnAccount(account)"></app-account-entry>

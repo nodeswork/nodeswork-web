@@ -50,6 +50,7 @@ export interface UserApplet extends CommonModel {
 export interface UserAppletConfig {
   appletConfig:  AppletConfig;
   devices:       UserAppletDeviceConfig[];
+  accounts:      UserAppletAccountConfig[];
   upToDate:      boolean;
 }
 
@@ -61,4 +62,8 @@ export interface UserAppletStats {
 
 export interface UserAppletDeviceConfig {
   device: string;
+}
+
+export interface UserAppletAccountConfig {
+  account: string;
 }
