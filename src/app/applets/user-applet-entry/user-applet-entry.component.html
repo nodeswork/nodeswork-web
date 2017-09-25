@@ -1,8 +1,16 @@
-<div class="user-applet-entry" [routerLink]="['/my-applets/' + userApplet._id + '/edit']" [class.offline]="!userApplet.stats.online">
-  <div class="user-applet-icon" [matTooltip]="userApplet.stats.reason">
-    <img [src]="userApplet.applet.imageUrl" />
-  </div>
-  <div class="title">
-    {{userApplet.applet.name}}
-  </div>
-</div>
+<mat-card>
+  <mat-card-header>
+    <img mat-card-avatar [src]="userApplet.applet.imageUrl">
+    <mat-card-title>
+      {{userApplet.applet.name}}
+      <i class="fa fa-check-circle online" aria-hidden="true" *ngIf="userApplet.stats.online"></i>
+      <i class="fa fa-unlink offline" aria-hidden="true" *ngIf="!userApplet.stats.online"></i>
+      <span class="subtitle" *ngIf="!userApplet.config.upToDate">(update available)</span>
+    </mat-card-title>
+  </mat-card-header>
+  <p>{{userApplet.stats.reason}}</p>
+  <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button type="button" color="warn" *ngIf="!userApplet.config.upToDate" (click)="update()">Update</button>
+    <button mat-button type="button" [routerLink]="['/my-applets/' + userApplet._id + '/edit']">Config</button>
+  </mat-card-actions>
+</mat-card>
