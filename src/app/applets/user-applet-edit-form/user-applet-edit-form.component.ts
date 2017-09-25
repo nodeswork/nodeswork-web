@@ -62,38 +62,41 @@ export class UserAppletEditFormComponent implements OnInit {
     this.route.params.subscribe(async (params) => {
       if (this.userApplet == null ||
         this.userApplet._id !== params.userAppletId) {
-        const userApplet = (
+        this.userApplet = (
           await this.userAppletsService.get(params.userAppletId)
         );
-        this.userApplet = userApplet;
-        this.rForm.controls.enabled.setValue(this.userApplet.enabled);
-        if (userApplet.config.devices.length === 0 && this.devices.length > 0) {
-          this.userApplet.config.devices.push({
-            device: this.devices[0]._id,
-          });
-          this.rForm.markAsDirty();
-        }
-        if (userApplet.config.devices[0]) {
-          this.rForm.controls.device.setValue(
-            userApplet.config.devices[0].device,
-          );
-        }
-        if (userApplet.config.accounts) {
-          for (const account of userApplet.config.accounts) {
-            const t = _.find(
-              this.accounts,
-              (a) => a.account._id === account.account,
-            );
-            if (t != null) {
-              t.selected = true;
-            }
-          }
-        }
+        this.updateForm();
       }
     });
   }
 
   ngOnInit() {
+  }
+
+  private updateForm() {
+    this.rForm.controls.enabled.setValue(this.userApplet.enabled);
+    if (this.userApplet.config.devices.length === 0 && this.devices.length > 0) {
+      this.userApplet.config.devices.push({
+        device: this.devices[0]._id,
+      });
+      this.rForm.markAsDirty();
+    }
+    if (this.userApplet.config.devices[0]) {
+      this.rForm.controls.device.setValue(
+        this.userApplet.config.devices[0].device,
+      );
+    }
+    if (this.userApplet.config.accounts) {
+      for (const account of this.userApplet.config.accounts) {
+        const t = _.find(
+          this.accounts,
+          (a) => a.account._id === account.account,
+        );
+        if (t != null) {
+          t.selected = true;
+        }
+      }
+    }
   }
 
   toggleAccount(account: AccountSelect) {
@@ -113,13 +116,14 @@ export class UserAppletEditFormComponent implements OnInit {
 
     this.userApplet.config.devices[0].device = this.rForm.value.device;
     this.userApplet.enabled = this.rForm.value.enabled;
-    const userApplet = await this.userAppletsService.update(
+    this.userApplet = await this.userAppletsService.update(
       this.userApplet._id,
       {
         config: this.userApplet.config,
         enabled: this.userApplet.enabled,
       } as UserApplet,
     );
+    this.updateForm();
     this.rForm.markAsPristine();
   }
 }

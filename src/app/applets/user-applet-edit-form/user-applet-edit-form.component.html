@@ -11,12 +11,16 @@
     <div class="nw-form-group align-center">
       <mat-slide-toggle formControlName="enabled">Enabled</mat-slide-toggle>
     </div>
+    <mat-error *ngIf="userApplet.disableReason" class="disable-reason">
+      {{userApplet.disableReason}}
+    </mat-error>
 
     <h2>Accounts</h2>
     <app-account-entry *ngFor="let ac of accounts" [account]="ac.account" [disabled]="!ac.selected" (click)="toggleAccount(ac)"></app-account-entry>
 
     <div class="nw-form-actions">
       <button mat-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
+      <button mat-raised-button color="basic" type="button" [routerLink]="['']">Cancel</button>
     </div>
   </form>
 
