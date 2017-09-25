@@ -10,6 +10,7 @@ import { AppletEditFormComponent }     from './applets/applet-edit-form/applet-e
 import { UserAppletEditFormComponent } from './applets/user-applet-edit-form/user-applet-edit-form.component';
 import { AccountCreateFormComponent }  from './accounts/account-create-form/account-create-form.component';
 import { OauthAccountVerifyComponent } from './accounts/oauth-account-verify/oauth-account-verify.component';
+import { DeviceStatusComponent }       from './devices/device-status/device-status.component';
 
 const routes: Routes = [
   { path: '',                                         component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'my-applets/:userAppletId/edit',            component: UserAppletEditFormComponent },
   { path: 'accounts/create',                          component: AccountCreateFormComponent },
   { path: 'accounts/:accountId/oauth-account-verify', component: OauthAccountVerifyComponent },
+  { path: 'devices/:deviceId',                        component: DeviceStatusComponent },
 ];
 
 @NgModule({

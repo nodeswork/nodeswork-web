@@ -81,3 +81,15 @@ export interface AppletProviderMetaEndpoint {
   handler:  string;
   name:     string;
 }
+
+export interface AppletImage {
+  naType:       string;
+  naVersion:    string;
+  packageName:  string;
+  version:      string;
+}
+
+export interface AppletStatus extends AppletImage {
+  port:    number;
+  status:  string;
+}

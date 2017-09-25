@@ -64,6 +64,7 @@ import { AccountTypeEntryComponent }     from './accounts/account-type-entry/acc
 import { AccountControlPanelComponent }  from './accounts/account-control-panel/account-control-panel.component';
 import { AccountEntryComponent }         from './accounts/account-entry/account-entry.component';
 import { OauthAccountVerifyComponent }   from './accounts/oauth-account-verify/oauth-account-verify.component';
+import { DeviceStatusComponent }         from './devices/device-status/device-status.component';
 
 @NgModule({
   imports: [
@@ -109,6 +110,7 @@ import { OauthAccountVerifyComponent }   from './accounts/oauth-account-verify/o
     AccountControlPanelComponent,
     AccountEntryComponent,
     OauthAccountVerifyComponent,
+    DeviceStatusComponent,
   ],
   providers: [
     {

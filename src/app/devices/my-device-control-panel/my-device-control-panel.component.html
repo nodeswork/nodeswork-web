@@ -1,3 +1,3 @@
 <h2>My Devices</h2>
 <p>You have {{myDevices.length}} devices, {{connected}} of them are online.</p>
-<app-device-entry *ngFor="let device of myDevices" [device]="device"></app-device-entry>
+<app-device-entry *ngFor="let device of myDevices" [device]="device" [routerLink]="['/devices/' + device._id]"></app-device-entry>

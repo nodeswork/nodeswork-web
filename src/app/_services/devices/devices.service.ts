@@ -1,12 +1,12 @@
 import 'rxjs/add/operator/toPromise';
 
-import { Injectable }      from '@angular/core';
-import { HttpClient }      from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable }      from 'rxjs/Observable';
+import { Injectable }       from '@angular/core';
+import { BehaviorSubject }  from 'rxjs/BehaviorSubject';
+import { Observable }       from 'rxjs/Observable';
 
-import { environment }     from '../../../environments/environment';
-import { Device }          from '../../_models';
+import { environment }      from '../../../environments/environment';
+import { Device }           from '../../_models';
+import { ApiClientService } from '../../_services/utils/api-client.service';
 
 @Injectable()
 export class DevicesService {
@@ -14,7 +14,7 @@ export class DevicesService {
   private devices = new BehaviorSubject<Device[]>([]);
 
   constructor(
-    private http: HttpClient,
+    private apiClient: ApiClientService,
   ) {
     this.refreshMyDevices();
   }
@@ -23,11 +23,22 @@ export class DevicesService {
     return this.devices.asObservable();
   }
 
+  async get(deviceId: string): Promise<Device> {
+    try {
+      const result = await this.apiClient.get(
+        `/v1/u/devices/${deviceId}`,
+      );
+      return result;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async refreshMyDevices() {
     try {
-      const result = await this.http.get(
-        environment.apiHost + '/v1/u/devices',
-      ).toPromise();
+      const result = await this.apiClient.get(
+        '/v1/u/devices',
+      );
       this.devices.next(result as Device[]);
     } catch (e) {
       console.error(e);

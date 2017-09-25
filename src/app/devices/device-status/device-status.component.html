@@ -1,0 +1,12 @@
+<app-page *ngIf="device">
+  <app-head-menu> Device: {{device.name}} </app-head-menu>
+  <h2>Running Applets</h2>
+  <div *ngFor="let ra of runningApplets">
+    <app-user-applet-entry [userApplet]="ra.userApplet"></app-user-applet-entry>
+    <mat-hint class="update" *ngIf="!ra.sameVersion">*Update is scheduled</mat-hint>
+  </div>
+  <h2 *ngIf="scheduledApplets && scheduledApplets.length">Scheduled Applets</h2>
+  <div *ngFor="let sa of scheduledApplets">
+    <app-user-applet-entry [userApplet]="sa.userApplet"></app-user-applet-entry>
+  </div>
+</app-page>
