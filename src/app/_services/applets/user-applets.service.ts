@@ -1,13 +1,13 @@
 import 'rxjs/add/operator/toPromise';
 
 import { Injectable }       from '@angular/core';
-import { HttpClient }       from '@angular/common/http';
 import { BehaviorSubject }  from 'rxjs/BehaviorSubject';
 import { Observable }       from 'rxjs/Observable';
 
-import { environment }      from '../../../environments/environment';
 import { UserStateService } from '../users/user-state.service';
+import { ApiClientService } from '../utils/api-client.service';
 import {
+  AppletWorkerConfig,
   UserApplet, User, Applet,
 }                           from '../../_models';
 
@@ -19,7 +19,7 @@ export class UserAppletsService {
 
   constructor(
     private userState: UserStateService,
-    private http: HttpClient,
+    private apiClient: ApiClientService,
   ) {
     this.refreshMyApplets();
   }
@@ -30,15 +30,14 @@ export class UserAppletsService {
 
   async install(applet: Applet): Promise<UserApplet> {
     try {
-      const result = await this.http
-        .post(environment.apiHost + '/v1/u/my-applets', {
+      const result = await this.apiClient
+        .post('/v1/u/my-applets', {
           applet: applet._id,
           config: {
             appletConfig: applet.config._id,
             devices:      [],
           }
-        })
-        .toPromise();
+        });
       this.refreshMyApplets();
       return result as UserApplet;
     } catch (e) {
@@ -49,9 +48,9 @@ export class UserAppletsService {
 
   async get(userAppletId: string): Promise<UserApplet> {
     try {
-      const result = await this.http
-        .get(environment.apiHost + '/v1/u/my-applets/' + userAppletId)
-        .toPromise();
+      const result = await this.apiClient.get(
+        `/v1/u/my-applets/${userAppletId}`,
+      );
       return result as UserApplet;
     } catch (e) {
       /* handle error */
@@ -63,12 +62,23 @@ export class UserAppletsService {
     userAppletId: string, userApplet: UserApplet
   ): Promise<UserApplet> {
     try {
-      const result = await this.http
-        .post(
-          environment.apiHost + '/v1/u/my-applets/' + userAppletId, userApplet,
-        )
-        .toPromise();
+      const result = await this.apiClient.post(
+        '/v1/u/my-applets/' + userAppletId, userApplet,
+      );
       return result as UserApplet;
+    } catch (e) {
+      /* handle error */
+      console.error(e);
+    }
+  }
+
+  async work(userAppletId: string, worker: AppletWorkerConfig): Promise<any> {
+    try {
+      const [name, action] = worker.name.split('.');
+      const result = await this.apiClient.post(
+        `/v1/u/my-applets/${userAppletId}/work/${name}/${action}`, {},
+      );
+      return result;
     } catch (e) {
       /* handle error */
       console.error(e);
@@ -83,9 +93,7 @@ export class UserAppletsService {
         return;
       }
       try {
-        const result = await this.http
-          .get(environment.apiHost + '/v1/u/my-applets')
-          .toPromise();
+        const result = await this.apiClient.get('/v1/u/my-applets');
         this.userApplets.next(result as UserApplet[]);
       } catch (e) {
         /* handle error */

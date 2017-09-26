@@ -6,7 +6,7 @@
     <mat-hint class="update" *ngIf="!ra.sameVersion">*Update is scheduled</mat-hint>
   </div>
   <h2 *ngIf="scheduledApplets && scheduledApplets.length">Scheduled Applets</h2>
-  <div *ngFor="let sa of scheduledApplets">
-    <app-user-applet-entry [userApplet]="sa.userApplet"></app-user-applet-entry>
+  <div *ngIf="scheduledApplets && scheduledApplets.length">
+    <app-user-applet-entry *ngFor="let sa of scheduledApplets" [userApplet]="sa.userApplet"></app-user-applet-entry>
   </div>
 </app-page>
