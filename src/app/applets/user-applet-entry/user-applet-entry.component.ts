@@ -1,3 +1,4 @@
+import * as _                       from 'underscore';
 import { Component, OnInit, Input } from '@angular/core';
 
 import {
@@ -24,7 +25,10 @@ export class UserAppletEntryComponent implements OnInit {
 
   ngOnInit() {
     if (this.userApplet) {
-      this.defaultAction = this.userApplet.config.appletConfig.workers[0];
+      this.defaultAction = _.find(
+        this.userApplet.config.appletConfig.workers,
+        (worker) => worker.default,
+      );
     }
   }
 

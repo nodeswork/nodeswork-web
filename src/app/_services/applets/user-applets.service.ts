@@ -74,9 +74,9 @@ export class UserAppletsService {
 
   async work(userAppletId: string, worker: AppletWorkerConfig): Promise<any> {
     try {
-      const [name, action] = worker.name.split('.');
       const result = await this.apiClient.post(
-        `/v1/u/my-applets/${userAppletId}/work/${name}/${action}`, {},
+        `/v1/u/my-applets/${userAppletId}/work/${worker.handler}/${worker.name}`,
+        {},
       );
       return result;
     } catch (e) {

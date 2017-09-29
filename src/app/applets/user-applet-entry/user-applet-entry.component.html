@@ -11,7 +11,7 @@
   <p>{{userApplet.stats.reason}}</p>
   <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-button type="button" color="warn" *ngIf="!userApplet.config.upToDate" (click)="update()">Update</button>
-    <button mat-button type="button" color="primary" *ngIf="defaultAction" (click)="action(defaultAction)">{{defaultAction.name}}</button>
+    <button mat-button type="button" color="primary" *ngIf="defaultAction" (click)="action(defaultAction)">{{defaultAction.displayName}}</button>
     <button mat-button type="button" [routerLink]="['/my-applets/' + userApplet._id + '/edit']">Config</button>
   </mat-card-actions>
 </mat-card>
