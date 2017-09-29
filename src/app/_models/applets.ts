@@ -28,8 +28,12 @@ export interface AppletConfig {
 }
 
 export interface AppletWorkerConfig {
-  name:      string;
-  schedule:  string;
+  name:         string;
+  schedule:     string;
+  handler:      string;
+  displayName:  string;
+  default:      boolean;
+  hide:         boolean;
 }
 
 export interface AppletAccountConfig {
@@ -78,8 +82,14 @@ export interface AppletProviderMeta {
 }
 
 export interface AppletProviderMetaEndpoint {
-  handler:  string;
-  name:     string;
+  handler:      string;
+  name:         string;
+  meta:         {
+    name:       string;
+    schedule?:  string;
+    default?:   boolean;
+    hide?:      boolean;
+  };
 }
 
 export interface AppletImage {

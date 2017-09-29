@@ -1,5 +1,6 @@
 import * as _                     from 'underscore';
 import { Component, OnInit }      from '@angular/core';
+import { MatSnackBar }            from '@angular/material';
 import {
   FormArray,
   FormBuilder, FormGroup,
@@ -42,10 +43,11 @@ export class AppletEditFormComponent implements OnInit {
   step = 0;
 
   constructor(
-    private fb:              FormBuilder,
-    private route:           ActivatedRoute,
-    private appletsService:  AppletsService,
-    private accountsService: AccountsService,
+    private fb:               FormBuilder,
+    private route:            ActivatedRoute,
+    private appletsService:   AppletsService,
+    private accountsService:  AccountsService,
+    private snackBar:         MatSnackBar,
   ) {
     this.rForm = fb.group({
       name:             ['', Validators.required],
@@ -108,18 +110,36 @@ export class AppletEditFormComponent implements OnInit {
           const workers = _.chain(w)
             .map((x) => x.meta.endpoints)
             .flatten()
-            .map((x) => `${x.handler}.${x.name}`)
-            .union()
-            .map((name) => {
-              return { name, schedule: null };
+            .map((x) => {
+              const meta = x.meta;
+              if (meta == null) {
+                return {
+                  handler:      x.handler,
+                  name:         x.name,
+                  displayName:  `${x.handler}.${x.name}`,
+                  schedule:     null,
+                  default:      false,
+                  hide:         false,
+                };
+              } else {
+                return {
+                  handler: x.handler,
+                  name: x.name,
+                  displayName: meta.name || `${x.handler}.${x.name}`,
+                  schedule: meta.schedule || null,
+                  default: meta.default || false,
+                  hide: meta.hide || false,
+                };
+              }
             })
             .value();
-          this.applet.config.workers = workers;
-          console.log(workers);
-
-        } catch (e) {
-          if (e.status === 404) {
+          if (!_.isEqual(workers, this.applet.config.workers)) {
+            this.applet.config.workers = workers;
+            this.rForm.markAsDirty();
           }
+          this.snackBar.open('Fetching from Local dev box success', '');
+        } catch (e) {
+          this.snackBar.open('Fetching from Local Config is failed', '');
         }
       }
     });
