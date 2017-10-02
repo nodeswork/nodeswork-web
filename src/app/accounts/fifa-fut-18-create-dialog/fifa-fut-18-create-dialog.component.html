@@ -1,0 +1,17 @@
+<h2>Create New Fifa FUT 18 Account</h2>
+<mat-dialog-content [formGroup]="rForm">
+  <mat-form-field class="auth-item-full-width">
+    <input matInput placeholder="Email" type="email" formControlName="email" />
+    <mat-error *ngIf="rForm.controls.email.hasError('pattern')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="rForm.controls.email.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="create()">Create</button>
+</mat-dialog-actions>

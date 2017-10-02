@@ -1,16 +1,17 @@
-import { NgModule }                    from '@angular/core';
-import { RouterModule, Routes }        from '@angular/router';
+import { NgModule }                        from '@angular/core';
+import { RouterModule, Routes }            from '@angular/router';
 
-import { VerifyEmailComponent }        from './auth/verify-email/verify-email.component';
-import { RegisterComponent }           from './auth/register/register.component';
-import { LoginComponent }              from './auth/login/login.component';
-import { SendVerifyEmailComponent }    from './auth/send-verify-email/send-verify-email.component';
-import { HomeComponent }               from './home/home.component';
-import { AppletEditFormComponent }     from './applets/applet-edit-form/applet-edit-form.component';
-import { UserAppletEditFormComponent } from './applets/user-applet-edit-form/user-applet-edit-form.component';
-import { AccountCreateFormComponent }  from './accounts/account-create-form/account-create-form.component';
-import { OauthAccountVerifyComponent } from './accounts/oauth-account-verify/oauth-account-verify.component';
-import { DeviceStatusComponent }       from './devices/device-status/device-status.component';
+import { VerifyEmailComponent }            from './auth/verify-email/verify-email.component';
+import { RegisterComponent }               from './auth/register/register.component';
+import { LoginComponent }                  from './auth/login/login.component';
+import { SendVerifyEmailComponent }        from './auth/send-verify-email/send-verify-email.component';
+import { HomeComponent }                   from './home/home.component';
+import { AppletEditFormComponent }         from './applets/applet-edit-form/applet-edit-form.component';
+import { UserAppletEditFormComponent }     from './applets/user-applet-edit-form/user-applet-edit-form.component';
+import { AccountCreateFormComponent }      from './accounts/account-create-form/account-create-form.component';
+import { OauthAccountVerifyComponent }     from './accounts/oauth-account-verify/oauth-account-verify.component';
+import { DeviceStatusComponent }           from './devices/device-status/device-status.component';
+import { FifaFut18AccountVerifyComponent } from './accounts/fifa-fut-18-account-verify/fifa-fut-18-account-verify.component';
 
 const routes: Routes = [
   { path: '',                                         component: HomeComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'my-applets/:userAppletId/edit',            component: UserAppletEditFormComponent },
   { path: 'accounts/create',                          component: AccountCreateFormComponent },
   { path: 'accounts/:accountId/oauth-account-verify', component: OauthAccountVerifyComponent },
+  { path: 'accounts/:accountId/fifa-fut-18-account-verify', component: FifaFut18AccountVerifyComponent },
   { path: 'devices/:deviceId',                        component: DeviceStatusComponent },
 ];
 

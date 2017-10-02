@@ -1,3 +1,4 @@
+export * from './confirm-dialog';
 
 export const SIZE_XS = 'xs';
 export const SIZE_MD = 'md';

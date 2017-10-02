@@ -1,7 +1,7 @@
 <app-page>
   <app-head-menu> Choose Account Type </app-head-menu>
   <mat-tab-group>
-    <mat-tab label="Commons">
+    <mat-tab label="Commons" fxLayout="row">
       <app-account-type-entry *ngFor="let accountCategory of accountCategories" [accountCategory]="accountCategory" (click)="createCommon(accountCategory)"></app-account-type-entry>
     </mat-tab>
     <mat-tab label="Customized OAuth">

@@ -11,15 +11,17 @@ import { Device }            from '../../_models';
 })
 export class MyDeviceControlPanelComponent implements OnInit {
 
-  myDevices: Device[];
+  myDevices: Device[] = [];
   connected: number;
 
   constructor(
     private devicesService: DevicesService,
   ) {
     this.devicesService.myDevices().subscribe((devices) => {
-      this.myDevices = devices;
-      this.connected = _.filter(devices, _.property('online')).length;
+      if (devices != null) {
+        this.myDevices = devices;
+        this.connected = _.filter(devices, _.property('online')).length;
+      }
     });
   }
 
