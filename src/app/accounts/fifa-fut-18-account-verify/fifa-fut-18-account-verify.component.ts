@@ -23,7 +23,7 @@ export class FifaFut18AccountVerifyComponent implements OnInit {
   public rForm2:  FormGroup;
   public rForm4:  FormGroup;
   public account: fifa18.FifaFut18Account;
-  public step = 4;
+  public step = 1;
   public metadata: fifa18.Fifa18ClientMetadata;
 
   constructor(
@@ -40,13 +40,13 @@ export class FifaFut18AccountVerifyComponent implements OnInit {
 
     this.rForm = fb.group({
       email: '',
-      password: ['Zzll1314', Validators.required ],
+      password: ['', Validators.required ],
     });
     this.rForm2 = fb.group({
       code: ['', Validators.required ],
     });
     this.rForm4 = fb.group({
-      secret: ['dazhen', Validators.required ],
+      secret: ['', Validators.required ],
     });
   }
 
