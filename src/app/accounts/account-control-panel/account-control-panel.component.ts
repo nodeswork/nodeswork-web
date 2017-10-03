@@ -33,5 +33,10 @@ export class AccountControlPanelComponent implements OnInit {
         [`/accounts/${account._id}/oauth-account-verify`],
       );
     }
+    if (!account.verified && account.accountType === 'FifaFut18Account') {
+      this.router.navigate(
+        [`/accounts/${account._id}/fifa-fut-18-account-verify`],
+      );
+    }
   }
 }

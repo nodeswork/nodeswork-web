@@ -1,3 +1,56 @@
-<p>
-  fifa-fut-18-account-verify works!
-</p>
+<app-page>
+  <app-head-menu> Verify Account </app-head-menu>
+  <div *ngIf="account">
+    <div *ngIf="!account.verified; else alreadyVerified" fxLayout="column" fxLayoutAlign="center center">
+      <app-account-type-entry [accountCategory]="account.accountCategory"></app-account-type-entry>
+      <form [formGroup]="rForm" (ngSubmit)="verify()" *ngIf="step === 1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Email" type="email" formControlName="email" readonly />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Password" type="password" formControlName="password" />
+          <mat-error *ngIf="rForm.controls.password.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field class="full-width"> -->
+          <!-- <input matInput placeholder="Secret" type="text" formControlName="secret" /> -->
+          <!-- <mat-error *ngIf="rForm.controls.secret.hasError('required')"> -->
+            <!-- Secret is <strong>required</strong> -->
+          <!-- </mat-error> -->
+        <!-- </mat-form-field> -->
+        <div class="nw-form-actions">
+          <button mat-raised-button color="primary" type="submit">Verify Account</button>
+        </div>
+      </form>
+      <form [formGroup]="rForm2" (ngSubmit)="verify()" *ngIf="step === 2">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Security Code" type="text" formControlName="code" />
+          <mat-error *ngIf="rForm2.controls.code.hasError('required')">
+            Security Code is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <div class="nw-form-actions">
+          <button mat-raised-button color="primary" type="submit">Continue Verify</button>
+        </div>
+      </form>
+      <form [formGroup]="rForm4" (ngSubmit)="verify()" *ngIf="step === 4">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Secret" type="text" formControlName="secret" />
+          <mat-error *ngIf="rForm4.controls.secret.hasError('required')">
+            Secret is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <div class="nw-form-actions">
+          <button mat-raised-button color="primary" type="submit">Continue Verify</button>
+        </div>
+      </form>
+      <div *ngIf="step === 5">
+        Account is verified!
+      </div>
+    </div>
+    <ng-template #alreadyVerified>
+      Account is already verified!
+    </ng-template>
+  </div>
+</app-page>

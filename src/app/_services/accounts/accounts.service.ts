@@ -24,8 +24,8 @@ export class AccountsService {
     return await this.api.get('/v1/u/accounts/' + accountId);
   }
 
-  async verify(accountId: string): Promise<any> {
-    return await this.api.post(`/v1/u/accounts/${accountId}/verify`, {});
+  async verify(accountId: string, body: any = {}): Promise<any> {
+    return await this.api.post(`/v1/u/accounts/${accountId}/verify`, body);
   }
 
   async updateAccountInfoFromRemote(accountId: string): Promise<Account> {
