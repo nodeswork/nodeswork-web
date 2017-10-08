@@ -21,4 +21,10 @@ export class ApiClientService {
       environment.apiHost + path, body,
     ).toPromise();
   }
+
+  async delete(path: string): Promise<any> {
+    return await this.http.delete(
+      environment.apiHost + path,
+    ).toPromise();
+  }
 }

@@ -1,10 +1,14 @@
 import 'rxjs/add/operator/toPromise';
 
-import { Injectable }             from '@angular/core';
-import { HttpClient }             from '@angular/common/http';
+import { Injectable }       from '@angular/core';
+import { HttpClient }       from '@angular/common/http';
 
-import { Applet, AppletProvider } from '../_models';
-import { ApiClientService }       from './utils/api-client.service';
+import {
+  Applet,
+  AppletProvider,
+  RouteOptions,
+}                           from '../_models';
+import { ApiClientService } from './utils/api-client.service';
 
 @Injectable()
 export class AppletsService {
@@ -57,10 +61,15 @@ export class AppletsService {
     }
   }
 
-  async getAppletStructure(packageName: string, version: string): Promise<{ providers: AppletProvider[]}> {
+  async getAppletStructure(options: RouteOptions): Promise<{ providers: AppletProvider[]}> {
     try {
+      const path = [
+        options.appletId, options.naType, options.naVersion,
+        options.packageName, options.version,
+      ].join('/');
+
       return (await this.http.get(
-        `http://localhost:28310/applets/${packageName}/v/${version}/sstruct`,
+        `http://localhost:28310/applets/${path}/sstruct`,
       ).toPromise()) as any;
     } catch (err) {
       throw err;

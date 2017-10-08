@@ -14,9 +14,12 @@ import {
 }                                 from '../../_services';
 import {
   Applet,
+  AppletImage,
   AccountCategory,
   AppletAccountConfig,
+  AppletWorkerConfig,
   AppletProvider,
+  InputMetadata,
 }                                 from '../../_models';
 
 interface AccountCategorySelect {
@@ -33,12 +36,21 @@ interface AccountCategorySelect {
 })
 export class AppletEditFormComponent implements OnInit {
 
-  rForm:              FormGroup;
-  isEditing:          boolean;
-  title:              string;
-  applet:             Applet;
-  accountCategories:  AccountCategorySelect[] = [];
-  providers:          AppletProvider[] = [];
+  rForm:                   FormGroup;
+  isEditing:               boolean;
+  title:                   string;
+  applet:                  Applet;
+
+  accountCategories:       AccountCategory[] = [];
+  accountCategorySelects:  AccountCategorySelect[] = [];
+
+  workers:                 AppletWorkerConfig[];
+
+  localApplet:             string;
+  localAppletStruct:       object;
+  lastCheckedApplet:       AppletImage;
+
+  showEditor:              boolean;
 
   step = 0;
 
@@ -50,99 +62,154 @@ export class AppletEditFormComponent implements OnInit {
     private snackBar:         MatSnackBar,
   ) {
     this.rForm = fb.group({
-      name:             ['', Validators.required],
-      description:      '',
-      config:           this.fb.group({
-        _id:            undefined,
-        packageName:    ['', Validators.required],
-        version:        ['0', Validators.required],
-        workers:        [],
-        accounts:       [],
-        naType:         'npm',
-        naVersion:      '8.3.0',
-      }),
-      permission:       ['PRIVATE', Validators.required],
+      name:         ['', Validators.required],
+      description:  '',
+      packageName:  ['', Validators.required],
+      version:      ['', Validators.required],
+      permission:   ['PRIVATE', Validators.required],
+      sstruct:      '{}',
     });
-    this.init();
+
+    this.route.params.subscribe(async (params) => {
+      this.isEditing          = params.appletId != null;
+      this.title              = this.isEditing ? 'Edit Applet' : 'New Applet';
+      this.accountCategories  = await this.accountsService.accountCategories();
+
+      this.applet = params.appletId != null ?
+        await this.appletsService.get(params.appletId) : {
+          name:           '',
+          description:    '',
+          imageUrl:       undefined,
+          permission:     'PRIVATE',
+          config:         {
+            naType:       'npm',
+            naVersion:    '8.3.0',
+            packageName:  'nodeswork-helloworld',
+            version:      '0.0.21',
+            workers:      [],
+            accounts:     [],
+          },
+        };
+
+      await this.loadFromApplet();
+    });
   }
 
-  async init() {
-    const accountCategories = await this.accountsService.accountCategories();
-    this.route.params.subscribe(async (params) => {
-      this.isEditing = params.appletId != null;
-      this.title = this.isEditing ? 'Edit Applet' : 'New Applet';
-
-      if (params.appletId != null) {
-        this.applet = await this.appletsService.get(params.appletId);
-        const formValue = _.omit(
-          this.applet,
-          '_id', 'owner', 'configHistories', 'createdAt', 'lastUpdateTime',
-          'imageUrl', 'tokens', 'deleted',
-        );
-        this.rForm.setValue(formValue, {onlySelf: true});
-
-        this.accountCategories = _.map(accountCategories, (category) => {
-          const account = _.find(this.applet.config.accounts, (a) => {
-            return (
-              a.accountType === category.accountType &&
-              a.provider === category.provider
-            );
-          });
-
-          return {
-            category,
-            selected: account != null,
-            optional: account && account.optional || false,
-            multiple: account && account.multiple || false,
-          };
-        });
-
-        try {
-          const resp = await this.appletsService.getAppletStructure(
-            this.applet.config.packageName,  this.applet.config.version,
-          );
-          this.providers = resp.providers;
-          console.log(this.providers);
-
-          const w = _.filter(this.providers, (p) => {
-            return p.tags.indexOf('worker') >= 0;
-          });
-          const workers = _.chain(w)
-            .map((x) => x.meta.endpoints)
-            .flatten()
-            .map((x) => {
-              const meta = x.meta;
-              if (meta == null) {
-                return {
-                  handler:      x.handler,
-                  name:         x.name,
-                  displayName:  `${x.handler}.${x.name}`,
-                  schedule:     null,
-                  default:      false,
-                  hide:         false,
-                };
-              } else {
-                return {
-                  handler: x.handler,
-                  name: x.name,
-                  displayName: meta.name || `${x.handler}.${x.name}`,
-                  schedule: meta.schedule || null,
-                  default: meta.default || false,
-                  hide: meta.hide || false,
-                };
-              }
-            })
-            .value();
-          if (!_.isEqual(workers, this.applet.config.workers)) {
-            this.applet.config.workers = workers;
-            this.rForm.markAsDirty();
-          }
-          this.snackBar.open('Fetching from Local dev box success', '');
-        } catch (e) {
-          this.snackBar.open('Fetching from Local Config is failed', '');
-        }
-      }
+  async loadFromApplet() {
+    this.rForm.setValue({
+      name:         this.applet.name,
+      description:  this.applet.description,
+      packageName:  this.applet.config.packageName,
+      version:      this.applet.config.version,
+      permission:   this.applet.permission,
+      sstruct:      '{}',
     });
+    this.workers   = this.applet.config.workers;
+    this.accountCategorySelects = _.map(
+      this.applet.config.accounts, (account) => {
+        const accountCategory = this.findAccountCategory(account);
+        return {
+          category: accountCategory,
+          selected: true,
+          multiple: account.multiple,
+          optional: account.optional,
+        };
+      },
+    );
+  }
+
+  private findAccountCategory(c: { accountType: string; provider: string; }) {
+    return _.find(
+      this.accountCategories,
+      (e) => c.accountType === e.accountType && c.provider === e.provider,
+    );
+  }
+
+  async fetchAppletStructure() {
+    const formValue       = this.rForm.value;
+
+    if (!formValue.packageName || !formValue.version) {
+      this.step = 2;
+      return;
+    }
+
+    try {
+      this.localAppletStruct = await this.appletsService.getAppletStructure({
+        appletId:     this.applet._id || 'unknown',
+        naType:       this.applet.config.naType,
+        naVersion:    this.applet.config.naVersion,
+        packageName:  formValue.packageName,
+        version:      formValue.version,
+      });
+      this.localApplet = 'running';
+    } catch (e) {
+      this.localApplet = 'not_detected';
+    }
+  }
+
+  async pullLocalAppletStructure() {
+    await this.fetchAppletStructure();
+    const sstruct = JSON.stringify(this.localAppletStruct, null, 2);
+    this.rForm.controls.sstruct.setValue(sstruct);
+    this.updateWithStructure();
+  }
+
+  async updateWithStructure() {
+    const sstruct = JSON.parse(this.rForm.controls.sstruct.value);
+
+    const workers = _.chain(sstruct.providers)
+      .filter((p: AppletProvider) => {
+        return p.tags.indexOf('worker') >= 0;
+      })
+      .map((x) => x.meta.endpoints)
+      .flatten()
+      .map((x) => {
+        const meta = x.meta;
+        if (meta == null) {
+          return {
+            handler:      x.handler,
+            name:         x.name,
+            displayName:  `${x.handler}.${x.name}`,
+            schedule:     null,
+            default:      false,
+            hide:         false,
+          };
+        } else {
+          return {
+            handler:      x.handler,
+            name:         x.name,
+            displayName:  meta.name || `${x.handler}.${x.name}`,
+            schedule:     meta.schedule || null,
+            default:      meta.default || false,
+            hide:         meta.hide || false,
+          };
+        }
+      })
+      .value();
+
+    const selects = _
+      .chain(sstruct.providers)
+      .filter((p: AppletProvider) => {
+        return p.tags.indexOf('account') >= 0;
+      })
+      .map((provider: AppletProvider) => {
+        const accountCategory = this.findAccountCategory(provider.meta as any);
+        const existingSelect = _.find(this.accountCategorySelects, (s) => {
+          return s.category.accountType === provider.meta.accountType &&
+            s.category.provider === provider.meta.provider;
+        });
+        return existingSelect != null ? existingSelect : {
+          category: accountCategory,
+          selected: true,
+          multiple: false,
+          optional: false,
+        };
+      })
+      .filter((x) => x.category != null)
+      .value()
+    ;
+    this.workers                = workers;
+    this.accountCategorySelects = selects;
   }
 
   toggleAccountCategory(c: AccountCategorySelect) {
@@ -179,52 +246,55 @@ export class AppletEditFormComponent implements OnInit {
     if (!this.rForm.valid) {
       if (this.rForm.controls.name.invalid) {
         this.step = 0;
-      } else if (this.rForm.controls.config.invalid) {
+      } else if (this.rForm.controls.packageName.invalid ||
+        this.rForm.controls.version.invalid
+      ) {
         this.step = 1;
       }
       return;
     }
 
     const accounts: AppletAccountConfig[] = _
-      .chain(this.accountCategories)
+      .chain(this.accountCategorySelects)
       .filter((c) => c.selected)
       .map((c) => {
         return {
-          accountType: c.category.accountType,
-          provider: c.category.provider,
-          optional: c.optional,
-          multiple: c.multiple,
+          accountType:  c.category.accountType,
+          provider:     c.category.provider,
+          optional:     c.optional,
+          multiple:     c.multiple,
         };
       })
       .value()
     ;
 
-    if (this.applet == null) {
+    this.applet.name                = this.rForm.controls.name.value;
+    this.applet.description         = this.rForm.controls.description.value;
+    this.applet.permission          = this.rForm.controls.permission.value;
+    this.applet.config.packageName  = this.rForm.controls.packageName.value;
+    this.applet.config.version      = this.rForm.controls.version.value;
+    this.applet.config.workers      = this.workers;
+    this.applet.config.accounts     = accounts;
+
+    if (this.isEditing) {
       try {
-        const applet = this.rForm.value;
-        applet.config = _.pick(applet.config, 'packageName', 'version');
-        applet.config.accounts = accounts;
-        applet.config.workers  = this.applet.config.workers;
-        await this.appletsService.create(applet);
+        await this.appletsService.update(this.applet._id, this.applet);
         this.rForm.markAsPristine();
       } catch (e) {
         switch (e.error && e.error.message) {
-          case 'duplicate record':
-            this.rForm.controls.name.setErrors({ duplicate: true });
-            break;
           default:
             console.error(e);
         }
       }
     } else {
       try {
-        const applet = this.rForm.value;
-        applet.config.accounts = accounts;
-        applet.config.workers  = this.applet.config.workers;
-        await this.appletsService.update(this.applet._id, applet);
+        await this.appletsService.create(this.applet);
         this.rForm.markAsPristine();
       } catch (e) {
         switch (e.error && e.error.message) {
+          case 'duplicate record':
+            this.rForm.controls.name.setErrors({ duplicate: true });
+            break;
           default:
             console.error(e);
         }

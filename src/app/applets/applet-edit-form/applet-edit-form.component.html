@@ -28,7 +28,7 @@
         </mat-action-row>
       </mat-expansion-panel>
 
-      <mat-expansion-panel formGroupName="config" [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
         <mat-expansion-panel-header>
           <mat-panel-title class="panel-title">
             Applet
@@ -50,15 +50,31 @@
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header (click)="fetchAppletStructure()">
           <mat-panel-title class="panel-title">
-            Trigger
+            Workers
           </mat-panel-title>
           <mat-panel-description>
-            Config Triggers
+            Config Workers
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div *ngFor="let c of accountCategories" fxLayout="row" fxLayoutGap="10px">
+        <div *ngIf="localApplet === 'running'">
+          Nodeswork detects your local applet is running. &nbsp;
+          <button mat-raised-button color="primary" type="button" (click)="pullLocalAppletStructure()">Poll Config</button>
+        </div>
+        <div *ngIf="localApplet === 'not_detected'">
+          Local applet is not running, you can paste the structure manually.
+          <button mat-button type="button" (click)="showEditor=true">Show Editor</button>
+        </div>
+        <mat-form-field class="full-width" *ngIf="showEditor">
+          <textarea matInput type="text" placeholder="Server Structure" rows="6" formControlName="sstruct"></textarea>
+        </mat-form-field>
+        <h4>Workers</h4>
+        <div *ngFor="let worker of workers" fxLayout="row" fxLayoutGap="10px">
+          <p>{{worker.displayName}}</p>
+        </div>
+        <h4>Accounts</h4>
+        <div *ngFor="let c of accountCategorySelects" fxLayout="row" fxLayoutGap="10px">
           <mat-button-toggle [checked]="c.selected" (change)="toggleAccountCategory(c)"> {{c.category.name}} </mat-button-toggle>
           <mat-checkbox [disabled]="!c.selected" [checked]="c.optional" (change)="toggleAccountCategoryOptional(c)">Optional</mat-checkbox>
           <mat-checkbox [disabled]="!c.selected" [checked]="c.multiple" (change)="toggleAccountCategoryMultiple(c)">Multiple</mat-checkbox>

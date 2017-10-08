@@ -3,12 +3,12 @@ import { Device }      from './devices';
 
 export interface Applet extends CommonModel {
   name:             string;
-  owner:            any;
+  owner?:           string;
   imageUrl:         string;
   description:      string;
-  tokens:           AppletTokens;
+  tokens?:          AppletTokens;
   permission:       string;
-  configHistories:  AppletConfig[];
+  configHistories?: AppletConfig[];
   config:           AppletConfig;
 }
 
@@ -18,7 +18,7 @@ export interface AppletTokens {
 }
 
 export interface AppletConfig {
-  _id:          string;
+  _id?:         string;
   naType:       string;
   naVersion:    string;
   packageName:  string;
@@ -73,12 +73,22 @@ export interface UserAppletAccountConfig {
 }
 
 export interface AppletProvider {
-  meta: AppletProviderMeta;
-  tags: string[];
+  meta:    AppletProviderMeta;
+  tags:    string[];
+  inputs:  InputMetadata[];
+}
+
+export interface InputMetadata {
+  ref:           string;
+  isArray:       boolean;
+  propertyName:  string;
+  fallback:      boolean;
 }
 
 export interface AppletProviderMeta {
-  endpoints?: AppletProviderMetaEndpoint[];
+  endpoints?:    AppletProviderMetaEndpoint[];
+  accountType?:  string;
+  provider?:     string;
 }
 
 export interface AppletProviderMetaEndpoint {
@@ -99,7 +109,13 @@ export interface AppletImage {
   version:      string;
 }
 
+export interface RouteOptions extends AppletImage {
+  appletId:  string;
+}
+
 export interface AppletStatus extends AppletImage {
-  port:    number;
-  status:  string;
+  appletId:       string;
+  ip:             string;
+  port:           number;
+  status:         string;
 }

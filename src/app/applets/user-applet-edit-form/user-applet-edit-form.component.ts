@@ -5,6 +5,7 @@ import {
   FormControl, Validators,
 }                                   from '@angular/forms';
 import { ActivatedRoute, Router }   from '@angular/router';
+import { MatDialog }                from '@angular/material';
 
 import {
   Account,
@@ -16,6 +17,7 @@ import {
   DevicesService,
   UserAppletsService,
 }                                   from '../../_services';
+import { ConfirmDialogComponent }   from '../../utils';
 
 @Component({
   selector: 'app-user-applet-edit-form',
@@ -32,9 +34,11 @@ export class UserAppletEditFormComponent implements OnInit {
   constructor(
     private fb:                  FormBuilder,
     private route:               ActivatedRoute,
+    private router:              Router,
     private userAppletsService:  UserAppletsService,
     private devicesService:      DevicesService,
     private accountsService:     AccountsService,
+    private dialog:              MatDialog,
   ) {
     this.rForm = fb.group({
       device: '',
@@ -125,6 +129,19 @@ export class UserAppletEditFormComponent implements OnInit {
     );
     this.updateForm();
     this.rForm.markAsPristine();
+  }
+
+  delete() {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        content: `Are you sure you want to delete the Applet?`,
+      },
+    }).afterClosed().subscribe(async (res) => {
+      if (res) {
+        await this.userAppletsService.delete(this.userApplet._id);
+        this.router.navigate(['']);
+      }
+    });
   }
 }
 

@@ -20,6 +20,7 @@
 
     <div class="nw-form-actions">
       <button mat-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
+      <button mat-raised-button color="warn" type="button" (click)="delete()">Delete</button>
       <button mat-raised-button color="basic" type="button" [routerLink]="['']">Cancel</button>
     </div>
   </form>

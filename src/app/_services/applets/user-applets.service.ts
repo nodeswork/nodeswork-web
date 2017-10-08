@@ -72,6 +72,17 @@ export class UserAppletsService {
     }
   }
 
+  async delete(userAppletId: string): Promise<void> {
+    try {
+      await this.apiClient.delete(
+        '/v1/u/my-applets/' + userAppletId
+      );
+    } catch (e) {
+      /* handle error */
+      console.error(e);
+    }
+  }
+
   async work(userAppletId: string, worker: AppletWorkerConfig): Promise<any> {
     try {
       const result = await this.apiClient.post(
