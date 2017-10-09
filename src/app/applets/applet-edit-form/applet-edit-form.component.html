@@ -59,7 +59,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div *ngIf="localApplet === 'running'">
-          Nodeswork detects your local applet is running. &nbsp;
+          Local applet is detected. &nbsp;
           <button mat-raised-button color="primary" type="button" (click)="pullLocalAppletStructure()">Poll Config</button>
         </div>
         <div *ngIf="localApplet === 'not_detected'">

@@ -6,6 +6,11 @@
   top: 0;
 }
 
+.router-outlet-outer {
+  background-color: #eaf2ff;
+  height: 100%;
+}
+
 .sidenav {
   padding-top: 12px;
   background-color: #279cc6;

@@ -84,8 +84,8 @@ export class AppletEditFormComponent implements OnInit {
           config:         {
             naType:       'npm',
             naVersion:    '8.3.0',
-            packageName:  'nodeswork-helloworld',
-            version:      '0.0.21',
+            packageName:  'fut-18-auto-trader',
+            version:      '0.0.2',
             workers:      [],
             accounts:     [],
           },
@@ -210,6 +210,7 @@ export class AppletEditFormComponent implements OnInit {
     ;
     this.workers                = workers;
     this.accountCategorySelects = selects;
+    this.rForm.markAsDirty();
   }
 
   toggleAccountCategory(c: AccountCategorySelect) {
