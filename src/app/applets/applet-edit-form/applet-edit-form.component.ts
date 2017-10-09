@@ -84,8 +84,8 @@ export class AppletEditFormComponent implements OnInit {
           config:         {
             naType:       'npm',
             naVersion:    '8.3.0',
-            packageName:  'fut-18-auto-trader',
-            version:      '0.0.2',
+            packageName:  '',
+            version:      '',
             workers:      [],
             accounts:     [],
           },
