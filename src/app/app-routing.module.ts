@@ -12,6 +12,7 @@ import { AccountCreateFormComponent }      from './accounts/account-create-form/
 import { OauthAccountVerifyComponent }     from './accounts/oauth-account-verify/oauth-account-verify.component';
 import { DeviceStatusComponent }           from './devices/device-status/device-status.component';
 import { FifaFut18AccountVerifyComponent } from './accounts/fifa-fut-18-account-verify/fifa-fut-18-account-verify.component';
+import { UserAppletExecutionsComponent }   from './applets/user-applet-executions/user-applet-executions.component';
 
 const routes: Routes = [
   { path: '',                                         component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'applets/create',                           component: AppletEditFormComponent },
   { path: 'applets/:appletId/edit',                   component: AppletEditFormComponent },
   { path: 'my-applets/:userAppletId/edit',            component: UserAppletEditFormComponent },
+  { path: 'my-applets/:userAppletId/executions',      component: UserAppletExecutionsComponent },
   { path: 'accounts/create',                          component: AccountCreateFormComponent },
   { path: 'accounts/:accountId/oauth-account-verify', component: OauthAccountVerifyComponent },
   { path: 'accounts/:accountId/fifa-fut-18-account-verify', component: FifaFut18AccountVerifyComponent },

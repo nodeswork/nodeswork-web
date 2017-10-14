@@ -3,6 +3,7 @@ export * from './applets';
 export * from './applets.service';
 export * from './authentication.service';
 export * from './devices';
+export * from './executions';
 export * from './menu';
 export * from './user.service';
 export * from './users';

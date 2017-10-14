@@ -1,4 +1,14 @@
-<ng-content select="app-head-menu"></ng-content>
-<div class="app-content">
-  <ng-content></ng-content>
+<div fxLayout="column" style="height: 100%;">
+
+  <div fxFlex="nogrow">
+    <ng-content select="app-head-menu"></ng-content>
+  </div>
+
+  <div class="app-content" fxFlex="grow">
+    <ng-content></ng-content>
+  </div>
+
+  <div fxFlex="nogrow">
+    <ng-content select="app-footer-menu"></ng-content>
+  </div>
 </div>

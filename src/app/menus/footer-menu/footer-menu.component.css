@@ -1,0 +1,12 @@
+.footer-container {
+  height: 50px;
+  background-color: #3a4a63;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.footer-container i {
+  line-height: 40px;
+  color: white;
+  font-size: 30px;
+}

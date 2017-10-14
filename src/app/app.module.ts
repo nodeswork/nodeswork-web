@@ -36,6 +36,7 @@ import {
 import {
   AccountsService,
   ApiClientService,
+  AppletExecutionService,
   AppletsService,
   AuthenticationService,
   DevicesService,
@@ -69,6 +70,8 @@ import { DeviceStatusComponent }           from './devices/device-status/device-
 import { ConfirmDialogComponent }          from './utils/confirm-dialog/confirm-dialog.component';
 import { FifaFut18CreateDialogComponent }  from './accounts/fifa-fut-18-create-dialog/fifa-fut-18-create-dialog.component';
 import { FifaFut18AccountVerifyComponent } from './accounts/fifa-fut-18-account-verify/fifa-fut-18-account-verify.component';
+import { UserAppletExecutionsComponent }   from './applets/user-applet-executions/user-applet-executions.component';
+import { FooterMenuComponent } from './menus/footer-menu/footer-menu.component';
 
 @NgModule({
   imports: [
@@ -119,6 +122,8 @@ import { FifaFut18AccountVerifyComponent } from './accounts/fifa-fut-18-account-
     ConfirmDialogComponent,
     FifaFut18CreateDialogComponent,
     FifaFut18AccountVerifyComponent,
+    UserAppletExecutionsComponent,
+    FooterMenuComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,
@@ -136,6 +141,7 @@ import { FifaFut18AccountVerifyComponent } from './accounts/fifa-fut-18-account-
     },
     ApiClientService,
     AccountsService,
+    AppletExecutionService,
     AppletsService,
     AuthenticationService,
     DevicesService,
