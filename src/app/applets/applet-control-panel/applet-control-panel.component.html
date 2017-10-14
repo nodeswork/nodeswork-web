@@ -1,3 +1,6 @@
-<h2>Owned Applets</h2>
-<p>You have {{applets.length}} applets created.</p>
-<app-applet-preview *ngFor="let applet of applets" [applet]="applet"></app-applet-preview>
+<app-page>
+  <app-head-menu> Owned Applets </app-head-menu>
+  <p>You have {{applets.length}} applets created.</p>
+  <app-applet-preview *ngFor="let applet of applets" [applet]="applet"></app-applet-preview>
+  <app-footer-menu></app-footer-menu>
+</app-page>

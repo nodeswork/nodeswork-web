@@ -1,6 +1,6 @@
 <div class="footer-container" fxLayout="row" fxLayoutAlign="space-around center">
-  <i class="fa fa-creative-commons" aria-hidden="true"></i>
-  <i class="fa fa-server" aria-hidden="true"></i>
-  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-  <i class="fa fa-laptop" aria-hidden="true"></i>
+  <i class="fa fa-creative-commons" [routerLink]="['/applets']" aria-hidden="true"></i>
+  <i class="fa fa-server" aria-hidden="true" [routerLink]="['/my-applets']"></i>
+  <i class="fa fa-user-circle-o" [routerLink]="['/accounts']" aria-hidden="true"></i>
+  <i class="fa fa-laptop" [routerLink]="['/devices']" aria-hidden="true"></i>
 </div>

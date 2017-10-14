@@ -13,6 +13,10 @@ import { OauthAccountVerifyComponent }     from './accounts/oauth-account-verify
 import { DeviceStatusComponent }           from './devices/device-status/device-status.component';
 import { FifaFut18AccountVerifyComponent } from './accounts/fifa-fut-18-account-verify/fifa-fut-18-account-verify.component';
 import { UserAppletExecutionsComponent }   from './applets/user-applet-executions/user-applet-executions.component';
+import { MyAppletControlPanelComponent }   from './applets/my-applet-control-panel/my-applet-control-panel.component';
+import { MyDeviceControlPanelComponent }   from './devices/my-device-control-panel/my-device-control-panel.component';
+import { AccountControlPanelComponent }    from './accounts/account-control-panel/account-control-panel.component';
+import { AppletControlPanelComponent }     from './applets/applet-control-panel/applet-control-panel.component';
 
 const routes: Routes = [
   { path: '',                                         component: HomeComponent },
@@ -20,13 +24,17 @@ const routes: Routes = [
   { path: 'login',                                    component: LoginComponent },
   { path: 'sendVerifyEmail',                          component: SendVerifyEmailComponent },
   { path: 'verifyUserEmail',                          component: VerifyEmailComponent },
+  { path: 'applets',                                  component: AppletControlPanelComponent },
   { path: 'applets/create',                           component: AppletEditFormComponent },
   { path: 'applets/:appletId/edit',                   component: AppletEditFormComponent },
+  { path: 'my-applets',                               component: MyAppletControlPanelComponent },
   { path: 'my-applets/:userAppletId/edit',            component: UserAppletEditFormComponent },
   { path: 'my-applets/:userAppletId/executions',      component: UserAppletExecutionsComponent },
+  { path: 'accounts',                                 component: AccountControlPanelComponent },
   { path: 'accounts/create',                          component: AccountCreateFormComponent },
   { path: 'accounts/:accountId/oauth-account-verify', component: OauthAccountVerifyComponent },
   { path: 'accounts/:accountId/fifa-fut-18-account-verify', component: FifaFut18AccountVerifyComponent },
+  { path: 'devices',                                  component: MyDeviceControlPanelComponent },
   { path: 'devices/:deviceId',                        component: DeviceStatusComponent },
 ];
 
