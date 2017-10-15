@@ -5,6 +5,7 @@ export * from './authentication.service';
 export * from './devices';
 export * from './executions';
 export * from './menu';
+export * from './metrics';
 export * from './user.service';
 export * from './users';
 export * from './utils';

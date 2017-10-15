@@ -41,6 +41,7 @@ import {
   AuthenticationService,
   DevicesService,
   MenuService,
+  MetricsService,
   UserAppletsService,
   UserService,
   UserStateService,
@@ -71,7 +72,8 @@ import { ConfirmDialogComponent }          from './utils/confirm-dialog/confirm-
 import { FifaFut18CreateDialogComponent }  from './accounts/fifa-fut-18-create-dialog/fifa-fut-18-create-dialog.component';
 import { FifaFut18AccountVerifyComponent } from './accounts/fifa-fut-18-account-verify/fifa-fut-18-account-verify.component';
 import { UserAppletExecutionsComponent }   from './applets/user-applet-executions/user-applet-executions.component';
-import { FooterMenuComponent } from './menus/footer-menu/footer-menu.component';
+import { FooterMenuComponent }             from './menus/footer-menu/footer-menu.component';
+import { MetricsPanelComponent }           from './metrics/metrics-panel/metrics-panel.component';
 
 @NgModule({
   imports: [
@@ -124,6 +126,7 @@ import { FooterMenuComponent } from './menus/footer-menu/footer-menu.component';
     FifaFut18AccountVerifyComponent,
     UserAppletExecutionsComponent,
     FooterMenuComponent,
+    MetricsPanelComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,
@@ -146,6 +149,7 @@ import { FooterMenuComponent } from './menus/footer-menu/footer-menu.component';
     AuthenticationService,
     DevicesService,
     MenuService,
+    MetricsService,
     UserAppletsService,
     UserService,
     UserStateService,

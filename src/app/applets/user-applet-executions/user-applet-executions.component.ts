@@ -1,6 +1,10 @@
 import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import * as moment                from 'moment';
+
+import { ui }                     from '@nodeswork/applet/dist/ui';
+
 import { AppletExecutionService } from '../../_services';
 
 @Component({
@@ -10,15 +14,33 @@ import { AppletExecutionService } from '../../_services';
 })
 export class UserAppletExecutionsComponent implements OnInit {
 
+  config:          ui.metrics.MetricsPanel;
+
   constructor(
     private route:               ActivatedRoute,
     private appletExecutions:    AppletExecutionService,
   ) {
     this.route.params.subscribe(async (params) => {
-      const executions = await this.appletExecutions.appletExecutionMetrics({
-        userAppletId: params.userAppletId,
-      });
-      console.log(executions);
+      this.config = {
+        rangeSelection:  {
+          granularity:   moment.duration(10, 'minutes').toISOString(),
+          timeRange:     {
+            start:       moment().subtract(2, 'day').toDate(),
+            end:         moment().toDate(),
+          },
+        },
+        groups:          [{
+          title:         'Executions',
+          dimensionConfigs:  [],
+          metricsConfigs:    [
+            {
+              name: 'result',
+              source: `user-applets/${params.userAppletId}/executions`,
+            },
+          ],
+          graphs:            [],
+        }],
+      };
     });
   }
 
