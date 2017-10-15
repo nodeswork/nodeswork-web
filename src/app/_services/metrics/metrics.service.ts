@@ -17,7 +17,7 @@ export class MetricsService {
     let params = new HttpParams()
       .append('startTime', options.timeRange.start.getTime().toString())
       .append('endTime', options.timeRange.end.getTime().toString())
-      .append('granularity', options.granularity)
+      .append('granularity', '600') // options.granularity)
     ;
     for (const dimensionName of options.dimensions) {
       params = params.append('dimensions', dimensionName);

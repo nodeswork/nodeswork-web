@@ -28,6 +28,8 @@ import {
   HTTP_INTERCEPTORS,
 }                                          from '@angular/common/http';
 
+import { NvD3Module }                      from 'ng2-nvd3';
+
 import { AppComponent }                    from './app.component';
 import { AppRoutingModule }                from './app-routing.module';
 import {
@@ -75,6 +77,9 @@ import { UserAppletExecutionsComponent }   from './applets/user-applet-execution
 import { FooterMenuComponent }             from './menus/footer-menu/footer-menu.component';
 import { MetricsPanelComponent }           from './metrics/metrics-panel/metrics-panel.component';
 
+import 'd3';
+import 'nvd3';
+
 @NgModule({
   imports: [
     AppRoutingModule,
@@ -95,6 +100,7 @@ import { MetricsPanelComponent }           from './metrics/metrics-panel/metrics
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTooltipModule,
+    NvD3Module,
     ReactiveFormsModule,
   ],
   declarations: [

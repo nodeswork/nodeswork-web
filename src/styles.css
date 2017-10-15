@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import "../node_modules/font-awesome/css/font-awesome.css";
+@import '../node_modules/font-awesome/css/font-awesome.css';
+@import '../node_modules/nvd3/build/nv.d3.css';
 
 .full-width-field {
   width: 100%;
