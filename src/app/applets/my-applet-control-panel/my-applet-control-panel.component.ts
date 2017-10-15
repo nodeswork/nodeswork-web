@@ -11,17 +11,23 @@ import { UserApplet }         from '../../_models';
 })
 export class MyAppletControlPanelComponent implements OnInit {
 
-  myApplets: UserApplet[];
-  online:    number;
+  myApplets:       UserApplet[];
+  onlineApplets:   UserApplet[];
+  offlineApplets:  UserApplet[];
+  online:          number;
 
   constructor(
     private userAppletsService: UserAppletsService,
   ) {
     this.userAppletsService.myApplets().subscribe((myApplets) => {
-      this.myApplets = myApplets;
-      this.online = _.filter(
+      this.myApplets      = myApplets;
+      this.onlineApplets  = _.filter(
         myApplets, (userApplet) => userApplet.stats.online,
-      ).length;
+      );
+      this.offlineApplets  = _.filter(
+        myApplets, (userApplet) => !userApplet.stats.online,
+      );
+      this.online = this.onlineApplets.length;
     });
   }
 

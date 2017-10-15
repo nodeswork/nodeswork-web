@@ -1,7 +1,8 @@
 <app-page>
   <app-head-menu> My Applets </app-head-menu>
-  <p>You have {{myApplets.length}} applets installed, {{online}} of them are online.</p>
-  <app-user-applet-entry *ngFor="let userApplet of myApplets" [userApplet]="userApplet"></app-user-applet-entry>
+  <p *ngIf="online === 0">No Applets Online</p>
+  <app-user-applet-entry *ngFor="let userApplet of onlineApplets" [userApplet]="userApplet"></app-user-applet-entry>
+  <app-user-applet-entry *ngFor="let userApplet of offlineApplets" [userApplet]="userApplet"></app-user-applet-entry>
 
   <app-footer-menu [active]="'my-applets'"></app-footer-menu>
 </app-page>

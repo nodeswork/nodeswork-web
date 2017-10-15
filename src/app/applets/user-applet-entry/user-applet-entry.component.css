@@ -11,6 +11,22 @@
   color: #ddb123;
 }
 
+.error {
+  padding: 4px 0;
+  font-size: 12px;
+  color: red;
+}
+
 .user-applet-card {
   max-width: 300px;
+}
+
+.card-action i {
+  color: #555;
+  cursor: pointer;
+}
+
+.card-action {
+  border-top: solid 1px #ccc;
+  margin: 0 2px;
 }

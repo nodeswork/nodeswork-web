@@ -2,16 +2,21 @@
   <mat-card-header>
     <img mat-card-avatar [src]="userApplet.applet.imageUrl">
     <mat-card-title>
-      {{userApplet.applet.name}}
+      <strong>{{userApplet.applet.name}}</strong>
       <i class="fa fa-check-circle online" aria-hidden="true" *ngIf="userApplet.stats.online"></i>
       <i class="fa fa-unlink offline" aria-hidden="true" *ngIf="!userApplet.stats.online"></i>
       <span class="subtitle" *ngIf="!userApplet.config.upToDate">(update available)</span>
+      <div class="error" *ngIf="userApplet.stats.reason">
+        * {{userApplet.stats.reason}}
+      </div>
     </mat-card-title>
   </mat-card-header>
-  <p>{{userApplet.stats.reason}}</p>
-  <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-    <button mat-button type="button" color="warn" *ngIf="!userApplet.config.upToDate" (click)="update()">Update</button>
+  <mat-card-actions class="card-action" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
     <button mat-button type="button" color="primary" *ngIf="defaultAction" (click)="action(defaultAction)">{{defaultAction.displayName}}</button>
-    <button mat-button type="button" [routerLink]="['/my-applets/' + userApplet._id + '/edit']">Config</button>
+    <div fxFlex="grow"></div>
+
+    <i *ngIf="!userApplet.config.upToDate" class="fa fa-level-up" (click)="update()" aria-hidden="true"></i>
+    <i class="fa fa-pencil" [routerLink]="['/my-applets/' + userApplet._id + '/edit']" aria-hidden="true"></i>
+    <i class="fa fa-area-chart" [routerLink]="['/my-applets/' + userApplet._id + '/executions']" aria-hidden="true"></i>
   </mat-card-actions>
 </mat-card>
