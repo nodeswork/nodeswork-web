@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-footer-menu',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer-menu.component.css']
 })
 export class FooterMenuComponent implements OnInit {
+
+  @Input() active: string;
 
   constructor() { }
 

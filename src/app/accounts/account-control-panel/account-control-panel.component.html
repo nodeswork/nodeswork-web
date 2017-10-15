@@ -4,5 +4,5 @@
   <app-account-entry
     *ngFor="let account of accounts"
     [account]="account" [disabled]="!account.verified" (click)="clickOnAccount(account)"></app-account-entry>
-  <app-footer-menu></app-footer-menu>
+  <app-footer-menu [active]="'accounts'"></app-footer-menu>
 </app-page>
