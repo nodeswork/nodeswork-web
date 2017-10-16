@@ -22,23 +22,72 @@ export class UserAppletExecutionsComponent implements OnInit {
   ) {
     this.route.params.subscribe(async (params) => {
       this.config = {
-        rangeSelection:  {
-          granularity:   moment.duration(10, 'minutes').toISOString(),
-          timeRange:     {
-            start:       moment().subtract(2, 'day').toDate(),
-            end:         moment().toDate(),
+        rangeSelection:      {
+          granularity:       3600,
+          timerange:         {
+            start:           moment().subtract(2, 'day').toDate().getTime(),
+            end:             moment().toDate().getTime(),
           },
         },
-        groups:          [{
-          title:         'Executions',
-          dimensionConfigs:  [],
-          metricsConfigs:    [
+        groups:              [{
+          title:             'Executions',
+          dimensionConfigs:  [
             {
-              name: 'result',
-              source: `user-applets/${params.userAppletId}/executions`,
+              name:          'status',
+              filters:       [],
+              enabled:       true,
+              split:         true,
             },
           ],
-          graphs:            [],
+          metricsConfigs:    [
+            {
+              name:          'result',
+              source:        `user-applets/${params.userAppletId}/executions`,
+            },
+          ],
+          graphs:            [
+            {
+              title:         'Execution Count',
+              chart:         {
+                type:        'multiBarChart',
+              },
+              metrics:       [
+                {
+                  name:      'result',
+                },
+              ],
+            },
+          ],
+        }, {
+          title:             'Contract Searching',
+          dimensionConfigs:  [
+          ],
+          metricsConfigs:    [
+            {
+              name:          'Contract Searched',
+              source:        `user-applets/${params.userAppletId}/executions`,
+            },
+            {
+              name:          'Contract Found',
+              source:        `user-applets/${params.userAppletId}/executions`,
+            },
+          ],
+          graphs:            [
+            {
+              title:         'Contracts Searching',
+              chart:         {
+                type:        'lineChart',
+              },
+              metrics:       [
+                {
+                  name:      'Contract Searched',
+                },
+                {
+                  name:      'Contract Found',
+                },
+              ],
+            },
+          ],
         }],
       };
     });

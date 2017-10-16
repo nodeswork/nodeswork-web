@@ -15,9 +15,9 @@ export class MetricsService {
     options: GetMetricsOptions,
   ): Promise<MetricsData[]> {
     let params = new HttpParams()
-      .append('startTime', options.timeRange.start.getTime().toString())
-      .append('endTime', options.timeRange.end.getTime().toString())
-      .append('granularity', '600') // options.granularity)
+      .append('startTime', options.timerange.start.toString())
+      .append('endTime', options.timerange.end.toString())
+      .append('granularity', options.granularity.toString())
     ;
     for (const dimensionName of options.dimensions) {
       params = params.append('dimensions', dimensionName);
@@ -31,11 +31,11 @@ export class MetricsService {
 
 export interface GetMetricsOptions {
   url:         string;
-  timeRange:   {
-    start:     Date;
-    end:       Date;
+  timerange:   {
+    start:     number;
+    end:       number;
   };
-  granularity: string;
+  granularity: number;
   dimensions:  string[];
   metrics:     string[];
 }

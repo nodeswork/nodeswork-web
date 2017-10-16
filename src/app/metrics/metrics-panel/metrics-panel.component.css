@@ -1,0 +1,9 @@
+.graph {
+  border: 1px solid #333;
+  padding: 2px;
+  margin: 4px 0;
+}
+
+.graph .title {
+  text-align: center;
+}

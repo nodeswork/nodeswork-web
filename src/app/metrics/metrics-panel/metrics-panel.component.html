@@ -1,12 +1,17 @@
 <p>
-  <label>start:</label> {{ config.rangeSelection.timeRange.start }}
-  <label>end:</label> {{ config.rangeSelection.timeRange.end }}
+  <label>start:</label> {{ config.rangeSelection.timerange.start }}
+  <label>end:</label> {{ config.rangeSelection.timerange.end }}
   <label>granularity:</label> {{ config.rangeSelection.granularity }}
 </p>
-<p>metrics-panel works!</p>
-<pre>{{ config | json}}</pre>
-<pre>{{ role}}</pre>
 
-<div *ngIf="options">
-  <nvd3 [options]="options" [data]="data"></nvd3>
+<div *ngIf="nvData">
+  <div *ngFor="let nvGroup of nvData.groups">
+    <h3>{{nvGroup.title}}</h3>
+    <div *ngFor="let nvGraph of nvGroup.graphs">
+      <div class="graph">
+        <h4 class="title">{{nvGraph.title}}</h4>
+        <nvd3 [options]="nvGraph.options" [data]="nvGraph.data"></nvd3>
+      </div>
+    </div>
+  </div>
 </div>

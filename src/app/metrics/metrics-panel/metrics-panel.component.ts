@@ -2,9 +2,10 @@ import * as _                       from 'underscore';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ui }                       from '@nodeswork/applet/dist/ui';
+import { metrics as m }             from '@nodeswork/utils';
 
 import { MetricsService }           from '../../_services';
-import { MetricsData }              from '../../_models';
+import { MetricsData, NVSeries }    from '../../_models';
 
 @Component({
   selector: 'app-metrics-panel',
@@ -18,15 +19,25 @@ export class MetricsPanelComponent implements OnInit {
   private  _config: ui.metrics.MetricsPanel;
   private  mData:   MData;
 
-  options:  any;
-  data:     any;
+  nvData:   NVData;
 
   constructor(
     private metricsService: MetricsService,
-  ) { }
+  ) {
+  }
 
   async ngOnInit() {
     this._config  = this.config as any;
+
+    await this.fetchMData();
+    await this.initializeNVData();
+
+    for (let idx = 0; idx < this._config.groups.length; idx++) {
+      this.updateGroupData(idx);
+    }
+  }
+
+  private async fetchMData() {
     this.mData    = { groups: [] };
 
     for (const group of this._config.groups) {
@@ -53,7 +64,7 @@ export class MetricsPanelComponent implements OnInit {
         const data = await this.metricsService.getMetrics({
           url:          request.url,
           metrics:      request.metrics,
-          timeRange:    this._config.rangeSelection.timeRange,
+          timerange:    this._config.rangeSelection.timerange,
           granularity:  this._config.rangeSelection.granularity,
           dimensions:   [],
         });
@@ -65,84 +76,152 @@ export class MetricsPanelComponent implements OnInit {
 
       this.mData.groups.push(gData);
     }
+  }
 
-    for (const idx in this._config.groups) {
-      const groupConfig = this._config.groups[idx];
-      const gData = this.mData.groups[idx];
-      console.log(idx, groupConfig, gData);
+  private initializeNVData() {
+    this.nvData = { groups: [] };
+    for (const groupConfig of this._config.groups) {
+      const nvGroup = {
+        title:  groupConfig.title,
+        graphs: [],
+      };
+      this.nvData.groups.push(nvGroup);
 
-      for (const metrics of groupConfig.metricsConfigs) {
-        this.data = [
-          {
-            key: metrics.name,
-            bar: true,
-            values: _.map(gData[metrics.name], (v) => {
-              return {
-                label: v.timerange.start,
-                value: Object.values(v.metrics[metrics.name])[0].val,
-              };
-            }),
+      for (const graphConfig of groupConfig.graphs) {
+        const nvOptions: any = {
+          chart: {
+            type:      graphConfig.chart.type,
+            height:    450,
+            margin :   {
+              top:     40,
+              right:   80,
+              bottom:  50,
+              left:    55
+            },
+            x: function(d){ return d.label; },
+            y: function(d){ return d.value; },
+            showValues: true,
+            valueFormat: function(d){
+              return d3.format(',.0f')(d);
+            },
+            tooltip: {
+              keyFormatter: function(d) {
+                return d;
+              },
+              valueFormatter: function(d) {
+                return d3.format(',.0f')(d);
+              },
+              headerFormatter: function(d) {
+                return d3.time.format('%x %H:%M')(new Date(Number.parseInt(d)));
+              },
+            },
+            duration: 500,
+            xAxis: {
+              axisLabel: 'Time',
+              tickFormat: function(d) {
+                return d3.time.format('%x %H:%M')(new Date(Number.parseInt(d)));
+              },
+            },
+            yAxis: {
+              tickFormat: function(d) {
+                return d3.format(',.0f')(d);
+              },
+            },
           },
-          {
-            key: metrics.name + 'copy',
-              bar: true,
-              values: _.map(gData[metrics.name], (v) => {
-                return {
-                  label: v.timerange.start,
-                  value: Object.values(v.metrics[metrics.name])[0].val,
-                };
-              }),
-          }
-        ];
-        console.log(this.data);
+        };
+
+        if (graphConfig.chart.type !== 'multiBarChart') {
+          nvOptions.chart.xDomain = [
+            this._config.rangeSelection.timerange.start,
+            this._config.rangeSelection.timerange.end,
+          ];
+        }
+
+        nvGroup.graphs.push({
+          title:    graphConfig.title,
+          options:  nvOptions,
+          data:     [],
+        });
       }
     }
-    console.log(
-      this._config.rangeSelection.timeRange.start.getTime(),
-      this._config.rangeSelection.timeRange.end.getTime(),
-    )
+  }
 
-    this.options = {
-      chart: {
-        type: 'lineChart',
-        height: 450,
-        margin : {
-          top: 20,
-          right: 200,
-          bottom: 50,
-          left: 55
-        },
-        x: function(d){ return d.label; },
-        y: function(d){ return d.value; },
-        showValues: true,
-        valueFormat: function(d){
-          return d3.format(',.0f')(d);
-        },
-        duration: 500,
-        xDomain: [
-            this._config.rangeSelection.timeRange.start.getTime(),
-            this._config.rangeSelection.timeRange.end.getTime(),
-        ],
-        xAxis: {
-          // scale: d3.time.scale().domain(
-            // [
-              // new Date(this._config.rangeSelection.timeRange.start),
-              // new Date(this._config.rangeSelection.timeRange.end),
-            // ],
-          // ),
-          axisLabel: 'X Axis',
-          tickFormat: function(d) {
-            return d3.time.format('%x %H:%M')(new Date(d));
-          },
-        },
-        yAxis: {
-          axisLabel: 'Y Axis',
-          axisLabelDistance: -10
-        }
+  private updateGroupData(groupIdx: number) {
+    const groupConfig = this._config.groups[groupIdx];
+    const groupData   = this.mData.groups[groupIdx];
+
+    for (let idx = 0; idx < groupConfig.graphs.length; idx++) {
+      const data: NVSeries[][] = [];
+      for (const metrics of groupConfig.graphs[idx].metrics) {
+        data.push(this.processNVGMetricsSeries(
+          metrics, groupConfig.dimensionConfigs, groupData[metrics.name],
+        ));
       }
+      this.nvData.groups[groupIdx].graphs[idx].data = _.flatten(
+        data, true,
+      );
+    }
+  }
+
+  private processNVGMetricsSeries(
+    metrics: ui.metrics.MetricsPanlGraphMetricsConfig,
+    dimensions: ui.metrics.MetricsPanelDimensionConfig[],
+    data: MetricsData[],
+  ): NVSeries[] {
+    const enabledDimensions = _.filter(dimensions, (x) => x.enabled);
+
+    const projectOptions = {
+      dimensions:  _.map(enabledDimensions, (x) => x.name),
+      metrics:     [metrics.name],
     };
 
-    console.log(this.data);
+    const projectedData = _.map(
+      data, (x) => m.operator.projectMetricsData(x, projectOptions),
+    );
+
+    const totalData: {
+      [metricsName: string]: { [ts: number]: m.MetricsValue<any>; };
+    } = {};
+
+    for (const singleData of projectedData) {
+      const singleMetrics = singleData.metrics[metrics.name];
+      if (singleMetrics == null) {
+        continue;
+      }
+      _.each(singleMetrics, (val, dhash) => {
+        const singleDimension = singleData.dimensions[dhash];
+        const dimensionValues = _.map(
+          enabledDimensions, (d) => singleDimension[d.name],
+        );
+        const newMetricsName  = enabledDimensions.length > 0 ?
+          metrics.name + `{${dimensionValues.join(',')}}` :
+          metrics.name;
+
+        if (totalData[newMetricsName] == null) {
+          totalData[newMetricsName] = {};
+        }
+        const targetMetrics = totalData[newMetricsName];
+        const ts = singleData.timerange.start;
+
+        if (targetMetrics[ts] == null) {
+          targetMetrics[ts] = val;
+        } else {
+          targetMetrics[ts] = m.operator.operate([targetMetrics[ts], val]);
+        }
+      });
+    }
+
+    return _.map(totalData, (metricsData, metricsName) => {
+      return {
+        key: metricsName,
+        values: _.map(metricsData, (val: m.MetricsValue<any>, ts: any) => {
+          return {
+            label: ts,
+            value: val.val,
+          };
+        }),
+      };
+    });
   }
 }
 
@@ -157,4 +236,19 @@ interface MData {
 
 interface GData {
   [metricsName: string]: MetricsData[];
+}
+
+interface NVData {
+  groups:  NVGData[];
+}
+
+interface NVGData {
+  title:    string;
+  graphs:   NVGraphData[];
+}
+
+interface NVGraphData {
+  title:    string;
+  options:  any;
+  data:     NVSeries[];
 }
