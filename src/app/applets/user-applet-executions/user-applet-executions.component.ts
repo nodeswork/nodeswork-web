@@ -23,72 +23,180 @@ export class UserAppletExecutionsComponent implements OnInit {
     this.route.params.subscribe(async (params) => {
       this.config = {
         rangeSelection:      {
-          granularity:       3600,
+          granularity:       600, // 3600,
           timerange:         {
             start:           moment().subtract(2, 'day').toDate().getTime(),
             end:             moment().toDate().getTime(),
           },
         },
-        groups:              [{
-          title:             'Executions',
-          dimensionConfigs:  [
-            {
-              name:          'status',
-              filters:       [],
-              enabled:       true,
-              split:         true,
-            },
-          ],
-          metricsConfigs:    [
-            {
-              name:          'result',
-              source:        `user-applets/${params.userAppletId}/executions`,
-            },
-          ],
-          graphs:            [
-            {
-              title:         'Execution Count',
-              chart:         {
-                type:        'multiBarChart',
+        groups:              [
+          {
+            title:             '',
+            dimensionConfigs:  [
+              {
+                name:          'Account',
+                filters:       [],
+                enabled:       true,
+                split:         true,
               },
-              metrics:       [
-                {
-                  name:      'result',
-                },
-              ],
-            },
-          ],
-        }, {
-          title:             'Contract Searching',
-          dimensionConfigs:  [
-          ],
-          metricsConfigs:    [
-            {
-              name:          'Contract Searched',
-              source:        `user-applets/${params.userAppletId}/executions`,
-            },
-            {
-              name:          'Contract Found',
-              source:        `user-applets/${params.userAppletId}/executions`,
-            },
-          ],
-          graphs:            [
-            {
-              title:         'Contracts Searching',
-              chart:         {
-                type:        'lineChart',
+            ],
+            metricsConfigs:    [
+              {
+                name:          'Credits',
+                source:        `user-applets/${params.userAppletId}/executions`,
               },
-              metrics:       [
-                {
-                  name:      'Contract Searched',
+              {
+                name:          'Listing Size',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+            ],
+            graphs:            [
+              {
+                title:         'Credits',
+                chart:         {
+                  type:        'lineChart',
                 },
-                {
-                  name:      'Contract Found',
+                metrics:       [
+                  {
+                    name:      'Credits',
+                  },
+                ],
+              },
+              {
+                title:         'Listing Size',
+                chart:         {
+                  type:        'lineChart',
                 },
-              ],
-            },
-          ],
-        }],
+                metrics:       [
+                  {
+                    name:      'Listing Size',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title:             'Executions',
+            dimensionConfigs:  [
+              {
+                name:          'status',
+                filters:       [],
+                enabled:       true,
+                split:         true,
+              },
+            ],
+            metricsConfigs:    [
+              {
+                name:          'result',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+            ],
+            graphs:            [
+              {
+                title:         'Execution Count',
+                chart:         {
+                  type:        'multiBarChart',
+                },
+                metrics:       [
+                  {
+                    name:      'result',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title:             'Contract Searching',
+            dimensionConfigs:  [
+            ],
+            metricsConfigs:    [
+              {
+                name:          'Contract Searched',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+              {
+                name:          'Contract Found',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+            ],
+            graphs:            [
+              {
+                title:         'Contracts Searching',
+                chart:         {
+                  type:        'lineChart',
+                },
+                metrics:       [
+                  {
+                    name:      'Contract Searched',
+                  },
+                  {
+                    name:      'Contract Found',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title:             'Bidding',
+            dimensionConfigs:  [
+              {
+                name:          'Bid Status',
+                filters:       [],
+                enabled:       true,
+                split:         true,
+              },
+            ],
+            metricsConfigs:    [
+              {
+                name:          'Bid',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+            ],
+            graphs:            [
+              {
+                title:         'Bidding',
+                chart:         {
+                  type:        'lineChart',
+                },
+                metrics:       [
+                  {
+                    name:      'Bid',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title:             'Sold',
+            dimensionConfigs:  [
+              {
+                name:          'Account',
+                filters:       [],
+                enabled:       true,
+                split:         true,
+              },
+            ],
+            metricsConfigs:    [
+              {
+                name:          'Sold',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+            ],
+            graphs:            [
+              {
+                title:         'Sold',
+                chart:         {
+                  type:        'lineChart',
+                },
+                metrics:       [
+                  {
+                    name:      'Sold',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       };
     });
   }

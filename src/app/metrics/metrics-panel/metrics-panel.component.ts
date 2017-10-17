@@ -1,4 +1,6 @@
 import * as _                       from 'underscore';
+import * as moment                  from 'moment';
+
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ui }                       from '@nodeswork/applet/dist/ui';
@@ -14,8 +16,20 @@ import { MetricsData, NVSeries }    from '../../_models';
 })
 export class MetricsPanelComponent implements OnInit {
 
+  // UI fields
+  granularity:      string;
+  start:            string;
+  end:              string;
+
   @Input() config:  object;
   @Input() role:    string;
+
+  timerange:        {
+    start:          number;
+    end:            number;
+  };
+  formatter:         d3.time.Format;
+
   private  _config: ui.metrics.MetricsPanel;
   private  mData:   MData;
 
@@ -26,8 +40,33 @@ export class MetricsPanelComponent implements OnInit {
   ) {
   }
 
+  private initializeConfigs() {
+    this._config       = this.config as any;
+    const granularity  = this._config.rangeSelection.granularity;
+    const scale        = granularity * 1000;
+    this.granularity   = moment.duration(granularity, 'seconds').humanize();
+
+    this.timerange = {
+      start:  Math.ceil(
+        this._config.rangeSelection.timerange.start / scale,
+      ) * scale,
+      end:    Math.ceil(
+        this._config.rangeSelection.timerange.end / scale,
+      ) * scale,
+    };
+
+    if (granularity >= 3600 * 24) {
+      this.formatter = d3.time.format('%x');
+    } else {
+      this.formatter = d3.time.format('%x %H:%M');
+    }
+
+    this.start = this.formatter(new Date(this.timerange.start));
+    this.end   = this.formatter(new Date(this.timerange.end));
+  }
+
   async ngOnInit() {
-    this._config  = this.config as any;
+    this.initializeConfigs();
 
     await this.fetchMData();
     await this.initializeNVData();
@@ -91,7 +130,7 @@ export class MetricsPanelComponent implements OnInit {
         const nvOptions: any = {
           chart: {
             type:      graphConfig.chart.type,
-            height:    450,
+            height:    250,
             margin :   {
               top:     40,
               right:   80,
@@ -132,8 +171,8 @@ export class MetricsPanelComponent implements OnInit {
 
         if (graphConfig.chart.type !== 'multiBarChart') {
           nvOptions.chart.xDomain = [
-            this._config.rangeSelection.timerange.start,
-            this._config.rangeSelection.timerange.end,
+            this.timerange.start,
+            this.timerange.end,
           ];
         }
 
@@ -217,7 +256,7 @@ export class MetricsPanelComponent implements OnInit {
         values: _.map(metricsData, (val: m.MetricsValue<any>, ts: any) => {
           return {
             label: ts,
-            value: val.val,
+            value: m.operator.retrieveValue(val),
           };
         }),
       };

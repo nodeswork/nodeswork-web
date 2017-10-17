@@ -1,7 +1,5 @@
 <p>
-  <label>start:</label> {{ config.rangeSelection.timerange.start }}
-  <label>end:</label> {{ config.rangeSelection.timerange.end }}
-  <label>granularity:</label> {{ config.rangeSelection.granularity }}
+  <label>Time Range:</label> {{ start }} ~ {{ end }} every {{ granularity }}
 </p>
 
 <div *ngIf="nvData">
