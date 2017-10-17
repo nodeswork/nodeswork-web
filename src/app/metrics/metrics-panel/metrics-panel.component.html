@@ -3,10 +3,10 @@
 </p>
 
 <div *ngIf="nvData">
-  <div *ngFor="let nvGroup of nvData.groups">
+  <div *ngFor="let nvGroup of nvData.groups" class="group">
     <h3>{{nvGroup.title}}</h3>
-    <div *ngFor="let nvGraph of nvGroup.graphs">
-      <div class="graph">
+    <div fxLayout="row" fxLayoutWrap fxLayoutAlign="space-between center">
+      <div class="graph" [fxFlex]="nvGraph.fxFlex" *ngFor="let nvGraph of nvGroup.graphs">
         <h4 class="title">{{nvGraph.title}}</h4>
         <nvd3 [options]="nvGraph.options" [data]="nvGraph.data"></nvd3>
       </div>

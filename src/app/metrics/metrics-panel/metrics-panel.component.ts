@@ -176,8 +176,24 @@ export class MetricsPanelComponent implements OnInit {
           ];
         }
 
+        let fxFlex: number;
+        switch (graphConfig.width) {
+          case 1:
+            fxFlex = 25;
+            break;
+          case 2:
+            fxFlex = 50;
+            break;
+          case 4:
+            fxFlex = 100;
+            break;
+          default:
+            fxFlex = 100;
+        }
+
         nvGroup.graphs.push({
           title:    graphConfig.title,
+          fxFlex,
           options:  nvOptions,
           data:     [],
         });
@@ -194,6 +210,9 @@ export class MetricsPanelComponent implements OnInit {
       for (const metrics of groupConfig.graphs[idx].metrics) {
         data.push(this.processNVGMetricsSeries(
           metrics, groupConfig.dimensionConfigs, groupData[metrics.name],
+          {
+            autoHideMetricsName: groupConfig.graphs[idx].metrics.length === 1,
+          },
         ));
       }
       this.nvData.groups[groupIdx].graphs[idx].data = _.flatten(
@@ -206,6 +225,7 @@ export class MetricsPanelComponent implements OnInit {
     metrics: ui.metrics.MetricsPanlGraphMetricsConfig,
     dimensions: ui.metrics.MetricsPanelDimensionConfig[],
     data: MetricsData[],
+    options: NVGMetricsSeriesOptions,
   ): NVSeries[] {
     const enabledDimensions = _.filter(dimensions, (x) => x.enabled);
 
@@ -232,9 +252,17 @@ export class MetricsPanelComponent implements OnInit {
         const dimensionValues = _.map(
           enabledDimensions, (d) => singleDimension[d.name],
         );
-        const newMetricsName  = enabledDimensions.length > 0 ?
-          metrics.name + `{${dimensionValues.join(',')}}` :
-          metrics.name;
+        let newMetricsName  = metrics.name;
+
+        if (options.autoHideMetricsName) {
+          if (enabledDimensions.length === 1) {
+            newMetricsName = dimensionValues[0].toString() || 'unknown';
+          } else if (enabledDimensions.length > 1) {
+            newMetricsName = dimensionValues.join(',');
+          }
+        } else if (enabledDimensions.length > 0) {
+          newMetricsName = metrics.name + `{${dimensionValues.join(',')}}`;
+        }
 
         if (totalData[newMetricsName] == null) {
           totalData[newMetricsName] = {};
@@ -288,6 +316,11 @@ interface NVGData {
 
 interface NVGraphData {
   title:    string;
+  fxFlex:   number;
   options:  any;
   data:     NVSeries[];
+}
+
+interface NVGMetricsSeriesOptions {
+  autoHideMetricsName?: boolean;
 }

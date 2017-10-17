@@ -24,7 +24,7 @@
     "@angular/platform-browser": "^4.4.5",
     "@angular/platform-browser-dynamic": "^4.4.5",
     "@angular/router": "^4.4.5",
-    "@nodeswork/applet": "0.0.48",
+    "@nodeswork/applet": "0.0.50",
     "@nodeswork/utils": "^0.1.7",
     "@types/underscore": "^1.8.3",
     "core-js": "^2.4.1",

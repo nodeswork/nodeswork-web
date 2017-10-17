@@ -37,7 +37,6 @@ export class UserAppletExecutionsComponent implements OnInit {
                 name:          'Account',
                 filters:       [],
                 enabled:       true,
-                split:         true,
               },
             ],
             metricsConfigs:    [
@@ -53,6 +52,7 @@ export class UserAppletExecutionsComponent implements OnInit {
             graphs:            [
               {
                 title:         'Credits',
+                width:         2,
                 chart:         {
                   type:        'lineChart',
                 },
@@ -64,6 +64,7 @@ export class UserAppletExecutionsComponent implements OnInit {
               },
               {
                 title:         'Listing Size',
+                width:         2,
                 chart:         {
                   type:        'lineChart',
                 },
@@ -82,7 +83,6 @@ export class UserAppletExecutionsComponent implements OnInit {
                 name:          'status',
                 filters:       [],
                 enabled:       true,
-                split:         true,
               },
             ],
             metricsConfigs:    [
@@ -97,6 +97,7 @@ export class UserAppletExecutionsComponent implements OnInit {
                 chart:         {
                   type:        'multiBarChart',
                 },
+                width:         4,
                 metrics:       [
                   {
                     name:      'result',
@@ -143,7 +144,6 @@ export class UserAppletExecutionsComponent implements OnInit {
                 name:          'Bid Status',
                 filters:       [],
                 enabled:       true,
-                split:         true,
               },
             ],
             metricsConfigs:    [
@@ -173,7 +173,6 @@ export class UserAppletExecutionsComponent implements OnInit {
                 name:          'Account',
                 filters:       [],
                 enabled:       true,
-                split:         true,
               },
             ],
             metricsConfigs:    [
