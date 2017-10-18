@@ -3,8 +3,13 @@
 </p>
 
 <div *ngIf="nvData">
-  <div *ngFor="let nvGroup of nvData.groups" class="group">
+  <div *ngFor="let nvGroup of nvData.groups; let i = index" class="group">
     <h3>{{nvGroup.title}}</h3>
+    <div fxLayout="row" fxLayoutGap="10px" class="dimension-panel">
+      <div *ngFor="let dimension of nvGroup.dimensions; let j = index">
+        <mat-button-toggle [checked]="dimension.enabled" (change)="toggleDimension(i, j)"> {{ dimension.name }} </mat-button-toggle>
+      </div>
+    </div>
     <div fxLayout="row" fxLayoutWrap fxLayoutAlign="space-between center">
       <div class="graph" [fxFlex]="nvGraph.fxFlex" *ngFor="let nvGraph of nvGroup.graphs">
         <h4 class="title">{{nvGraph.title}}</h4>

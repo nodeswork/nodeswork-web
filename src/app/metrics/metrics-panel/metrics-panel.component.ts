@@ -9,7 +9,7 @@ import { metrics as m }             from '@nodeswork/utils';
 import { MetricsService }           from '../../_services';
 import { MetricsData, NVSeries }    from '../../_models';
 
-const ALLOWED_GRANULARITY = [ 300, 600, 900, 3600, 24 * 3600 ];
+const ALLOWED_GRANULARITY = [ 60, 300, 600, 900, 3600, 24 * 3600 ];
 
 function floor(x: number, scale: number) {
   return Math.floor(x / scale) * scale;
@@ -162,13 +162,20 @@ export class MetricsPanelComponent implements OnInit {
     }
   }
 
+  toggleDimension(groupIdx: number, dimensionIdx: number) {
+    const dimension = this.nvData.groups[groupIdx].dimensions[dimensionIdx];
+    dimension.enabled = !dimension.enabled;
+    this.updateGroupData(groupIdx);
+  }
+
   private initializeNVData() {
     const self = this;
     this.nvData = { groups: [] };
     for (const groupConfig of this._config.groups) {
       const nvGroup = {
-        title:  groupConfig.title,
-        graphs: [],
+        title:       groupConfig.title,
+        graphs:      [],
+        dimensions:  groupConfig.dimensionConfigs,
       };
       this.nvData.groups.push(nvGroup);
 
@@ -218,12 +225,12 @@ export class MetricsPanelComponent implements OnInit {
           },
         };
 
-        if (graphConfig.chart.type !== 'multiBarChart') {
-          nvOptions.chart.xDomain = [
-            this.timerange.start,
-            this.timerange.end,
-          ];
-        }
+        // if (graphConfig.chart.type !== 'multiBarChart') {
+          // nvOptions.chart.xDomain = [
+            // this.timerange.start,
+            // this.timerange.end,
+          // ];
+        // }
 
         let fxFlex: number;
         switch (graphConfig.width) {
@@ -278,6 +285,22 @@ export class MetricsPanelComponent implements OnInit {
   ): NVSeries[] {
     const enabledDimensions = _.filter(dimensions, (x) => x.enabled);
 
+    if (metrics.transform) {
+      data = _.map(data, (d) => {
+        const result = _.clone(d);
+        result.metrics = _.mapObject(
+          result.metrics,
+          (metricsData) => {
+            return _.mapObject(metricsData, (val: m.MetricsValue<any>) => {
+              const v = m.operator.retrieveValue(val);
+              return m[metrics.transform](v);
+            });
+          },
+        );
+        return result;
+      });
+    }
+
     const projectOptions = {
       dimensions:  _.map(enabledDimensions, (x) => x.name),
       metrics:     [metrics.name],
@@ -301,7 +324,7 @@ export class MetricsPanelComponent implements OnInit {
         const dimensionValues = _.map(
           enabledDimensions, (d) => singleDimension[d.name],
         );
-        let newMetricsName  = metrics.name;
+        let newMetricsName  = metrics.displayName || metrics.name;
 
         if (options.autoHideMetricsName) {
           if (enabledDimensions.length === 1) {
@@ -311,7 +334,7 @@ export class MetricsPanelComponent implements OnInit {
             newMetricsName = dimensionValues.join(',');
           }
         } else if (enabledDimensions.length > 0) {
-          newMetricsName = metrics.name + `{${dimensionValues.join(',')}}`;
+          newMetricsName = newMetricsName + `{${dimensionValues.join(',')}}`;
         }
 
         if (totalData[newMetricsName] == null) {
@@ -328,6 +351,7 @@ export class MetricsPanelComponent implements OnInit {
       });
     }
 
+    const retrieve = metrics.retrieve;
     return _.map(totalData, (metricsData, metricsName) => {
       return {
         key: metricsName,
@@ -335,7 +359,7 @@ export class MetricsPanelComponent implements OnInit {
           const d = metricsData[ts];
           return {
             label: ts,
-            value: d == null ? 0 : m.operator.retrieveValue(d),
+            value: d == null ? 0 : m.operator.retrieveValue(d, retrieve),
           };
         }),
       };
@@ -361,8 +385,9 @@ interface NVData {
 }
 
 interface NVGData {
-  title:    string;
-  graphs:   NVGraphData[];
+  title:       string;
+  dimensions:  ui.metrics.MetricsPanelDimensionConfig[];
+  graphs:      NVGraphData[];
 }
 
 interface NVGraphData {

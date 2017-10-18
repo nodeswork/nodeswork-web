@@ -11,3 +11,7 @@
 .graph .title {
   text-align: center;
 }
+
+.dimension-panel {
+  margin: 12px 0;
+}

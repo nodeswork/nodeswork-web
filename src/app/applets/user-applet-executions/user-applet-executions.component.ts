@@ -32,7 +32,7 @@ export class UserAppletExecutionsComponent implements OnInit {
           {
             name:          'operator',
             filters:       [],
-            enabled:       true,
+            enabled:       false,
           },
         ],
         metricsConfigs:    [
@@ -71,6 +71,25 @@ export class UserAppletExecutionsComponent implements OnInit {
               },
             ],
           },
+          {
+            title:         'API Call Counts',
+            width:         2,
+            chart:         {
+              type:        'lineChart',
+            },
+            metrics:       [
+              {
+                name:         'api_status',
+                displayName:  'success',
+                retrieve:     'numerator',
+              },
+              {
+                name:         'api_status',
+                displayName:  'total',
+                retrieve:     'denominator',
+              },
+            ],
+          },
         ],
       };
 
@@ -80,12 +99,12 @@ export class UserAppletExecutionsComponent implements OnInit {
           {
             name:          'account',
             filters:       [],
-            enabled:       true,
+            enabled:       false,
           },
           {
             name:          'contract_type',
             filters:       [],
-            enabled:       true,
+            enabled:       false,
           },
         ],
         metricsConfigs:    [
@@ -116,6 +135,7 @@ export class UserAppletExecutionsComponent implements OnInit {
             metrics:       [
               {
                 name:      'club_value',
+                transform: 'Sum',
               },
             ],
           },
@@ -128,6 +148,7 @@ export class UserAppletExecutionsComponent implements OnInit {
             metrics:       [
               {
                 name:      'credits',
+                transform: 'Sum',
               },
             ],
           },
@@ -140,6 +161,7 @@ export class UserAppletExecutionsComponent implements OnInit {
             metrics:       [
               {
                 name:      'contracts_in_club',
+                transform: 'Count',
               },
             ],
           },
@@ -152,6 +174,7 @@ export class UserAppletExecutionsComponent implements OnInit {
             metrics:       [
               {
                 name:      'contracts_listing',
+                transform: 'Count',
               },
             ],
           },
@@ -164,12 +187,12 @@ export class UserAppletExecutionsComponent implements OnInit {
           {
             name:          'account',
             filters:       [],
-            enabled:       true,
+            enabled:       false,
           },
           {
             name:          'contract_type',
             filters:       [],
-            enabled:       true,
+            enabled:       false,
           },
         ],
         metricsConfigs:    [
