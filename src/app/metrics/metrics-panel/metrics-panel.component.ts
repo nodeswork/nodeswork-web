@@ -9,6 +9,16 @@ import { metrics as m }             from '@nodeswork/utils';
 import { MetricsService }           from '../../_services';
 import { MetricsData, NVSeries }    from '../../_models';
 
+const ALLOWED_GRANULARITY = [ 300, 600, 900, 3600, 24 * 3600 ];
+
+function floor(x: number, scale: number) {
+  return Math.floor(x / scale) * scale;
+}
+
+function ceil(x: number, scale: number) {
+  return Math.ceil(x / scale) * scale;
+}
+
 @Component({
   selector: 'app-metrics-panel',
   templateUrl: './metrics-panel.component.html',
@@ -17,21 +27,28 @@ import { MetricsData, NVSeries }    from '../../_models';
 export class MetricsPanelComponent implements OnInit {
 
   // UI fields
-  granularity:      string;
-  start:            string;
-  end:              string;
+  granularityHuman:  string;
+  startHuman:        string;
+  endHuman:          string;
 
-  @Input() config:  object;
-  @Input() role:    string;
+  @Input() config:   object;
+  @Input() role:     string;
 
-  timerange:        {
-    start:          number;
-    end:            number;
+  granularity:       number;
+  timerange:         {
+    start:           number;
+    end:             number;
   };
+  start:             Date;
+  end:               Date;
   formatter:         d3.time.Format;
+  interval:          d3.time.Interval;
+  intervalStep:      number;
+  intervalRange:     Date[];
+  intervalRangeTs:   number[];
 
-  private  _config: ui.metrics.MetricsPanel;
-  private  mData:   MData;
+  private  _config:  ui.metrics.MetricsPanel;
+  private  mData:    MData;
 
   nvData:   NVData;
 
@@ -41,28 +58,56 @@ export class MetricsPanelComponent implements OnInit {
   }
 
   private initializeConfigs() {
-    this._config       = this.config as any;
-    const granularity  = this._config.rangeSelection.granularity;
-    const scale        = granularity * 1000;
-    this.granularity   = moment.duration(granularity, 'seconds').humanize();
+    this._config           = this.config as any;
+
+    this.granularity       = _.find(ALLOWED_GRANULARITY, (x) => {
+      return x === this._config.rangeSelection.granularity;
+    }) || 600;
+
+    const scale            = this.granularity * 1000;
+    this.granularityHuman  = moment.duration(
+      this.granularity, 'seconds',
+    ).humanize();
 
     this.timerange = {
-      start:  Math.ceil(
-        this._config.rangeSelection.timerange.start / scale,
-      ) * scale,
-      end:    Math.ceil(
-        this._config.rangeSelection.timerange.end / scale,
-      ) * scale,
+      start: this._config.rangeSelection.timerange.start,
+      end:   this._config.rangeSelection.timerange.end,
     };
 
-    if (granularity >= 3600 * 24) {
-      this.formatter = d3.time.format('%x');
-    } else {
-      this.formatter = d3.time.format('%x %H:%M');
+    if (this.timerange.start <= 0) {
+      this.timerange.start += Date.now();
+    }
+    if (this.timerange.end <= 0) {
+      this.timerange.end += Date.now();
     }
 
-    this.start = this.formatter(new Date(this.timerange.start));
-    this.end   = this.formatter(new Date(this.timerange.end));
+    this.timerange = {
+      start:  ceil(this.timerange.start, scale),
+      end:    ceil(this.timerange.end, scale),
+    };
+
+    if (this.granularity >= 3600 * 24) {
+      this.formatter     = d3.time.format('%x');
+      this.interval      = d3.time.day;
+      this.intervalStep  = this.granularity / 3600 / 24;
+    } else if (this.granularity >= 3600) {
+      this.formatter     = d3.time.format('%x %H:%M');
+      this.interval      = d3.time.hour;
+      this.intervalStep  = this.granularity / 3600;
+    } else {
+      this.formatter = d3.time.format('%x %H:%M');
+      this.interval      = d3.time.minute;
+      this.intervalStep  = this.granularity / 60;
+    }
+
+    this.start           = new Date(this.timerange.start);
+    this.end             = new Date(this.timerange.end);
+    this.startHuman      = this.formatter(this.start);
+    this.endHuman        = this.formatter(this.end);
+    this.intervalRange   = this.interval.range(
+      this.start, this.end, this.intervalStep,
+    );
+    this.intervalRangeTs = _.map(this.intervalRange, (r) => r.getTime());
   }
 
   async ngOnInit() {
@@ -103,8 +148,8 @@ export class MetricsPanelComponent implements OnInit {
         const data = await this.metricsService.getMetrics({
           url:          request.url,
           metrics:      request.metrics,
-          timerange:    this._config.rangeSelection.timerange,
-          granularity:  this._config.rangeSelection.granularity,
+          timerange:    this.timerange,
+          granularity:  this.granularity,
           dimensions:   [],
         });
 
@@ -281,10 +326,11 @@ export class MetricsPanelComponent implements OnInit {
     return _.map(totalData, (metricsData, metricsName) => {
       return {
         key: metricsName,
-        values: _.map(metricsData, (val: m.MetricsValue<any>, ts: any) => {
+        values: _.map(this.intervalRangeTs, (ts: number) => {
+          const d = metricsData[ts];
           return {
             label: ts,
-            value: m.operator.retrieveValue(val),
+            value: d == null ? 0 : m.operator.retrieveValue(d),
           };
         }),
       };

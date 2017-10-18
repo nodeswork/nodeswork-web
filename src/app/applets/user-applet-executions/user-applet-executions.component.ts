@@ -25,23 +25,31 @@ export class UserAppletExecutionsComponent implements OnInit {
         rangeSelection:      {
           granularity:       600, // 3600,
           timerange:         {
-            start:           moment().subtract(2, 'day').toDate().getTime(),
-            end:             moment().toDate().getTime(),
+            start:           - 2 * 3600 * 24 * 1000,
+            end:             0,
           },
         },
         groups:              [
           {
-            title:             '',
+            title:             'Overview',
             dimensionConfigs:  [
               {
                 name:          'Account',
                 filters:       [],
-                enabled:       true,
+                enabled:       false,
               },
             ],
             metricsConfigs:    [
               {
                 name:          'Credits',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+              {
+                name:          'Own Contracts',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+              {
+                name:          'Total Listing Items',
                 source:        `user-applets/${params.userAppletId}/executions`,
               },
               {
@@ -52,7 +60,7 @@ export class UserAppletExecutionsComponent implements OnInit {
             graphs:            [
               {
                 title:         'Credits',
-                width:         2,
+                width:         1,
                 chart:         {
                   type:        'lineChart',
                 },
@@ -63,14 +71,64 @@ export class UserAppletExecutionsComponent implements OnInit {
                 ],
               },
               {
-                title:         'Listing Size',
+                title:         'Own Contracts',
+                width:         1,
+                chart:         {
+                  type:        'lineChart',
+                },
+                metrics:       [
+                  {
+                    name:      'Own Contracts',
+                  },
+                ],
+              },
+              {
+                title:         'Listing Items',
+                width:         1,
+                chart:         {
+                  type:        'lineChart',
+                },
+                metrics:       [
+                  {
+                    name:      'Total Listing Items',
+                  },
+                  {
+                    name:      'Listing Size',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title:             'Listing State',
+            dimensionConfigs:  [
+              {
+                name:          'Account',
+                filters:       [],
+                enabled:       false,
+              },
+              {
+                name:          'Trade State',
+                filters:       [],
+                enabled:       true,
+              },
+            ],
+            metricsConfigs:    [
+              {
+                name:          'Listing Items',
+                source:        `user-applets/${params.userAppletId}/executions`,
+              },
+            ],
+            graphs:            [
+              {
+                title:         'Listing Items',
                 width:         2,
                 chart:         {
                   type:        'lineChart',
                 },
                 metrics:       [
                   {
-                    name:      'Listing Size',
+                    name:      'Listing Items',
                   },
                 ],
               },
