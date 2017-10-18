@@ -163,6 +163,7 @@ export class MetricsPanelComponent implements OnInit {
   }
 
   private initializeNVData() {
+    const self = this;
     this.nvData = { groups: [] };
     for (const groupConfig of this._config.groups) {
       const nvGroup = {
@@ -172,10 +173,19 @@ export class MetricsPanelComponent implements OnInit {
       this.nvData.groups.push(nvGroup);
 
       for (const graphConfig of groupConfig.graphs) {
+        const yFormatter = (function(gc) {
+          let formatter;
+          if (gc.percentage) {
+            formatter = d3.format('.0%');
+          } else {
+            formatter = d3.format(',.0f');
+          }
+          return (d) => formatter(d);
+        })(graphConfig);
         const nvOptions: any = {
           chart: {
             type:      graphConfig.chart.type,
-            height:    250,
+            height:    220,
             margin :   {
               top:     40,
               right:   80,
@@ -185,31 +195,25 @@ export class MetricsPanelComponent implements OnInit {
             x: function(d){ return d.label; },
             y: function(d){ return d.value; },
             showValues: true,
-            valueFormat: function(d){
-              return d3.format(',.0f')(d);
-            },
+            valueFormat: yFormatter,
             tooltip: {
               keyFormatter: function(d) {
                 return d;
               },
-              valueFormatter: function(d) {
-                return d3.format(',.0f')(d);
-              },
+              valueFormatter: yFormatter,
               headerFormatter: function(d) {
-                return d3.time.format('%x %H:%M')(new Date(Number.parseInt(d)));
+                return self.formatter(new Date(Number.parseInt(d)));
               },
             },
             duration: 500,
             xAxis: {
               axisLabel: 'Time',
               tickFormat: function(d) {
-                return d3.time.format('%x %H:%M')(new Date(Number.parseInt(d)));
+                return self.formatter(new Date(Number.parseInt(d)));
               },
             },
             yAxis: {
-              tickFormat: function(d) {
-                return d3.format(',.0f')(d);
-              },
+              tickFormat: yFormatter,
             },
           },
         };
@@ -301,7 +305,8 @@ export class MetricsPanelComponent implements OnInit {
 
         if (options.autoHideMetricsName) {
           if (enabledDimensions.length === 1) {
-            newMetricsName = dimensionValues[0].toString() || 'unknown';
+            newMetricsName = dimensionValues[0] ?
+              dimensionValues[0].toString() : 'unknown';
           } else if (enabledDimensions.length > 1) {
             newMetricsName = dimensionValues.join(',');
           }
