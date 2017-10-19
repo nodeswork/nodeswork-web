@@ -281,11 +281,72 @@ export class UserAppletExecutionsComponent implements OnInit {
         ],
       };
 
+      const contractsSearchGroup: ui.metrics.MetricsPanelGroup = {
+        title:             'Contracts Search',
+        dimensionConfigs:  [
+          {
+            name:          'account',
+            filters:       [],
+            enabled:       false,
+          },
+        ],
+        metricsConfigs:    [
+          {
+            name:          'contracts_search_b150',
+            source:        `user-applets/${params.userAppletId}/executions`,
+          },
+          {
+            name:          'contracts_search_b200',
+            source:        `user-applets/${params.userAppletId}/executions`,
+          },
+        ],
+        graphs:            [
+          {
+            title:         'Contracts Search Bid <= 150',
+            width:         2,
+            chart:         {
+              type:        'lineChart',
+            },
+            metrics:       [
+              {
+                name:         'contracts_search_b150',
+                displayName:  'searched',
+                retrieve:     'denominator',
+              },
+              {
+                name:         'contracts_search_b150',
+                displayName:  'found',
+                retrieve:     'numerator',
+              },
+            ],
+          },
+          {
+            title:         'Contracts Search Max Bid = 200',
+            width:         2,
+            chart:         {
+              type:        'lineChart',
+            },
+            metrics:       [
+              {
+                name:         'contracts_search_b200',
+                displayName:  'searched',
+                retrieve:     'denominator',
+              },
+              {
+                name:         'contracts_search_b200',
+                displayName:  'found',
+                retrieve:     'numerator',
+              },
+            ],
+          },
+        ],
+      };
+
       this.config = {
         rangeSelection:      {
           granularity:       600, // 3600,
           timerange:         {
-            start:           - 4 * 3600 * 1000,
+            start:           - 12 * 3600 * 1000,
             end:             0,
           },
         },
@@ -293,6 +354,7 @@ export class UserAppletExecutionsComponent implements OnInit {
           executionMonitoringGroup,
           clubPerformanceGroup,
           contractsTradingGroup,
+          contractsSearchGroup,
           {
             title:             'Executions',
             dimensionConfigs:  [
