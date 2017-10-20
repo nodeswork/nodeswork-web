@@ -342,11 +342,93 @@ export class UserAppletExecutionsComponent implements OnInit {
         ],
       };
 
+      const contractsBidGroup: ui.metrics.MetricsPanelGroup = {
+        title:             'Contracts Bid',
+        dimensionConfigs:  [
+          {
+            name:          'account',
+            filters:       [],
+            enabled:       false,
+          },
+          {
+            name:          'bid_status',
+            filters:       [],
+            enabled:       false,
+          },
+          {
+            name:          'bid_purpose',
+            filters:       [],
+            enabled:       false,
+          },
+          {
+            name:          'bid_price',
+            filters:       [],
+            enabled:       false,
+          },
+        ],
+        metricsConfigs:    [
+          {
+            name:          'bid',
+            source:        `user-applets/${params.userAppletId}/executions`,
+          },
+        ],
+        graphs:            [
+          {
+            title:         'Contracts Bid Success',
+            width:         1,
+            chart:         {
+              type:        'lineChart',
+            },
+            metrics:       [
+              {
+                name:         'bid',
+                displayName:  'Bid Success',
+                retrieve:     'numerator',
+              },
+            ],
+          },
+          {
+            title:         'Contracts Bid Total',
+            width:         2,
+            chart:         {
+              type:        'multiBarChart',
+            },
+            metrics:       [
+              {
+                name:         'bid',
+                displayName:  'Bid',
+                retrieve:     'denominator',
+              },
+            ],
+          },
+          {
+            title:         'Contracts Bid',
+            width:         2,
+            chart:         {
+              type:        'lineChart',
+            },
+            metrics:       [
+              {
+                name:         'bid',
+                displayName:  'Total Bid',
+                retrieve:     'denominator',
+              },
+              {
+                name:         'bid',
+                displayName:  'Bid Success',
+                retrieve:     'numerator',
+              },
+            ],
+          },
+        ],
+      };
+
+
       this.config = {
         rangeSelection:      {
-          granularity:       600, // 3600,
+          granularity:       3600, // 3600,
           timerange:         {
-            start:           - 12 * 3600 * 1000,
+            start:           - 24 * 3600 * 1000,
             end:             0,
           },
         },
@@ -355,6 +437,7 @@ export class UserAppletExecutionsComponent implements OnInit {
           clubPerformanceGroup,
           contractsTradingGroup,
           contractsSearchGroup,
+          contractsBidGroup,
           {
             title:             'Executions',
             dimensionConfigs:  [
@@ -380,66 +463,6 @@ export class UserAppletExecutionsComponent implements OnInit {
                 metrics:       [
                   {
                     name:      'result',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title:             'Contract Searching',
-            dimensionConfigs:  [
-            ],
-            metricsConfigs:    [
-              {
-                name:          'Contract Searched',
-                source:        `user-applets/${params.userAppletId}/executions`,
-              },
-              {
-                name:          'Contract Found',
-                source:        `user-applets/${params.userAppletId}/executions`,
-              },
-            ],
-            graphs:            [
-              {
-                title:         'Contracts Searching',
-                chart:         {
-                  type:        'lineChart',
-                },
-                metrics:       [
-                  {
-                    name:      'Contract Searched',
-                  },
-                  {
-                    name:      'Contract Found',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title:             'Bidding',
-            dimensionConfigs:  [
-              {
-                name:          'Bid Status',
-                filters:       [],
-                enabled:       true,
-              },
-            ],
-            metricsConfigs:    [
-              {
-                name:          'Bid',
-                source:        `user-applets/${params.userAppletId}/executions`,
-              },
-            ],
-            graphs:            [
-              {
-                title:         'Bidding',
-                chart:         {
-                  type:        'lineChart',
-                },
-                metrics:       [
-                  {
-                    name:      'Bid',
                   },
                 ],
               },

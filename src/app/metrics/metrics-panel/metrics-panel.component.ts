@@ -113,7 +113,7 @@ export class MetricsPanelComponent implements OnInit {
   async ngOnInit() {
     this.initializeConfigs();
 
-    await this.fetchMData();
+    await this.fetchMDataParallel();
     await this.initializeNVData();
 
     for (let idx = 0; idx < this._config.groups.length; idx++) {
@@ -121,10 +121,13 @@ export class MetricsPanelComponent implements OnInit {
     }
   }
 
-  private async fetchMData() {
+  private async fetchMDataParallel() {
     this.mData    = { groups: [] };
 
-    for (const group of this._config.groups) {
+    const dataRequests: AsyncDataRequest[] = [];
+
+    for (let i = 0; i < this._config.groups.length; i++) {
+      const group  = this._config.groups[i];
       const requests: MetricsRequest[] = _.chain(group.metricsConfigs)
         .map((metrics) => {
           const url = `/v1/u/metrics/${this.role}/${metrics.source}`;
@@ -145,20 +148,29 @@ export class MetricsPanelComponent implements OnInit {
       const gData: GData = {};
 
       for (const request of requests) {
-        const data = await this.metricsService.getMetrics({
-          url:          request.url,
-          metrics:      request.metrics,
-          timerange:    this.timerange,
-          granularity:  this.granularity,
-          dimensions:   [],
+        dataRequests.push({
+          groupId:        i,
+          metrics:        request.metrics,
+          dataPromise:    this.metricsService.getMetrics({
+            url:          request.url,
+            metrics:      request.metrics,
+            timerange:    this.timerange,
+            granularity:  this.granularity,
+            dimensions:   [],
+          }),
         });
-
-        for (const metricsName of request.metrics) {
-          gData[metricsName] = data;
-        }
       }
 
       this.mData.groups.push(gData);
+    }
+
+    await Promise.all(_.map(dataRequests, (x) => x.dataPromise));
+
+    for (const request of dataRequests) {
+      const data = await request.dataPromise;
+      for (const metricsName of request.metrics) {
+        this.mData.groups[request.groupId][metricsName] = data;
+      }
     }
   }
 
@@ -399,4 +411,10 @@ interface NVGraphData {
 
 interface NVGMetricsSeriesOptions {
   autoHideMetricsName?: boolean;
+}
+
+interface AsyncDataRequest {
+  groupId:      number;
+  metrics:      string[];
+  dataPromise:  Promise<MetricsData[]>;
 }
