@@ -1,4 +1,5 @@
 import * as _                       from 'underscore';
+import * as clone                   from 'clone';
 import * as moment                  from 'moment';
 
 import { Component, OnInit, Input } from '@angular/core';
@@ -113,8 +114,9 @@ export class MetricsPanelComponent implements OnInit {
   async ngOnInit() {
     this.initializeConfigs();
 
-    await this.fetchMDataParallel();
     await this.initializeNVData();
+    await this.fetchMDataParallel();
+    await this.initialDimensions();
 
     for (let idx = 0; idx < this._config.groups.length; idx++) {
       this.updateGroupData(idx);
@@ -147,6 +149,14 @@ export class MetricsPanelComponent implements OnInit {
 
       const gData: GData = {};
 
+      const dConfigs = _.map(group.dimensionConfigs, (dimension) => {
+        return {
+          name:          dimension.name,
+          selectValues:  _.map(dimension.filters, (x) => x.value),
+          omitValues:    [],
+        };
+      });
+
       for (const request of requests) {
         dataRequests.push({
           groupId:        i,
@@ -156,7 +166,7 @@ export class MetricsPanelComponent implements OnInit {
             metrics:      request.metrics,
             timerange:    this.timerange,
             granularity:  this.granularity,
-            dimensions:   [],
+            dimensions:   dConfigs,
           }),
         });
       }
@@ -174,9 +184,42 @@ export class MetricsPanelComponent implements OnInit {
     }
   }
 
+  private initialDimensions() {
+    for (let i = 0; i < this._config.groups.length; i++) {
+      const groupConfig = this._config.groups[i];
+      const groupData   = this.mData.groups[i];
+      const nvGData     = this.nvData.groups[i];
+
+      const allDimensions: m.Dimensions = {};
+      for (const metrics of groupConfig.metricsConfigs) {
+        const metricsData = groupData[metrics.name];
+        for (const data of metricsData) {
+          _.extend(allDimensions, data.dimensions);
+        }
+      }
+
+      for (const nvDimension of nvGData.dimensions) {
+        if (nvDimension.filters.length) {
+          continue;
+        }
+
+        nvDimension.filters = _.chain(allDimensions)
+          .map((dim) => dim[nvDimension.name])
+          .uniq()
+          .sort()
+          .map((value) => {
+            return {
+              value,
+              selected: true,
+            };
+          })
+          .value();
+      }
+    }
+  }
+
   toggleDimension(groupIdx: number, dimensionIdx: number) {
     const dimension = this.nvData.groups[groupIdx].dimensions[dimensionIdx];
-    dimension.enabled = !dimension.enabled;
     this.updateGroupData(groupIdx);
   }
 
@@ -187,7 +230,7 @@ export class MetricsPanelComponent implements OnInit {
       const nvGroup = {
         title:       groupConfig.title,
         graphs:      [],
-        dimensions:  groupConfig.dimensionConfigs,
+        dimensions:  clone(groupConfig.dimensionConfigs),
       };
       this.nvData.groups.push(nvGroup);
 
@@ -237,13 +280,6 @@ export class MetricsPanelComponent implements OnInit {
           },
         };
 
-        // if (graphConfig.chart.type !== 'multiBarChart') {
-          // nvOptions.chart.xDomain = [
-            // this.timerange.start,
-            // this.timerange.end,
-          // ];
-        // }
-
         let fxFlex: number;
         switch (graphConfig.width) {
           case 1:
@@ -272,12 +308,13 @@ export class MetricsPanelComponent implements OnInit {
   private updateGroupData(groupIdx: number) {
     const groupConfig = this._config.groups[groupIdx];
     const groupData   = this.mData.groups[groupIdx];
+    const nvGroup     = this.nvData.groups[groupIdx];
 
     for (let idx = 0; idx < groupConfig.graphs.length; idx++) {
       const data: NVSeries[][] = [];
       for (const metrics of groupConfig.graphs[idx].metrics) {
         data.push(this.processNVGMetricsSeries(
-          metrics, groupConfig.dimensionConfigs, groupData[metrics.name],
+          metrics, nvGroup.dimensions, groupData[metrics.name],
           {
             autoHideMetricsName: groupConfig.graphs[idx].metrics.length === 1,
           },
@@ -290,12 +327,32 @@ export class MetricsPanelComponent implements OnInit {
   }
 
   private processNVGMetricsSeries(
-    metrics: ui.metrics.MetricsPanlGraphMetricsConfig,
-    dimensions: ui.metrics.MetricsPanelDimensionConfig[],
-    data: MetricsData[],
-    options: NVGMetricsSeriesOptions,
+    metrics:     ui.metrics.MetricsPanlGraphMetricsConfig,
+    dimensions:  ui.metrics.MetricsPanelDimensionConfig[],
+    data:        MetricsData[],
+    options:     NVGMetricsSeriesOptions,
   ): NVSeries[] {
     const enabledDimensions = _.filter(dimensions, (x) => x.enabled);
+
+    const filterDimensions = _.map(dimensions, (d) => {
+      const selectValues = _.chain(d.filters)
+        .filter((x) => x.selected)
+        .map((x) => x.value)
+        .value();
+      return {
+        name: d.name,
+        selectValues,
+        omitValues: [],
+      };
+    });
+
+    data = m.operator.filterMetricsDatasByValue(
+      data,
+      {
+        dimensions: filterDimensions,
+        metrics:    [],
+      },
+    );
 
     if (metrics.transform) {
       data = _.map(data, (d) => {

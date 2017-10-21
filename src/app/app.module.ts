@@ -14,6 +14,7 @@ import {
   MatDialogModule,
   MatExpansionModule,
   MatInputModule,
+  MatMenuModule,
   MatSelectModule,
   MatSidenavModule,
   MatSlideToggleModule,
@@ -79,6 +80,7 @@ import { MetricsPanelComponent }           from './metrics/metrics-panel/metrics
 
 import 'd3';
 import 'nvd3';
+import { DropdownMultiSelectionComponent } from './utils/dropdown-multi-selection/dropdown-multi-selection.component';
 
 @NgModule({
   imports: [
@@ -95,6 +97,7 @@ import 'nvd3';
     MatDialogModule,
     MatExpansionModule,
     MatInputModule,
+    MatMenuModule,
     MatSelectModule,
     MatSidenavModule,
     MatSlideToggleModule,
@@ -133,6 +136,7 @@ import 'nvd3';
     UserAppletExecutionsComponent,
     FooterMenuComponent,
     MetricsPanelComponent,
+    DropdownMultiSelectionComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,

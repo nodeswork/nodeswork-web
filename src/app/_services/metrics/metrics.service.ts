@@ -14,18 +14,7 @@ export class MetricsService {
   async getMetrics(
     options: GetMetricsOptions,
   ): Promise<MetricsData[]> {
-    let params = new HttpParams()
-      .append('startTime', options.timerange.start.toString())
-      .append('endTime', options.timerange.end.toString())
-      .append('granularity', options.granularity.toString())
-    ;
-    for (const dimensionName of options.dimensions) {
-      params = params.append('dimensions', dimensionName);
-    }
-    for (const metricsName of options.metrics) {
-      params = params.append('metrics', metricsName);
-    }
-    return await this.api.get(options.url, { params });
+    return await this.api.post(options.url, options);
   }
 }
 
@@ -36,6 +25,12 @@ export interface GetMetricsOptions {
     end:       number;
   };
   granularity: number;
-  dimensions:  string[];
+  dimensions:  GetMetricsDimensionOptions[];
   metrics:     string[];
+}
+
+export interface GetMetricsDimensionOptions {
+  name:          string;
+  selectValues:  any[];
+  omitValues:    any[];
 }

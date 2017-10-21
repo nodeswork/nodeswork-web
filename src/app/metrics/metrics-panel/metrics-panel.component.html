@@ -7,7 +7,7 @@
     <h3>{{nvGroup.title}}</h3>
     <div fxLayout="row" fxLayoutGap="10px" class="dimension-panel">
       <div *ngFor="let dimension of nvGroup.dimensions; let j = index">
-        <mat-button-toggle [checked]="dimension.enabled" (change)="toggleDimension(i, j)"> {{ dimension.name }} </mat-button-toggle>
+        <app-dropdown-multi-selection [(ngModel)]="nvGroup.dimensions[j]" (change)="toggleDimension(i, j)" ngDefaultControl></app-dropdown-multi-selection>
       </div>
     </div>
     <div fxLayout="row" fxLayoutWrap fxLayoutAlign="space-between center">

@@ -1,0 +1,13 @@
+<mat-button-toggle-group #selectionGroup multiple>
+  <mat-button-toggle [(checked)]="ngModel.enabled" buttonToggleGroupMultiple (change)="onToggle()">
+    {{ngModel.displayName || ngModel.name}}
+  </mat-button-toggle>
+  <mat-button-toggle buttonToggleGroupMultiple disabled [matMenuTriggerFor]="menu">
+    <i class="fa fa-caret-down" aria-hidden="true"></i>
+  </mat-button-toggle>
+</mat-button-toggle-group>
+<mat-menu #menu xPosition="after" yPosition="below" class="menu" (close)="onChange()">
+  <div *ngFor="let filter of ngModel.filters" class="menu-item">
+    <mat-checkbox (click)="$event.stopPropagation()" [(ngModel)]="filter.selected">{{filter.value}}</mat-checkbox>
+  </div>
+</mat-menu>

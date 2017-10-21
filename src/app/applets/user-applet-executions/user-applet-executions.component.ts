@@ -26,7 +26,16 @@ export class UserAppletExecutionsComponent implements OnInit {
         dimensionConfigs:  [
           {
             name:          'account',
-            filters:       [],
+            filters:       [
+              // {
+                // value:    'zyz.4.zyz@gmail.com',
+                // selected: true,
+              // },
+              // {
+                // value:    'zyz.4.zy.z@gmail.com',
+                // selected: true,
+              // },
+            ],
             enabled:       false,
           },
           {
@@ -426,9 +435,9 @@ export class UserAppletExecutionsComponent implements OnInit {
 
       this.config = {
         rangeSelection:      {
-          granularity:       3600, // 3600,
+          granularity:       600, // 3600,
           timerange:         {
-            start:           - 24 * 3600 * 1000,
+            start:           - 4 * 3600 * 1000,
             end:             0,
           },
         },
