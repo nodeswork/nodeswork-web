@@ -1,8 +1,6 @@
 <app-page>
   <app-head-menu> Home </app-head-menu>
-  <!-- <app-applet-control-panel></app-applet-control-panel> -->
-  <!-- <app-my-applet-control-panel></app-my-applet-control-panel> -->
-  <!-- <app-account-control-panel></app-account-control-panel> -->
-  <!-- <app-my-device-control-panel></app-my-device-control-panel> -->
+  <h2>Applets To Install</h2>
+  <app-applet-preview *ngFor="let applet of applets" [applet]="applet"></app-applet-preview>
   <app-footer-menu></app-footer-menu>
 </app-page>

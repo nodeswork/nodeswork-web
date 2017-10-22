@@ -61,6 +61,10 @@ export class AppletsService {
     }
   }
 
+  async explore(): Promise<Applet[]> {
+    return await this.apiClient.get('/v1/u/explore');
+  }
+
   async getAppletStructure(options: RouteOptions): Promise<{ providers: AppletProvider[]}> {
     try {
       const path = [
