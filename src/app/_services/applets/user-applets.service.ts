@@ -84,16 +84,10 @@ export class UserAppletsService {
   }
 
   async work(userAppletId: string, worker: AppletWorkerConfig): Promise<any> {
-    try {
-      const result = await this.apiClient.post(
-        `/v1/u/my-applets/${userAppletId}/work/${worker.handler}/${worker.name}`,
-        {},
-      );
-      return result;
-    } catch (e) {
-      /* handle error */
-      console.error(e);
-    }
+    return await this.apiClient.post(
+      `/v1/u/my-applets/${userAppletId}/work/${worker.handler}/${worker.name}`,
+      {},
+    );
   }
 
   async routeGet(userAppletId: string, path: string): Promise<any> {
