@@ -19,9 +19,19 @@ export class DropdownMultiSelectionComponent implements OnInit {
   @Input() ngModel: any; // ui.metrics.MetricsPanelDimensionFilter;
   @Output() change = new EventEmitter<any>();
 
+  filtering: boolean;
+
   constructor() { }
 
   ngOnInit() {
+    this.updateFiltering();
+  }
+
+  updateFiltering() {
+    this.filtering = _.chain(this.ngModel.filters)
+      .map((f: any) => f.selected)
+      .union()
+      .value().length > 1;
   }
 
   onToggle() {
@@ -30,6 +40,7 @@ export class DropdownMultiSelectionComponent implements OnInit {
   }
 
   onChange() {
+    this.updateFiltering();
     this.change.emit();
   }
 

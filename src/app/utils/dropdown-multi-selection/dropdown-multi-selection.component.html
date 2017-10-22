@@ -1,5 +1,6 @@
 <mat-button-toggle-group #selectionGroup multiple>
   <mat-button-toggle [(checked)]="ngModel.enabled" buttonToggleGroupMultiple (change)="onToggle()">
+    <i class="fa fa-filter filter-icon" aria-hidden="true" *ngIf="filtering"></i>
     {{ngModel.displayName || ngModel.name}}
   </mat-button-toggle>
   <mat-button-toggle buttonToggleGroupMultiple disabled [matMenuTriggerFor]="menu">
