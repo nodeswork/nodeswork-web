@@ -1,0 +1,10 @@
+<div *ngIf="data.status === 'ok'">
+  <h4>{{data.worker.displayName}} execute successfully!</h4>
+  <h5>Result:</h5>
+  <pre>{{data.resp | json}}</pre>
+</div>
+<div *ngIf="data.status === 'error'">
+  <h4>{{data.worker.displayName}} execute failed!</h4>
+  <h5>Error:</h5>
+  <pre>{{data.error | json}}</pre>
+</div>

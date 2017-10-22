@@ -1,13 +1,15 @@
-import * as _                       from 'underscore';
-import { Component, OnInit, Input } from '@angular/core';
+import * as _                              from 'underscore';
+import { Component, OnInit, Input }        from '@angular/core';
+import { MatDialog }                       from '@angular/material';
 
 import {
   AppletWorkerConfig,
   UserApplet,
-}                                   from '../../_models';
+}                                          from '../../_models';
 import {
   UserAppletsService,
-}                                   from '../../_services';
+}                                          from '../../_services';
+import { UserAppletActionResultComponent } from '../user-applet-action-result/user-applet-action-result.component';
 
 @Component({
   selector: 'app-user-applet-entry',
@@ -16,11 +18,13 @@ import {
 })
 export class UserAppletEntryComponent implements OnInit {
 
-  @Input() userApplet: UserApplet;
-  defaultAction: AppletWorkerConfig;
+  @Input() userApplet:  UserApplet;
+  defaultAction:        AppletWorkerConfig;
+  loading:              boolean;
 
   constructor(
-    private userAppletsService: UserAppletsService,
+    private userAppletsService:  UserAppletsService,
+    private dialog:              MatDialog,
   ) { }
 
   ngOnInit() {
@@ -33,6 +37,7 @@ export class UserAppletEntryComponent implements OnInit {
   }
 
   async update() {
+    this.loading = true;
     const updateApplet = {
       config: this.userApplet.config,
       enabled: true,
@@ -42,10 +47,24 @@ export class UserAppletEntryComponent implements OnInit {
       this.userApplet._id,
       updateApplet as UserApplet,
     );
+    this.loading = false;
   }
 
   async action(worker: AppletWorkerConfig) {
-    const resp = await this.userAppletsService.work(this.userApplet._id, worker);
-    console.log(resp);
+    const data: any = {
+      worker,
+      status: 'ok',
+    };
+    try {
+      this.loading  = true;
+      const resp    = await this.userAppletsService.work(this.userApplet._id, worker);
+      data.resp     = resp;
+    } catch (e) {
+      data.status = 'error';
+      data.error  = e.error;
+    } finally {
+      this.loading = false;
+      this.dialog.open(UserAppletActionResultComponent, { data });
+    }
   }
 }

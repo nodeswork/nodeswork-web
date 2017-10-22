@@ -30,6 +30,7 @@ import {
 }                                          from '@angular/common/http';
 
 import { NvD3Module }                      from 'ng2-nvd3';
+import { LoadingModule }                   from 'ngx-loading';
 
 import { AppComponent }                    from './app.component';
 import { AppRoutingModule }                from './app-routing.module';
@@ -82,6 +83,7 @@ import 'd3';
 import 'nvd3';
 import { DropdownMultiSelectionComponent } from './utils/dropdown-multi-selection/dropdown-multi-selection.component';
 import { UserAppletAnalysisComponent }     from './applets/user-applet-analysis/user-applet-analysis.component';
+import { UserAppletActionResultComponent } from './applets/user-applet-action-result/user-applet-action-result.component';
 
 @NgModule({
   imports: [
@@ -91,6 +93,7 @@ import { UserAppletAnalysisComponent }     from './applets/user-applet-analysis/
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
+    LoadingModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
@@ -139,10 +142,12 @@ import { UserAppletAnalysisComponent }     from './applets/user-applet-analysis/
     MetricsPanelComponent,
     DropdownMultiSelectionComponent,
     UserAppletAnalysisComponent,
+    UserAppletActionResultComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,
     FifaFut18CreateDialogComponent,
+    UserAppletActionResultComponent,
   ],
   providers: [
     {
