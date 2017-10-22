@@ -1,0 +1,5 @@
+<app-page>
+  <app-head-menu> My Applets Analysis </app-head-menu>
+  <app-metrics-panel *ngIf="config" [config]="config" [role]="role"></app-metrics-panel>
+  <app-footer-menu [active]="'my-applets'"></app-footer-menu>
+</app-page>

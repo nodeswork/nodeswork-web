@@ -1,6 +1,15 @@
-<p>
-  <label>Time Range:</label> {{ startHuman }} ~ {{ endHuman }} every {{ granularityHuman }}
-</p>
+<div class="timerange-control-panel" fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button [matMenuTriggerFor]="timerange">{{ timerangeHuman }} ({{ granularityHuman }})</button>
+  <mat-menu #timerange>
+    <button mat-menu-item (click)="searchTimerange()">Default</button>
+    <button mat-menu-item (click)="searchTimerange(-3600000, 0, 60)">Last 1 hours (a minute)</button>
+    <button mat-menu-item (click)="searchTimerange(-3600000 * 6, 0, 60 * 10)">Last 6 hours (10 minutes)</button>
+    <button mat-menu-item (click)="searchTimerange(-3600000 * 12, 0, 60 * 15)">Last 12 hours (15 minutes)</button>
+    <button mat-menu-item (click)="searchTimerange(-3600000 * 24, 0, 3600)">Last 24 hours (an hour)</button>
+    <button mat-menu-item (click)="searchTimerange(-3600000 * 24 * 2, 0, 3600)">Last 2 days (an hour)</button>
+    <button mat-menu-item (click)="searchTimerange(-3600000 * 24 * 7, 0, 3600)">Last 7 days (an hour)</button>
+  </mat-menu>
+</div>
 
 <div *ngIf="nvData">
   <div *ngFor="let nvGroup of nvData.groups; let i = index" class="group">

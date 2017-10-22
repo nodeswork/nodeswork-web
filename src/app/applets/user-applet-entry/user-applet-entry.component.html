@@ -17,6 +17,6 @@
 
     <i *ngIf="!userApplet.config.upToDate" class="fa fa-level-up" (click)="update()" aria-hidden="true"></i>
     <i class="fa fa-pencil" [routerLink]="['/my-applets/' + userApplet._id + '/edit']" aria-hidden="true"></i>
-    <i class="fa fa-area-chart" [routerLink]="['/my-applets/' + userApplet._id + '/executions']" aria-hidden="true"></i>
+    <i class="fa fa-area-chart" [routerLink]="['/my-applets/' + userApplet._id + '/analysis']" aria-hidden="true"></i>
   </mat-card-actions>
 </mat-card>

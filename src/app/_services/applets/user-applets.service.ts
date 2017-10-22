@@ -96,6 +96,12 @@ export class UserAppletsService {
     }
   }
 
+  async routeGet(userAppletId: string, path: string): Promise<any> {
+    return await this.apiClient.get(
+      `/v1/u/my-applets/${userAppletId}/route/${path}`,
+    );
+  }
+
   refreshMyApplets() {
     this.userState.current().subscribe(async (user) => {
       this.user = user;

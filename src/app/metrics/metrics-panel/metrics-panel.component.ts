@@ -3,6 +3,7 @@ import * as clone                   from 'clone';
 import * as moment                  from 'moment';
 
 import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router }   from '@angular/router';
 
 import { ui }                       from '@nodeswork/applet/dist/ui';
 import { metrics as m }             from '@nodeswork/utils';
@@ -28,41 +29,55 @@ function ceil(x: number, scale: number) {
 export class MetricsPanelComponent implements OnInit {
 
   // UI fields
-  granularityHuman:  string;
-  startHuman:        string;
-  endHuman:          string;
+  granularityHuman:      string;
+  startHuman:            string;
+  endHuman:              string;
+  timerangeHuman:        string;
 
-  @Input() config:   object;
-  @Input() role:     string;
+  @Input() config:       object;
+  @Input() role:         string;
 
-  granularity:       number;
-  timerange:         {
-    start:           number;
-    end:             number;
+  granularity:           number;
+  timerange:             {
+    start:               number;
+    end:                 number;
   };
-  start:             Date;
-  end:               Date;
-  formatter:         d3.time.Format;
-  interval:          d3.time.Interval;
-  intervalStep:      number;
-  intervalRange:     Date[];
-  intervalRangeTs:   number[];
+  start:                 Date;
+  end:                   Date;
+  formatter:             d3.time.Format;
+  interval:              d3.time.Interval;
+  intervalStep:          number;
+  intervalRange:         Date[];
+  intervalRangeTs:       number[];
 
-  private  _config:  ui.metrics.MetricsPanel;
-  private  mData:    MData;
+  private  _config:      ui.metrics.MetricsPanel;
+  private  mData:        MData;
+  private  initialized   = false;
 
-  nvData:   NVData;
+  nvData:                NVData;
 
   constructor(
-    private metricsService: MetricsService,
+    private route:           ActivatedRoute,
+    private router:          Router,
+    private metricsService:  MetricsService,
   ) {
   }
 
-  private initializeConfigs() {
+  private initializeConfigs(
+    timerange?: { start: number; end: number; granularity: number},
+  ) {
     this._config           = this.config as any;
+    if (timerange == null) {
+      timerange = {
+        start: this._config.rangeSelection.timerange.start,
+        end: this._config.rangeSelection.timerange.end,
+        granularity: this._config.rangeSelection.granularity,
+      };
+    }
+    console.log(timerange);
 
     this.granularity       = _.find(ALLOWED_GRANULARITY, (x) => {
-      return x === this._config.rangeSelection.granularity;
+      return x === timerange.granularity;
     }) || 600;
 
     const scale            = this.granularity * 1000;
@@ -71,8 +86,8 @@ export class MetricsPanelComponent implements OnInit {
     ).humanize();
 
     this.timerange = {
-      start: this._config.rangeSelection.timerange.start,
-      end:   this._config.rangeSelection.timerange.end,
+      start: timerange.start,
+      end:   timerange.end,
     };
 
     if (this.timerange.start <= 0) {
@@ -109,18 +124,42 @@ export class MetricsPanelComponent implements OnInit {
       this.start, this.end, this.intervalStep,
     );
     this.intervalRangeTs = _.map(this.intervalRange, (r) => r.getTime());
+
+    if (timerange.start < 0) {
+      this.timerangeHuman = 'Last ' + moment.duration(
+        (this.timerange.end - this.timerange.start) / 1000,
+        'seconds',
+      ).humanize();
+    } else {
+      this.timerangeHuman = `${this.startHuman} ~ ${this.endHuman}`;
+    }
+  }
+
+  async init() {
+    this.route.params.subscribe(async (params) => {
+      if (!params.start) {
+        this.initializeConfigs();
+      } else {
+        this.initializeConfigs({
+          start:        +params.start,
+          end:          +params.end,
+          granularity:  +params.granularity,
+        });
+      }
+
+      await this.initializeNVData();
+      await this.fetchMDataParallel();
+      await this.initialDimensions();
+
+      for (let idx = 0; idx < this._config.groups.length; idx++) {
+        this.updateGroupData(idx);
+      }
+    });
   }
 
   async ngOnInit() {
-    this.initializeConfigs();
-
-    await this.initializeNVData();
-    await this.fetchMDataParallel();
-    await this.initialDimensions();
-
-    for (let idx = 0; idx < this._config.groups.length; idx++) {
-      this.updateGroupData(idx);
-    }
+    this.init();
+    this.initialized = true;
   }
 
   private async fetchMDataParallel() {
@@ -432,6 +471,16 @@ export class MetricsPanelComponent implements OnInit {
           };
         }),
       };
+    });
+  }
+
+  searchTimerange(start: number, end: number, granularity: number) {
+    this.route.url.subscribe((segments) => {
+      const paths: any[] = _.map(segments, (s) => s.path);
+      if (start) {
+        paths.push({ start, end, granularity });
+      }
+      this.router.navigate(paths);
     });
   }
 }

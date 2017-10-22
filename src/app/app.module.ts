@@ -81,6 +81,7 @@ import { MetricsPanelComponent }           from './metrics/metrics-panel/metrics
 import 'd3';
 import 'nvd3';
 import { DropdownMultiSelectionComponent } from './utils/dropdown-multi-selection/dropdown-multi-selection.component';
+import { UserAppletAnalysisComponent }     from './applets/user-applet-analysis/user-applet-analysis.component';
 
 @NgModule({
   imports: [
@@ -137,6 +138,7 @@ import { DropdownMultiSelectionComponent } from './utils/dropdown-multi-selectio
     FooterMenuComponent,
     MetricsPanelComponent,
     DropdownMultiSelectionComponent,
+    UserAppletAnalysisComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,

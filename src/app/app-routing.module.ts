@@ -17,6 +17,7 @@ import { MyAppletControlPanelComponent }   from './applets/my-applet-control-pan
 import { MyDeviceControlPanelComponent }   from './devices/my-device-control-panel/my-device-control-panel.component';
 import { AccountControlPanelComponent }    from './accounts/account-control-panel/account-control-panel.component';
 import { AppletControlPanelComponent }     from './applets/applet-control-panel/applet-control-panel.component';
+import { UserAppletAnalysisComponent }     from './applets/user-applet-analysis/user-applet-analysis.component';
 
 const routes: Routes = [
   { path: '',                                         component: HomeComponent },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'applets/:appletId/edit',                   component: AppletEditFormComponent },
   { path: 'my-applets',                               component: MyAppletControlPanelComponent },
   { path: 'my-applets/:userAppletId/edit',            component: UserAppletEditFormComponent },
+  { path: 'my-applets/:userAppletId/analysis',        component: UserAppletAnalysisComponent },
   { path: 'my-applets/:userAppletId/executions',      component: UserAppletExecutionsComponent },
   { path: 'accounts',                                 component: AccountControlPanelComponent },
   { path: 'accounts/create',                          component: AccountCreateFormComponent },
