@@ -7,6 +7,13 @@
   </mat-button-toggle>
 </mat-button-toggle-group>
 <mat-menu #menu xPosition="after" yPosition="below" class="menu" (close)="onChange()">
+  <div class="menu-item select-item" (click)="selectAll(); $event.stopPropagation()">
+    <mat-checkbox [checked]="true" disabled> Select All </mat-checkbox>
+  </div>
+  <div class="menu-item select-item" (click)="selectNone(); $event.stopPropagation()">
+    <mat-checkbox [checked]="false" disabled> Select None </mat-checkbox>
+  </div>
+  <hr />
   <div *ngFor="let filter of ngModel.filters" class="menu-item">
     <mat-checkbox (click)="$event.stopPropagation()" [(ngModel)]="filter.selected">{{filter.value}}</mat-checkbox>
   </div>

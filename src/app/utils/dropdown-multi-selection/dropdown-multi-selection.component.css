@@ -9,3 +9,7 @@
   line-height: 48px;
   height: 48px;
 }
+
+.select-item {
+  cursor: pointer;
+}

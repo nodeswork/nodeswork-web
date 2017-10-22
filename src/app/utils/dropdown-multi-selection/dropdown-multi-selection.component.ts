@@ -1,3 +1,4 @@
+import * as _   from 'underscore';
 import {
   Component,
   OnInit,
@@ -29,7 +30,18 @@ export class DropdownMultiSelectionComponent implements OnInit {
   }
 
   onChange() {
-    console.log(this.ngModel)
     this.change.emit();
+  }
+
+  selectAll() {
+    _.each(this.ngModel.filters, (f: any) => {
+      f.selected = true;
+    });
+  }
+
+  selectNone() {
+    _.each(this.ngModel.filters, (f: any) => {
+      f.selected = false;
+    });
   }
 }
