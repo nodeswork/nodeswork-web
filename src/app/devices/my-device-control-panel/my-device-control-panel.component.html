@@ -1,7 +1,9 @@
 <app-page>
   <app-head-menu> My Devices </app-head-menu>
   <p>You have {{myDevices.length}} devices, {{connected}} of them are online.</p>
-  <app-device-entry *ngFor="let device of myDevices" [device]="device" [routerLink]="['/devices/' + device._id]"></app-device-entry>
+  <div fxLayout="row" fxLayoutGap="12px">
+    <app-device-entry *ngFor="let device of myDevices" [device]="device" [routerLink]="['/devices/' + device._id]"></app-device-entry>
+  </div>
 
   <hr />
   <h3>Add New Device Instructions</h3>
