@@ -1,5 +1,12 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component }   from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+}                      from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { Router }      from '@angular/router';
 
 import { UserService } from '../../_services';
 
@@ -18,7 +25,12 @@ export class RegisterComponent {
   registerFailed:  boolean;
   userExists:      boolean;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(
+    private fb:           FormBuilder,
+    private router:       Router,
+    private userService:  UserService,
+    private snackBar:     MatSnackBar,
+  ) {
 
     this.rForm = fb.group({
 
@@ -43,8 +55,12 @@ export class RegisterComponent {
 
     this.loading = true;
     this.userService.create(this.rForm.value).subscribe(
-      data => {
+      (data: { message: string; }) => {
         this.loading = false;
+        this.snackBar.open(data.message, '', {
+          duration: 10000,
+        });
+        this.router.navigate(['/login']);
       },
       error => {
         this.loading = false;

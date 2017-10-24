@@ -23,6 +23,9 @@ export class AppComponent implements OnInit {
   ) {
     this.userState.current().subscribe((user) => {
       this.isLogin = user != null;
+      if (this.sideNav) {
+        this.refresh();
+      }
     });
     this.menuService.menu().subscribe((opened) => {
       if (opened) {
@@ -33,12 +36,18 @@ export class AppComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  private refresh()  {
     if (screenSize === SIZE_XS) {
       this.mode = 'over';
     } else if (this.isLogin) {
       this.sideNav.open();
+    } else if (!this.isLogin) {
+      this.sideNav.close();
     }
+  }
+
+  ngOnInit() {
+    this.refresh();
   }
 
   openMenu() {
@@ -46,7 +55,7 @@ export class AppComponent implements OnInit {
   }
 
   closeMenu() {
-    if (screenSize === SIZE_XS) {
+    if (screenSize === SIZE_XS || !this.isLogin) {
       this.sideNav.close();
     }
   }

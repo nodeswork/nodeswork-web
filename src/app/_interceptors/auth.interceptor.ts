@@ -37,6 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
         let error: any;
         if (_.isString(err.error)) {
           error = JSON.parse(err.error);
+          (err as any).error = error;
         } else {
           error = err.error;
         }

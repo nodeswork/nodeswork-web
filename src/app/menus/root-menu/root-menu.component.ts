@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MenuService }       from '../../_services';
+import {
+  AuthenticationService,
+  MenuService,
+}                            from '../../_services';
 
 @Component({
   selector: 'app-root-menu',
@@ -11,6 +14,7 @@ export class RootMenuComponent implements OnInit {
 
   constructor(
     private menuService: MenuService,
+    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit() {
@@ -20,4 +24,8 @@ export class RootMenuComponent implements OnInit {
     this.menuService.close();
   }
 
+  async logout() {
+    await this.authenticationService.logout();
+    this.closeMenu();
+  }
 }
