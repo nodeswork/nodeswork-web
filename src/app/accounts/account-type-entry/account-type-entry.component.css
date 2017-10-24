@@ -5,12 +5,15 @@
 
 .account-category-icon {
   padding-top: 12px;
+  height: 96px;
+  width: 96px;
 }
 
 .account-category-icon img {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto;
+  max-width: 96px;
+  max-height: 96px;
+  height: auto;
+  margin: auto;
   display: block;
 }
 

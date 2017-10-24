@@ -7,6 +7,7 @@ import { Account, AccountCategory }       from '../../_models';
 import { AccountsService }                from '../../_services';
 import { ConfirmDialogComponent }         from '../../utils';
 import { FifaFut18CreateDialogComponent } from '../fifa-fut-18-create-dialog/fifa-fut-18-create-dialog.component';
+import { WexCreateDialogComponent }       from '../wex-create-dialog/wex-create-dialog.component';
 
 @Component({
   selector: 'app-account-create-form',
@@ -59,6 +60,20 @@ export class AccountCreateFormComponent implements OnInit {
     this.router.navigate([`/accounts/${account._id}/fifa-fut-18-account-verify`]);
   }
 
+  async createWEXAccount(accountCategory: AccountCategory, info: {
+    name: string; key: string; secret: string;
+  }) {
+    let account: Account = {
+      accountType: 'WEXAccount',
+      provider: accountCategory.provider,
+      name: info.name,
+      key: info.key,
+      secret: info.secret,
+    } as any;
+    account = await this.accountsService.create(account);
+    this.router.navigate([`/accounts/${account._id}/edit`]);
+  }
+
   async createCommon(accountCategory: AccountCategory) {
     switch (accountCategory.accountType) {
       case 'OAuthAccount':
@@ -93,6 +108,15 @@ export class AccountCreateFormComponent implements OnInit {
           })
         ;
         break;
+      case 'WEXAccount':
+        this.dialog
+          .open(WexCreateDialogComponent)
+          .afterClosed().subscribe((account) => {
+            if (account) {
+              this.createWEXAccount(accountCategory, account);
+            }
+          })
+        ;
     }
   }
 }

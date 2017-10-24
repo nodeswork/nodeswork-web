@@ -18,6 +18,7 @@ import { MyDeviceControlPanelComponent }   from './devices/my-device-control-pan
 import { AccountControlPanelComponent }    from './accounts/account-control-panel/account-control-panel.component';
 import { AppletControlPanelComponent }     from './applets/applet-control-panel/applet-control-panel.component';
 import { UserAppletAnalysisComponent }     from './applets/user-applet-analysis/user-applet-analysis.component';
+import { AccountEditFormComponent }        from './accounts/account-edit-form/account-edit-form.component';
 
 const routes: Routes = [
   { path: '',                                         component: HomeComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'my-applets/:userAppletId/executions',      component: UserAppletExecutionsComponent },
   { path: 'accounts',                                 component: AccountControlPanelComponent },
   { path: 'accounts/create',                          component: AccountCreateFormComponent },
+  { path: 'accounts/:accountId/edit',                 component: AccountEditFormComponent },
   { path: 'accounts/:accountId/oauth-account-verify', component: OauthAccountVerifyComponent },
   { path: 'accounts/:accountId/fifa-fut-18-account-verify', component: FifaFut18AccountVerifyComponent },
   { path: 'devices',                                  component: MyDeviceControlPanelComponent },

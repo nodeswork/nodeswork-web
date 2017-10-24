@@ -84,6 +84,8 @@ import 'nvd3';
 import { DropdownMultiSelectionComponent } from './utils/dropdown-multi-selection/dropdown-multi-selection.component';
 import { UserAppletAnalysisComponent }     from './applets/user-applet-analysis/user-applet-analysis.component';
 import { UserAppletActionResultComponent } from './applets/user-applet-action-result/user-applet-action-result.component';
+import { WexCreateDialogComponent }        from './accounts/wex-create-dialog/wex-create-dialog.component';
+import { AccountEditFormComponent }        from './accounts/account-edit-form/account-edit-form.component';
 
 @NgModule({
   imports: [
@@ -143,11 +145,14 @@ import { UserAppletActionResultComponent } from './applets/user-applet-action-re
     DropdownMultiSelectionComponent,
     UserAppletAnalysisComponent,
     UserAppletActionResultComponent,
+    WexCreateDialogComponent,
+    AccountEditFormComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,
     FifaFut18CreateDialogComponent,
     UserAppletActionResultComponent,
+    WexCreateDialogComponent,
   ],
   providers: [
     {
