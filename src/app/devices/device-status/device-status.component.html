@@ -9,4 +9,5 @@
   <div *ngIf="scheduledApplets && scheduledApplets.length">
     <app-user-applet-entry *ngFor="let sa of scheduledApplets" [userApplet]="sa.userApplet"></app-user-applet-entry>
   </div>
+  <app-footer-menu [active]="'device'"></app-footer-menu>
 </app-page>
