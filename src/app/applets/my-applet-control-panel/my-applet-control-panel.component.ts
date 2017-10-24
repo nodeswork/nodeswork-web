@@ -11,9 +11,9 @@ import { UserApplet }         from '../../_models';
 })
 export class MyAppletControlPanelComponent implements OnInit {
 
-  myApplets:       UserApplet[];
-  onlineApplets:   UserApplet[];
-  offlineApplets:  UserApplet[];
+  myApplets:       UserApplet[] = [];
+  onlineApplets:   UserApplet[] = [];
+  offlineApplets:  UserApplet[] = [];
   online:          number;
 
   constructor(

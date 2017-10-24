@@ -1,6 +1,5 @@
 <app-page>
-  <app-head-menu> My Applets </app-head-menu>
-  <p *ngIf="online === 0">No Applets Online</p>
+  <app-head-menu> My Applets ({{onlineApplets.length}}/{{myApplets.length}}) </app-head-menu>
   <app-user-applet-entry *ngFor="let userApplet of onlineApplets" [userApplet]="userApplet"></app-user-applet-entry>
   <app-user-applet-entry *ngFor="let userApplet of offlineApplets" [userApplet]="userApplet"></app-user-applet-entry>
 

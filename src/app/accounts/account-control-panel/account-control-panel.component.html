@@ -1,6 +1,5 @@
 <app-page>
-  <app-head-menu> Accounts </app-head-menu>
-  <p>You have {{accounts.length}} accounts.</p>
+  <app-head-menu> Accounts ({{accounts.length}}) </app-head-menu>
   <app-account-entry
     *ngFor="let account of accounts"
     [account]="account" [disabled]="!account.verified" (click)="clickOnAccount(account)"></app-account-entry>
