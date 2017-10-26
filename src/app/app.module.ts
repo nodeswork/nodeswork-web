@@ -1,7 +1,7 @@
 import 'hammerjs';
 
 import { BrowserModule }                   from '@angular/platform-browser';
-import { NgModule }                        from '@angular/core';
+import { ErrorHandler, NgModule }          from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -44,6 +44,7 @@ import {
   AppletsService,
   AuthenticationService,
   DevicesService,
+  ErrorHandlerService,
   MenuService,
   MetricsService,
   UserAppletsService,
@@ -163,6 +164,10 @@ import { AccountEditFormComponent }        from './accounts/account-edit-form/ac
     {
       provide:   MATERIAL_COMPATIBILITY_MODE,
       useValue:  true,
+    },
+    {
+      provide:   ErrorHandler,
+      useClass:  ErrorHandlerService,
     },
     ApiClientService,
     AccountsService,

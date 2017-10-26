@@ -13,6 +13,8 @@ export interface Account extends CommonModel {
   name:             string;
   verified:         boolean;
   accountCategory:  AccountCategory;
+
+  [key: string]:    any;
 }
 
 export namespace fifa18 {

@@ -1,9 +1,11 @@
-import { Component, ViewChild, OnInit }  from '@angular/core';
-import { MatSidenav }                     from '@angular/material';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { MatSidenav }                   from '@angular/material';
 
-import { MenuService, UserStateService } from './_services';
-
-import { screenSize, SIZE_XS }           from './utils';
+import {
+  ApiClientService, MenuService,
+  UserStateService,
+}                                       from './_services';
+import { screenSize, SIZE_XS }          from './utils';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +18,16 @@ export class AppComponent implements OnInit {
 
   isLogin  = false;
   mode     = 'side';
+  loading: boolean;
 
   constructor(
-    private userState:  UserStateService,
-    private menuService: MenuService,
+    private userState:    UserStateService,
+    private menuService:  MenuService,
+    private apiClient:    ApiClientService,
   ) {
+    this.apiClient.blockingState().subscribe((loading) => {
+      this.loading = loading;
+    });
     this.userState.current().subscribe((user) => {
       this.isLogin = user != null;
       if (this.sideNav) {

@@ -25,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private router:     Router,
     private userState:  UserStateService,
     private snackBar:   MatSnackBar,
-  ) {}
+  ) { }
 
   intercept(
     req: HttpRequest<any>, next: HttpHandler

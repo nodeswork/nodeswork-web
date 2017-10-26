@@ -1,7 +1,10 @@
 import { Injectable }               from '@angular/core';
 
 import { Account, AccountCategory } from '../../_models';
-import { ApiClientService }         from '../utils/api-client.service';
+import {
+  ApiClientService,
+  ApiClientRequestOptions,
+}                                   from '../utils/api-client.service';
 
 @Injectable()
 export class AccountsService {
@@ -24,8 +27,18 @@ export class AccountsService {
     return await this.api.get('/v1/u/accounts/' + accountId);
   }
 
-  async verify(accountId: string, body: any = {}): Promise<any> {
-    return await this.api.post(`/v1/u/accounts/${accountId}/verify`, body);
+  async verify(
+    accountId: string, body: any = {}, options?: ApiClientRequestOptions,
+  ): Promise<any> {
+    return await this.api.post(
+      `/v1/u/accounts/${accountId}/verify`, body, options,
+    );
+  }
+
+  async update(accountId: string, doc: any = {}): Promise<Account> {
+    return await this.api.post(
+      `/v1/u/accounts/${accountId}`, doc,
+    );
   }
 
   async updateAccountInfoFromRemote(accountId: string): Promise<Account> {

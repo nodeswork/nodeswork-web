@@ -1,3 +1,35 @@
-<p>
-  account-edit-form works!
-</p>
+<app-page>
+  <app-head-menu> Modify Account </app-head-menu>
+  <form [formGroup]="rForm" (ngSubmit)="save()" *ngIf="rForm">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Name" type="text" formControlName="name" />
+      <mat-error *ngIf="rForm.controls.name.hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="accountCategory.accountType === 'WEXAccount'">
+      <input matInput placeholder="Key" type="text" formControlName="key" />
+      <mat-error *ngIf="rForm.controls.key.hasError('required')">
+        Key is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="rForm.controls.key.hasError('invalid')">
+        Key is <strong>invalid</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="accountCategory.accountType === 'WEXAccount'">
+      <input matInput placeholder="Secret" type="text" formControlName="secret" />
+      <mat-error *ngIf="rForm.controls.secret.hasError('required')">
+        Secret is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="rForm.controls.secret.hasError('invalid')">
+        Secret is <strong>invalid</strong>
+      </mat-error>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
+      <button mat-raised-button color="warn" type="button" (click)="verify()" *ngIf="!account.verified" [disabled]="rForm.dirty">Verify</button>
+      <a mat-raised-button [routerLink]="['/accounts']">Cancel</a>
+    </div>
+  </form>
+  <app-footer-menu [active]="'accounts'"></app-footer-menu>
+</app-page>
