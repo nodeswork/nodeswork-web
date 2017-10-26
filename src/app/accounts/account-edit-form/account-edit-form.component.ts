@@ -43,6 +43,7 @@ export class AccountEditFormComponent implements OnInit {
       case 'WEXAccount':
         fbConfigs.key     = [ this.account.key, Validators.required ];
         fbConfigs.secret  = [ this.account.secret, Validators.required ];
+        fbConfigs.nonce   = [ this.account.nonce, Validators.required ];
         break;
     }
 
@@ -87,6 +88,7 @@ export class AccountEditFormComponent implements OnInit {
               throw e;
           }
         }
+        break;
     }
   }
 }

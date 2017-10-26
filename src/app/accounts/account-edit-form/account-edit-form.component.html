@@ -25,6 +25,12 @@
         Secret is <strong>invalid</strong>
       </mat-error>
     </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="accountCategory.accountType === 'WEXAccount'">
+      <input matInput placeholder="Nonce" type="text" formControlName="nonce" />
+      <mat-error *ngIf="rForm.controls.nonce.hasError('required')">
+        Nonce is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px">
       <button mat-raised-button color="primary" type="submit" [disabled]="!rForm.dirty">Save</button>
       <button mat-raised-button color="warn" type="button" (click)="verify()" *ngIf="!account.verified" [disabled]="rForm.dirty">Verify</button>
