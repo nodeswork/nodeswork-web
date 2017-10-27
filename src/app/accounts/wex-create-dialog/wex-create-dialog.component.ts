@@ -1,4 +1,4 @@
-import { Component, OnInit }                       from '@angular/core';
+import { Component, OnInit, Inject }               from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA }           from '@angular/material';
 import {
   FormBuilder, FormGroup, FormControl, Validators,
@@ -16,9 +16,10 @@ export class WexCreateDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<WexCreateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.rForm = fb.group({
-      name:    ['Wex Account', Validators.required],
+      name:    [data.accountCategory.name, Validators.required],
       key:     ['', Validators.required],
       secret:  ['', Validators.required],
     });
@@ -29,6 +30,9 @@ export class WexCreateDialogComponent implements OnInit {
 
   create() {
     if (!this.rForm.valid) {
+      this.rForm.controls.name.markAsTouched();
+      this.rForm.controls.key.markAsTouched();
+      this.rForm.controls.secret.markAsTouched();
       return;
     }
 

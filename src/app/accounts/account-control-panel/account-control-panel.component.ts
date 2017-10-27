@@ -28,20 +28,25 @@ export class AccountControlPanelComponent implements OnInit {
   }
 
   clickOnAccount(account: Account) {
-    if (!account.verified && account.accountType === 'OAuthAccount') {
+    if (account.verified) {
+      this.router.navigate([`/accounts/${account._id}/edit`]);
+      return;
+    }
+
+    if (account.accountType === 'OAuthAccount') {
       this.router.navigate(
         [`/accounts/${account._id}/oauth-account-verify`],
       );
     }
-    if (!account.verified && account.accountType === 'FifaFut18Account') {
+    if (account.accountType === 'FifaFut18Account') {
       this.router.navigate(
         [`/accounts/${account._id}/fifa-fut-18-account-verify`],
       );
     }
-    if (!account.verified && account.accountType === 'WEXAccount') {
-      this.router.navigate(
-        [`/accounts/${account._id}/edit`],
-      );
+    if (account.accountType === 'WEXAccount' ||
+      account.accountType === 'KrakenAccount'
+    ) {
+      this.router.navigate([`/accounts/${account._id}/edit`]);
     }
   }
 }

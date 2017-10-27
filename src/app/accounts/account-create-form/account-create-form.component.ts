@@ -64,11 +64,11 @@ export class AccountCreateFormComponent implements OnInit {
     name: string; key: string; secret: string;
   }) {
     let account: Account = {
-      accountType: 'WEXAccount',
-      provider: accountCategory.provider,
-      name: info.name,
-      key: info.key,
-      secret: info.secret,
+      accountType:  accountCategory.accountType,
+      provider:     accountCategory.provider,
+      name:         info.name,
+      key:          info.key,
+      secret:       info.secret,
     } as any;
     account = await this.accountsService.create(account);
     this.router.navigate([`/accounts/${account._id}/edit`]);
@@ -109,8 +109,13 @@ export class AccountCreateFormComponent implements OnInit {
         ;
         break;
       case 'WEXAccount':
+      case 'KrakenAccount':
         this.dialog
-          .open(WexCreateDialogComponent)
+          .open(WexCreateDialogComponent, {
+            data: {
+              accountCategory,
+            },
+          })
           .afterClosed().subscribe((account) => {
             if (account) {
               this.createWEXAccount(accountCategory, account);

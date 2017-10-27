@@ -276,7 +276,10 @@ export class MetricsPanelComponent implements OnInit {
       for (const graphConfig of groupConfig.graphs) {
         const yFormatter = (function(gc) {
           let formatter;
-          if (gc.percentage) {
+          if (gc.format) {
+            formatter = d3.format(gc.format);
+          }
+          else if (gc.percentage) {
             formatter = d3.format('.0%');
           } else {
             formatter = d3.format(',.0f');

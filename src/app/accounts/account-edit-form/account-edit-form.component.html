@@ -7,7 +7,7 @@
         Name is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="full-width" *ngIf="accountCategory.accountType === 'WEXAccount'">
+    <mat-form-field class="full-width" *ngIf="accountCategory.accountType === 'WEXAccount' || accountCategory.accountType === 'KrakenAccount'">
       <input matInput placeholder="Key" type="text" formControlName="key" />
       <mat-error *ngIf="rForm.controls.key.hasError('required')">
         Key is <strong>required</strong>
@@ -16,7 +16,7 @@
         Key is <strong>invalid</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="full-width" *ngIf="accountCategory.accountType === 'WEXAccount'">
+    <mat-form-field class="full-width" *ngIf="accountCategory.accountType === 'WEXAccount' || accountCategory.accountType === 'KrakenAccount'">
       <input matInput placeholder="Secret" type="text" formControlName="secret" />
       <mat-error *ngIf="rForm.controls.secret.hasError('required')">
         Secret is <strong>required</strong>

@@ -45,6 +45,10 @@ export class AccountEditFormComponent implements OnInit {
         fbConfigs.secret  = [ this.account.secret, Validators.required ];
         fbConfigs.nonce   = [ this.account.nonce, Validators.required ];
         break;
+      case 'KrakenAccount':
+        fbConfigs.key     = [ this.account.key, Validators.required ];
+        fbConfigs.secret  = [ this.account.secret, Validators.required ];
+        break;
     }
 
     this.rForm = this.fb.group(fbConfigs);
@@ -70,6 +74,7 @@ export class AccountEditFormComponent implements OnInit {
   async verify() {
     switch (this.accountCategory.accountType) {
       case 'WEXAccount':
+      case 'KrakenAccount':
         try {
           this.account = await this.accountsService.verify(
             this.account._id.toString(), {}, { blocking: true },

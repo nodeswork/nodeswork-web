@@ -1,5 +1,7 @@
 .account-entry {
   max-width: 140px;
+  min-width: 140px;
+  min-height: 120px;
   cursor: pointer;
   display: inline-block;
 }
